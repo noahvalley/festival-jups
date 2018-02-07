@@ -1,0 +1,16 @@
+{
+  "name": "jups-api",
+  "version": "1.0.0",
+  "description": "festival jups api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Noah Valley",
+  "license": "MIT",
+  "dependencies": {
+    "connect": "^3.6.5",
+    "connect-rest": "^3.0.10",
+    "serve-static": "^1.13.2"
+  }
+}
