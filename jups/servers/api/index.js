@@ -1,33 +1,32 @@
 'use strict';
 
 var connect = require('connect');
-var connectRest = require('connect-rest');
 var serveStatic = require('serve-static');
+var connectRoute = require('connect-route');
+
+var events = require('./controllers/events.js');
+var pages = require('./controllers/pages.js');
 
 var app = connect();
 
+app.use(connectRoute(function (router) {
+	router.get('/events', events.get);
+	router.get('/events/:id', events.getOne);
 
+	router.put('/events/:id', events.update);
+	router.delete('/events/:id', events.delete);
+	
+	router.get('/pages/home', pages.home.get);
+	router.get('/pages/orte', pages.orte.get);
+	router.get('/pages/kotakt', pages.kontakt.get);
+	router.get('/pages/archiv', pages.archiv.get);
 
-var options = {
-    context: '/',
-    logger:{ file: 'mochaTest.log', level: 'debug' },
-	apiKeys: [ '849b7648-14b8-4154-9ef2-8d1dc4c2b7e9' ],
-    // discover: { path: 'discover', secure: true },
-    // proto: { path: 'proto', secure: true }
-}
-var rest = connectRest.create(options);
- 
-// adds connect-rest middleware to connect
-app.use(rest.processRequest());
+	router.put('/pages/home', pages.home.update);
+	router.put('/pages/orte', pages.orte.update);
+	router.put('/pages/kontakt', pages.kontakt.update);
+	router.put('/pages/archiv', pages.archiv.update);
+}));
 
-
-// app.post('/events, db.createProject);
-// app.delete('/events/:project_id', db.deleteEvent);
-// app.put('/events/:project_id', db.updateEvent);
-// app.get('/events', function(res, req){});
-// app.use(express.static('./uploads'));
-
-
-app.use(serveStatic('../../uploads'));
+app.use(serveStatic('../jups/ressources/uploads'));
 
 module.exports = app;

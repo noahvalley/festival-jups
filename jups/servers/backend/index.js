@@ -5,6 +5,6 @@ var serveStatic = require('serve-static');
 
 var app = connect();
 
-app.use(serveStatic('../../frontend'));
+app.use(serveStatic('../jups/ressources/backend'));
 
 module.exports = app;

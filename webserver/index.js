@@ -17,4 +17,4 @@ server.use(vhost('admin.festival-jups.ch', backend));
 server.use(vhost('api.festival-jups.ch', api));
 
 // start server
-server.listen(8080);
+server.listen(80);
