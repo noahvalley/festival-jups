@@ -1,0 +1,139 @@
+@import "./farben.scss";
+@import "./reset.scss";
+@import "./menu.scss";
+
+
+/* general */
+
+body, p {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.content p {
+  line-height: 1.6em;
+  margin-bottom: 12px;
+}
+
+h1, h2, h3 {
+  font-family: 'Fresca', sans-serif;
+  text-transform: uppercase;
+}
+
+a {
+  color: $linkfarbe-dunkel15;
+  text-decoration: underline;
+  &:active, &:focus, &:hover {
+    color: $linkfarbe;
+  }
+}
+
+
+
+
+/* structure */
+
+.main {
+  margin: 0 auto;
+  min-width: 210px + 600px + 40px;
+  max-width: 210px + 850px + 40px;
+}
+
+.menu {
+  text-align: right;
+  width: 150px;
+  margin: 30px 30px 0;
+  position: absolute;
+}
+
+.menu.sticky {
+  position: fixed;
+  top: 0;
+}
+
+.content {
+  min-width: 600px;
+  max-width: 850px;
+  margin-left: 30px + 150px + 30px;
+  margin-top: 30px;
+  margin-right: 30px;
+}
+
+
+/* content height */
+
+html, body, #root {
+  height: 100%;
+}
+
+.app-wrapper {
+   min-height: 100%;
+}
+
+
+/* max width of content + stuff behind */
+
+body {
+  background-color: #eee;
+  background-image: url("bg.jpg");
+  background-repeat: repeat-x repeat-y;
+}
+
+.app-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  background-color: #fff;
+  box-shadow: 0px 0px 30px 0px #666;
+  padding-bottom: 20px;
+}
+
+header,
+header img {
+  width: 100%;
+  max-width: 1100px;
+}
+
+
+
+/* responsive */
+
+@media only screen and (max-width : 850px) {
+  .main {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .menu {
+    text-align: left;
+    position: inherit;
+    width: inherit;
+    img {
+      display: none;
+    }
+  }
+
+  .menu.sticky { /* hat keinen einfluss */
+    position: inherit;
+    top: 0;
+  }
+
+  .content {
+    min-width: 0;
+    max-width: 910px - 2*40px;
+  }
+
+  .menu,
+  .content {
+    margin: 30px 20px 0;
+  }
+
+  header img {
+    content: url("../components/Header/header-klein.jpg");
+  }
+
+  footer {
+    text-align: center;
+    img {
+      content: url("../components/Menu/meitli.png");
+    }
+  }
+}
