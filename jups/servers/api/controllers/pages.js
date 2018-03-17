@@ -1,6 +1,6 @@
 'use strict';
 
-var authenticate = require('./authenticate.js');
+var auth = require('./auth.js');
 
 var pages = {
 	home : {
