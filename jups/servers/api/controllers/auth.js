@@ -6,14 +6,13 @@ var cookie = require('cookie');
 
 var events = {
 	check : function(req, res, next){
-	    res.setHeader('Content-Type', 'application/json');
-	    res.send(JSON.stringify({ a: 1 }));
+	   next();
 	},
 	login : function(req, res, next){
-		
+	   next();		
 	},
 	logout : function(req, res, next){
-		
+	   next();
 	}
 }
 module.exports = events;

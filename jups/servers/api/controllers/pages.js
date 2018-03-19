@@ -1,7 +1,5 @@
 'use strict';
 
-var auth = require('./auth.js');
-
 var pages = {
 	home : {
 		get : function(req, res, next){
@@ -20,6 +18,14 @@ var pages = {
 		}
 	},
 	kontakt : {
+		get : function(req, res, next){
+			
+		},
+		update : function(req, res, next){
+			
+		}
+	},
+	downloads : {
 		get : function(req, res, next){
 			
 		},
