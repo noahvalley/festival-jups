@@ -15,23 +15,23 @@
   .menu li:last-child {
     border-bottom: 1px solid #bbb;
   }
+
+  .menu img {
+    margin: 0 20px;
+    max-width: 110px;
+  }
 }
 
 .menu {
   a {
-    color: $linkfarbe;
-    text-decoration: none;
+    color: $farbe1;
     &:active, &:focus, &:hover {
-      color: $linkfarbe-dunkel20;
+      color: #000;
     }
   }
 
   li.current {
     color: #333;
-  }
-
-  img {
-    max-width: 100%;
   }
 
   li.close-menu {
@@ -138,6 +138,9 @@
 
     a {
       color: #eee;
+      &:active, &:focus, &:hover {
+        color: $farbe1-heller;
+      }
     }
   }
 

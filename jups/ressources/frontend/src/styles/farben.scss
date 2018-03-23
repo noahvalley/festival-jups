@@ -1,4 +1,6 @@
-$linkfarbe: #EA001F;
+// benutzt für links
+$farbe1: #EA001F;
 
-$linkfarbe-dunkel15: darken($linkfarbe, 15%);
-$linkfarbe-dunkel20: darken($linkfarbe, 20%);
+// varianten werden automatisch berechnet
+$farbe1-dunkler: darken($farbe1, 10%); // links hover
+$farbe1-heller: lighten($farbe1, 15%); // links menu smartphone hover
