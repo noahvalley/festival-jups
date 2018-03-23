@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Header from '../../components/Header';
 import Menu from '../../components/Menu';
-// import './Home.css';
+import figur from '../../images/figur.png';
+
 
 class Home extends Component {
   render() {
@@ -32,7 +33,7 @@ class Home extends Component {
           </div>
 
           <footer>
-            <img alt="" />
+            <img alt="" src={figur} />
           </footer>
 
         </div>
