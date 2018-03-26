@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import meitli from './meitli.png';
+import figur from '../../images/figur.png';
 import openMenu from './arrow-bottom-circle.svg';
 import closeMenu from './arrow-top-circle.svg';
 
@@ -32,20 +32,16 @@ class Menu extends Component {
 
   blockScroll = event => event.preventDefault();
 
-  triggerMenu = () => {
-    // const height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-    // console.log(height);
+  showMenu = () => {
+    document.body.classList.add('noScrolling');
+    document.body.addEventListener( 'touchmove', this.blockScroll ); // iOS
+    this.setState({ menuIsOpen: true });
+  }
 
-    //block scrolling
-    if (this.state.menuIsOpen) { //menu ist offen, wird geschlossen
-      document.body.classList.remove('noScrolling');
-      document.body.removeEventListener( 'touchmove', this.blockScroll ); // iOS
-      this.setState({ menuIsOpen: false });
-    } else {
-      document.body.classList.add('noScrolling');
-      document.body.addEventListener( 'touchmove', this.blockScroll ); // iOS
-      this.setState({ menuIsOpen: true });
-    }
+  hideMenu = () => {
+    document.body.classList.remove('noScrolling');
+    document.body.removeEventListener( 'touchmove', this.blockScroll ); // iOS
+    this.setState({ menuIsOpen: false });
   }
 
   render() {
@@ -57,17 +53,17 @@ class Menu extends Component {
           { /* kleiner bildschirm: statt menu wird aktive seite + icon angezeigt */ }
           <div className="title">
             <div className="open-menu"
-              onClick={ () => this.triggerMenu() } >
+              onClick={ () => this.showMenu() } >
               <img src={openMenu} alt="show menu" />
             </div>
             <h1>Home</h1>
           </div>
 
           { /* menu anzeigen */ }
-          <div className={ showMenu ? 'overlay active' : 'overlay' } onClick={ () => this.triggerMenu() } >
+          <div className={ showMenu ? 'overlay active' : 'overlay' } onClick={ () => this.hideMenu() } >
             <ul>
               <li className="close-menu"
-                onClick={ () => this.triggerMenu() } >
+                onClick={ () => this.hideMenu() } >
                 <img src={closeMenu} alt="close menu" />
               </li>
               <li className="current">Home</li>
@@ -81,7 +77,7 @@ class Menu extends Component {
           </div>
 
           {/* nur angezeigt im desktop */}
-          <img src={meitli} width={180} style={{ marginTop: 40 }}  alt="" />
+          <img src={figur} width={180} style={{ marginTop: 40 }}  alt="" />
         </div>
       </div>
     );

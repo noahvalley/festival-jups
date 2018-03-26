@@ -1,3 +1,6 @@
+// festlegen, bei wieviel px die schwelle für kleines/grosses header-bild ist
+$header-schwelle: 600px;
+
 @import "./farben.scss";
 @import "./reset.scss";
 @import "./menu.scss";
@@ -9,21 +12,108 @@ body, p {
   font-family: 'Montserrat', sans-serif;
 }
 
-.content p {
-  line-height: 1.6em;
-  margin-bottom: 12px;
-}
-
 h1, h2, h3 {
   font-family: 'Fresca', sans-serif;
   text-transform: uppercase;
 }
 
 a {
-  color: $linkfarbe-dunkel15;
-  text-decoration: underline;
-  &:active, &:focus, &:hover {
-    color: $linkfarbe;
+  text-decoration: none;
+}
+
+hr {
+  margin: 50px 0 20px;
+  border: 0;
+  border-bottom: 1px dashed #666;
+}
+
+.content {
+  p {
+    line-height: 1.6em;
+    margin-bottom: 12px;
+  }
+
+  strong {
+    font-weight: 700;
+    color: #333;
+  }
+
+  ul {
+    margin-top: 10px;
+  }
+
+  li {
+    line-height: 1.6em;
+    list-style-type: disc;
+    list-style-position: inside;
+  }
+
+  h1 {
+    font-size: 30px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  a {
+    color: #000;
+    border-bottom: 2px solid $farbe1;
+
+    &:active, &:focus, &:hover {
+      color: $farbe1;
+    }
+
+    /* fancy animation */
+    position: relative;
+    &:after{
+      content: "";
+      transition: 0.3s all ease;
+      position: absolute;
+      bottom: -0.2em;
+      height: 4px;
+      width: 0;
+      background: #fff;
+      right: 0;
+    }
+    &:before{
+      content: "";
+      transition: 0.3s all ease;
+      position: absolute;
+      bottom: -0.2em;
+      height: 4px;
+      width: 0;
+      background: #fff;
+      left: 0;
+    }
+    &:hover:after{
+      width: 50%;
+    }
+    &:hover:before{
+      width: 50%;
+    }
+  }
+
+  .sponsoren a {
+    border-bottom: none;
+  }
+
+  .kleiner {
+    font-size: 90%;
+  }
+
+  .video-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56%;
+  }
+  .video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
   }
 }
 
@@ -31,6 +121,25 @@ a {
 
 
 /* structure */
+
+header, header img {
+  width: 100%;
+}
+
+// bruchpunkt für header kann unabhängig gesetzt werden
+// muss so gemacht werden wegen firefox (lässt überschreiben des contents nicht zu)
+@media only screen and (min-width: $header-schwelle + 1px) {
+  header img.header-klein {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: $header-schwelle) {
+  header img.header-gross {
+    display: none;
+    max-width: 1100px;
+  }
+}
 
 .main {
   margin: 0 auto;
@@ -58,15 +167,41 @@ a {
   margin-right: 30px;
 }
 
-
-/* content height */
-
 html, body, #root {
   height: 100%;
 }
 
 .app-wrapper {
    min-height: 100%;
+}
+
+// zwei spalten (ab 500px)
+@media only screen and (min-width: 320px + 180px + 2 * 20px) {
+  .zweispaltig {
+    width: 100%;
+  }
+
+  .spalte-links {
+    // width: 45%;
+    // margin-right: 5%;
+    width: 320px;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .spalte-rechts {
+    // width: 45%;
+    // margin-left: 5%;
+    width: calc(100% - 320px);
+    display: inline-block;
+    vertical-align: top;
+    text-align: right;
+  }
+}
+
+
+footer img {
+  display: none;
 }
 
 
@@ -84,12 +219,6 @@ body {
   background-color: #fff;
   box-shadow: 0px 0px 30px 0px #666;
   padding-bottom: 20px;
-}
-
-header,
-header img {
-  width: 100%;
-  max-width: 1100px;
 }
 
 
@@ -126,14 +255,12 @@ header img {
     margin: 30px 20px 0;
   }
 
-  header img {
-    content: url("../components/Header/header-klein.jpg");
-  }
-
   footer {
     text-align: center;
+    margin-top: 30px;
     img {
-      content: url("../components/Menu/meitli.png");
+      display: inline;
+      width: 110px;
     }
   }
 }
