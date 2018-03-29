@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import figur from '../../images/figur.png';
 import openMenu from './arrow-bottom-circle.svg';
 import closeMenu from './arrow-top-circle.svg';
@@ -45,7 +46,9 @@ class Menu extends Component {
   }
 
   render() {
+    const currentPage = this.props.currentPage;
     const showMenu = this.state.menuIsOpen;
+    const menupunkte = ["Home", "Programm", "Tickets", "Orte", "Kontakt", "Downloads", "Archiv"];
     return (
       <div className="menuWrapper" ref={el => this.menuDiv = el} >
         <div className={ this.state.menuIsSticky ? 'menu sticky' : 'menu'}>
@@ -56,7 +59,7 @@ class Menu extends Component {
               onClick={ () => this.showMenu() } >
               <img src={openMenu} alt="show menu" />
             </div>
-            <h1>Home</h1>
+            <h1>{currentPage}</h1>
           </div>
 
           { /* menu anzeigen */ }
@@ -66,13 +69,10 @@ class Menu extends Component {
                 onClick={ () => this.hideMenu() } >
                 <img src={closeMenu} alt="close menu" />
               </li>
-              <li className="current">Home</li>
-              <li><a href="">Programm</a></li>
-              <li><a href="">Tickets</a></li>
-              <li><a href="">Orte</a></li>
-              <li><a href="">Kontakt</a></li>
-              <li><a href="">Downloads</a></li>
-              <li><a href="">Archiv</a></li>
+              { menupunkte.map( menupunkt => {
+                if (menupunkt.toLowerCase() === currentPage) return ( <li className="current" key={menupunkt}>{menupunkt}</li> )
+                else return ( <li key={menupunkt}><Link to={ "/" + menupunkt.toLowerCase() }>{menupunkt}</Link></li> )
+              }) }
             </ul>
           </div>
 
