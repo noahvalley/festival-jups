@@ -4,6 +4,7 @@ $header-schwelle: 600px;
 @import "./farben.scss";
 @import "./reset.scss";
 @import "./menu.scss";
+@import "./pages.scss";
 
 
 /* general */
@@ -65,33 +66,33 @@ hr {
     }
 
     /* fancy animation */
-    position: relative;
-    &:after{
-      content: "";
-      transition: 0.3s all ease;
-      position: absolute;
-      bottom: -0.2em;
-      height: 4px;
-      width: 0;
-      background: #fff;
-      right: 0;
-    }
-    &:before{
-      content: "";
-      transition: 0.3s all ease;
-      position: absolute;
-      bottom: -0.2em;
-      height: 4px;
-      width: 0;
-      background: #fff;
-      left: 0;
-    }
-    &:hover:after{
-      width: 50%;
-    }
-    &:hover:before{
-      width: 50%;
-    }
+    // position: relative;
+    // &:after{
+    //   content: "";
+    //   transition: 0.3s all ease;
+    //   position: absolute;
+    //   bottom: -0.2em;
+    //   height: 4px;
+    //   width: 0;
+    //   background: #fff;
+    //   right: 0;
+    // }
+    // &:before{
+    //   content: "";
+    //   transition: 0.3s all ease;
+    //   position: absolute;
+    //   bottom: -0.2em;
+    //   height: 4px;
+    //   width: 0;
+    //   background: #fff;
+    //   left: 0;
+    // }
+    // &:hover:after{
+    //   width: 50%;
+    // }
+    // &:hover:before{
+    //   width: 50%;
+    // }
   }
 
   .sponsoren a {
@@ -173,30 +174,6 @@ html, body, #root {
 
 .app-wrapper {
    min-height: 100%;
-}
-
-// zwei spalten (ab 500px)
-@media only screen and (min-width: 320px + 180px + 2 * 20px) {
-  .zweispaltig {
-    width: 100%;
-  }
-
-  .spalte-links {
-    // width: 45%;
-    // margin-right: 5%;
-    width: 320px;
-    display: inline-block;
-    vertical-align: top;
-  }
-
-  .spalte-rechts {
-    // width: 45%;
-    // margin-left: 5%;
-    width: calc(100% - 320px);
-    display: inline-block;
-    vertical-align: top;
-    text-align: right;
-  }
 }
 
 
