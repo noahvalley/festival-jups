@@ -37,7 +37,7 @@ var events = {
 					global.jupsstate.sessions[sessionID] = new Date();
 				}
 			}
-			req.jupsdata = {session: sessionID};
+			req.jupssenddata = {session: sessionID};
 			next();	
 		}
 	},

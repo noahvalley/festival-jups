@@ -28,7 +28,7 @@ var sendData = (req,res,next) => {
 	console.log('sendData');
 	var response = {
 		error : req.jupserror || {error : false, number : 0, message: 'no error'},
-		data : req.jupsdata || {}
+		data : req.jupssenddata || {}
 	}
     res.setHeader('Content-Type', 'application/json');
 	res.send(response);
@@ -38,7 +38,7 @@ var sendError = (err, req,res,next) => {
 	console.log('sendError');
 	var response = {
 		error : err,
-		data : req.jupsdata || {}
+		data : req.jupssenddata || {}
 	}
     res.setHeader('Content-Type', 'application/json');
 	res.send(response);
@@ -61,7 +61,7 @@ get$eventsId.use(sendData);
 get$eventsId.use(sendError);
 
 var put$eventsId = connect();
-put$eventsId.use(auth.check);
+//put$eventsId.use(auth.check);
 put$eventsId.use(events.update);
 put$eventsId.use(sendData);
 put$eventsId.use(sendError);
@@ -136,6 +136,14 @@ get$files.use(files.getFileList)
 get$files.use(sendData);
 get$files.use(sendError);
 
+var post$files = connect();
+//post$files.use(auth.check);
+post$files.use(files.upload);
+post$files.use(files.getFileList);
+post$files.use(sendData);
+post$files.use(sendError);
+
+
 var post$login = connect();
 post$login.use(auth.login);
 post$login.use(sendData);
@@ -185,10 +193,11 @@ app.use(connectRoute(function (router) {
 	router.put('/pages/downloads', post$pagesDownloads);
 
 	router.get('/files', get$files);
+	router.post('/files', post$files);
 
 
 	router.post('/login', post$login);
-	router.get('/logincheck', get$logincheck);
+	router.post('/logincheck', get$logincheck);
 
 /*
 	router.post('/createuser', function(){});

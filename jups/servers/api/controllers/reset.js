@@ -24,7 +24,7 @@ var reset = {
 
 		global.jupsstate.events.push({
 			id : 1,
-			type : 'Workshop',
+			type : 'workshop',
 			titel : 'Kuckucksflöte bauen',
 			untertitel : 'mit Hanna Stoll',
 			ort : 'Kammgarn',
@@ -42,7 +42,7 @@ var reset = {
 		});
 		global.jupsstate.events.push({
 			id : 2,
-			type : 'Workshop',
+			type : 'workshop',
 			titel : 'Graffiti',
 			untertitel : 'mit Alice Marugg',
 			ort : 'Cardinal',
@@ -60,16 +60,34 @@ var reset = {
 		});
 		global.jupsstate.events.push({
 			id : 3,
-			type : 'Veranstaltung',
+			type : 'veranstaltung',
 			titel : 'Theater Sgaramusch: Knapp e Familie',
 			untertitel : 'Stefan und Nora',
 			ort : 'Kammgarn',
-			zeitVon : '2018-09-08T00:00',
-			zeitBis : '2018-09-08T00:00',
+			zeitVon : '2018-09-08T10:00',
+			zeitBis : '2018-09-08T12:00',
 			priority : 1,
 			bild : '/example.jpg',
 			logo : '/example.jpg',
 			text : '"Irgendöppis fählt.<br> Was?<br> Es Chind."<br> Wie wäre es, wenn man eins hätte?<br> Schön, lustig, streng, ernst?<br> Möchte man wirklich eins?<br> Eine Frau und ein Mann stellen sich vor, dass sie zusammen ein Kind hätten. Dabei entsteht ein ganzes Familienleben mit Geschrei, Ferien und was halt so dazu gehört.<br> Sgaramusch gibt den Zuschauerkindern die Gelegenheit, Erwachsene zu beobachten, wie sie über Kinder reden, wenn die Kinder nicht dabei sind.<br> Und sich einzumischen!<br> Mindestalter 7 Jahre.<br> www.sgaramusch.ch',
+			ausverkauft : false,
+			ausverkauftText : 'Keine Plätze mehr',
+			abAlter : '5+',
+			tuerOeffnung :  '15min vor Beginn',
+			preis : '20.- / 15.-'
+		});
+		global.jupsstate.events.push({
+			id : 4,
+			type : 'offenesangebot',
+			titel : 'Dini Mueter',
+			untertitel : 'chunt ims de Kamm',
+			ort : 'Kamm',
+			zeitVon : '2018-09-08T13:00',
+			zeitBis : '2018-09-08T15:00',
+			priority : 1,
+			bild : '/example.jpg',
+			logo : '/example.jpg',
+			text : '"Irgendöppis fählt.<br> Was?<br> Dini Mueter."',
 			ausverkauft : false,
 			ausverkauftText : 'Keine Plätze mehr',
 			abAlter : '5+',

@@ -4,17 +4,17 @@
 var events = {
 	getAll : (req, res, next) => {
 		console.log('events.getAll');
-		req.jupsdata = global.jupsstate.events;
+		req.jupssenddata = global.jupsstate.events;
 		next();
 	},
 	get : (req, res, next) => {
-		console.log('events.get');
-		var event = global.jupsstate.events.filter(event => event.id == req.params.id)[0];
+		console.log('events.get'+req.params.id);
+		var event = global.jupsstate.events.find(eventum => eventum.id == req.params.id);
 		if (event == undefined){
-			req.jupsdata = event;			
+			req.jupssenddata = event;			
 			next({error: true, number: 201, message: 'id not found'});
 		}else{
-			req.jupsdata = event;			
+			req.jupssenddata = event;			
 			next();
 		}
 	},
@@ -31,7 +31,7 @@ var events = {
 
 		global.jupsstate.events.push(event);
 		
-		req.jupsdata = event;
+		req.jupssenddata = event;
 		next();
 		
 //		res.jupsdata = {global.jupsstate.events[req.params.id]};
@@ -39,19 +39,14 @@ var events = {
 	},
 	update : (req, res, next) => {
 		console.log('events.update');
-		var event = req.body.data;
-		if (req.params.id === event.id){
-			var found = false;
-			for (var event in global.jupsstate.events){
-				if (global.jupsstate.events[event].id === req.params.id){
-					global.jupsstate.events[event] = req.body.data;
-					found = true;
-				}
-			}
-			if (found){
-				req.jupsdata = req.body.data;
+		if (req.params.id == req.body.data.id){
+			var event = global.jupsstate.events.find(eventum => eventum.id == req.params.id);
+			if (event){
+				event = req.body.data;
+				req.jupssenddata = event;
+				next();
 			}else{
-				next({error: true, number: 201, message: 'id not found'});
+				next({error: true, number: 201, message: 'id not found'+req.body.data.id});
 			}
 		}else{
 			next({error: true, number: 202, message: 'id in data does not match id of REST connection'});
@@ -67,10 +62,10 @@ var events = {
 			}
 		}
 		if (found){
-			req.jupsdata = {};
+			req.jupssenddata = {};
 			next();
 		}else{
-			req.jupsdata = {};
+			req.jupssenddata = {};
 			next({error: true, number: 201, message: 'id not found in the system'});
 		}
 	}

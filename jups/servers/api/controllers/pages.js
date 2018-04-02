@@ -4,7 +4,7 @@ var pages = {
 	home : {
 		get : function(req, res, next){
 			console.log('pages.home.get');
-			req.jupsdata = global.jupsstate.pages.home;
+			req.jupssenddata = global.jupsstate.pages.home;
 		},
 		update : function(req, res, next){
 			console.log('pages.home.update');
@@ -14,7 +14,7 @@ var pages = {
 	orte : {
 		get : function(req, res, next){
 			console.log('pages.orte.get');
-			req.jupsdata = global.jupsstate.pages.orte;
+			req.jupssenddata = global.jupsstate.pages.orte;
 		},
 		update : function(req, res, next){
 			console.log('pages.orte.update');
@@ -24,7 +24,7 @@ var pages = {
 	kontakt : {
 		get : function(req, res, next){
 			console.log('pages.kontakt.get');
-			req.jupsdata = global.jupsstate.pages.kontakt;			
+			req.jupssenddata = global.jupsstate.pages.kontakt;			
 		},
 		update : function(req, res, next){
 			console.log('pages.kontakt.update');
@@ -34,7 +34,7 @@ var pages = {
 	downloads : {
 		get : function(req, res, next){
 			console.log('pages.downloads.get');
-			req.jupsdata = global.jupsstate.pages.downloads;
+			req.jupssenddata = global.jupsstate.pages.downloads;
 		},
 		update : function(req, res, next){
 			console.log('pages.downloads.update');
@@ -44,7 +44,7 @@ var pages = {
 	archiv : {
 		get : function(req, res, next){
 			console.log('pages.archiv.get');
-			req.jupsdata = global.jupsstate.pages.archiv;
+			req.jupssenddata = global.jupsstate.pages.archiv;
 		},
 		update : function(req, res, next){
 			global.jupsstate.pages.archiv = req.body.data;
