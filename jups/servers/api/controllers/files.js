@@ -9,7 +9,7 @@ var files = {
 		console.log('files.getFileList');
 		fs.readdir(path.join(__dirname, '../../../ressources/uploads/'), (err, files) => {
 			if (err){
-				next({error: true, number: 9999, message: 'something with nodes fs-module', suberror: err});
+				next({error: true, number: 9000, message: 'something with nodes fs-module', suberror: err});
 			}else{
 				var fileList = [];
 				files.forEach(file => {
@@ -31,23 +31,26 @@ var files = {
 		form.multiples = true;
 		
 		// store all uploads in the /uploads directory
-		form.uploadDir = path.join(__dirname, '../../../ressources/uploads/');
+		form.uploadDir = path.join(__dirname, '/uploads');
 		
 		// every time a file has been uploaded successfully,
 		// rename it to it's orignal name
 		form.on('file', function(field, file) {
-			fs.rename(file.path, path.join(form.uploadDir, file.name));
+		fs.rename(file.path, path.join(form.uploadDir, file.name));
 		});
 		
 		// log any errors that occur
 		form.on('error', function(err) {
-			next(err);
+			console.log('An error has occured: \n' + err);
 		});
 		
 		// once all the files have been uploaded, send a response to the client
 		form.on('end', function() {
-			next();
+			res.end('success');
 		});
+		
+		// parse the incoming request containing the form data
+		form.parse(req);
 	}
 }
 
