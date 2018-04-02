@@ -4,7 +4,7 @@ import Menu from '../../components/Menu';
 import figur from '../../images/figur.png';
 
 
-class Home extends Component {
+class Kontakt extends Component {
   render() {
     return (
       <div className="app-wrapper">
@@ -52,4 +52,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default Kontakt;

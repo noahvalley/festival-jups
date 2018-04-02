@@ -1,6 +1,15 @@
 // benutzt für links
 $farbe1: #EA001F;
 
+// programm
+$veranstaltung: #bc8deb;
+$offenesAngebot: #8ade12;
+$workshop: #ffb863;
+
 // varianten werden automatisch berechnet
 $farbe1-dunkler: darken($farbe1, 10%); // links hover
 $farbe1-heller: lighten($farbe1, 15%); // links menu smartphone hover
+
+$veranstaltung-dunkler: darken($veranstaltung, 10%);
+$offenesAngebot-dunkler: darken($offenesAngebot, 5%);
+$workshop-dunkler: darken($workshop, 20%);

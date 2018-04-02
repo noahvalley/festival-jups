@@ -1,14 +1,12 @@
 import { combineReducers } from 'redux';
 
-// import { bathReducer } from './bath';
-// import { userReducer } from './user';
-// import { lexemeReducer } from './lexemes';
+import eventReducer from './events';
+import homeReducer from './pages';
 
 
 const reducers = combineReducers({
-  // bath: bathReducer,
-  // user: userReducer,
-  // lexemes: lexemeReducer,
+  events: eventReducer,
+  home: homeReducer,
 });
 
 export default reducers;

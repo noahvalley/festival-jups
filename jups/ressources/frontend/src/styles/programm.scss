@@ -1,0 +1,120 @@
+@import "./farben.scss";
+
+
+.programm {
+
+  .legende {
+    font-size: 90%;
+    line-height: 2.5em;
+  }
+
+  .veranstaltung { background-color: $veranstaltung; }
+  .workshop { background-color: $workshop; }
+  .offenesangebot { background-color: $offenesAngebot; }
+
+  ul li {
+    list-style: none;
+    border-bottom: 2px solid white;
+  }
+
+  .zeit {
+    // font-family: 'Fresca';
+    font-size: 120%;
+    width: 120px;
+    padding-left: 6px ;
+    height: 100%;
+
+    .minuten {
+      vertical-align: super;
+      font-size: 70%;
+    }
+
+    float: left;
+  }
+
+  .infos {
+    margin-left: 120px;
+    padding-left: 10px;
+    background-color: white;
+  }
+
+  .details {
+    overflow: hidden;
+    max-height: 800px;
+    transition: max-height 0.5s;
+  }
+
+  .details.hide {
+    max-height: 0;
+    transition: max-height 0.5s;
+  }
+
+  .titel {
+    // font-family: 'Fresca';
+    font-size: 100%;
+    font-weight: bold;
+    padding-top: 5px;
+    line-height: 1.3em;
+  }
+
+  .untertitel {
+    // font-style: italic;
+    font-weight: normal;
+    font-size: 90%;
+    margin-left: 5px;
+
+    &::before {
+      content: ' ';
+    }
+  }
+
+  .ort {
+    float: right;
+    padding-left: 20px;
+    font-size: 90%;
+    height: 25px;
+    font-weight: bold;
+    padding-top: 11px;
+    line-height: 1.3em;
+  }
+
+  .veranstaltung .ort { color: $veranstaltung-dunkler; }
+  .workshop .ort { color: $workshop-dunkler; }
+  .offenesangebot .ort { color: $offenesAngebot-dunkler; }
+
+  .bild {
+    float: right;
+    padding-left: 20px;
+    margin-top: 24px;
+    max-width: 300px;
+    width: 50%;
+  }
+
+  .sponsoring {
+    margin-top: 20px;
+    font-size: 90%;
+  }
+
+  .beschreibung {
+    font-size: 90%;
+    line-height: 1.5em;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    p {
+      margin-top: 12px;
+    }
+  }
+
+  .alter,
+  .beginn,
+  .preis,
+  .ausverkauft {
+    font-size: 90%;
+  }
+
+  .veranstaltung strong.farbig { color: $veranstaltung-dunkler; }
+  .workshop strong.farbig { color: $workshop-dunkler; }
+  .offenesangebot strong.farbig { color: $offenesAngebot-dunkler; }
+
+}
