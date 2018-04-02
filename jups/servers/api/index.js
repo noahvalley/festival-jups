@@ -148,7 +148,7 @@ get$logincheck.use(sendError);
 
 
 var app = connect();
-
+/*
 var corsWhitelist = ['http://festival-jups.ch', 'http://admin.festival-jups.ch','https://festival-jups.ch', 'https://admin.festival-jups.ch'];
 var corsOptionsDelegate = function (req, callback) {
   var corsOptions;
@@ -159,8 +159,10 @@ var corsOptionsDelegate = function (req, callback) {
   }
   callback(null, corsOptions) // callback expects two parameters: error and options 
 }
-
 app.use(cors(corsOptionsDelegate));
+*/
+
+app.use(cors());
 app.use(bodyParser.json());
 app.use(connectRoute(function (router) {
 	router.get('/events', get$events);
