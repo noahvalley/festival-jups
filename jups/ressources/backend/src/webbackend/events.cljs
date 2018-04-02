@@ -9,7 +9,7 @@
 
 (def file (atom {:file nil}))
 (def events (r/atom {}))
-(def event (r/atom {}))
+(def event (r/atom {:ausverkauft false}))
 
 (defn read-events []
   (go (let [response (<! (http/get "http://api.festival-jups.ch:8000/events"
@@ -19,11 +19,9 @@
 (read-events)
 
 (defn put-event []
-      (http/put "http://api.festival-jups.ch:8000/events/5" {:json-params @event}
-                                                        :with-credentials? false))
-
-(http/post "http://api.festival-jups.ch:8000/events/" {:json-params @event
-                                                       :with-credentials? false})
+      (http/put (str "http://api.festival-jups.ch:8000/events/" (:id @event))
+                {:json-params       @event
+                 :with-credentials? false}))
 
 (defn post-event []
   (http/post "http://api.festival-jups.ch:8000/events/" {:json-params @event}
@@ -70,7 +68,6 @@
     [field "text" :tuerOeffnung "Türöffnung" event]
     [field "text" :preis "Preis" event]]])
 
-
 (defn events-form-success []
   [:div {:style {:display        "flex"
                  :flex-direction "row"
@@ -78,7 +75,6 @@
                  :height "100%"}}
    [event-list]
    [event-form]])
-
 
 (defn events-form []
   (fn []

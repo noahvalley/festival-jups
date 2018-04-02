@@ -17,7 +17,7 @@
       (.parse (doto (js/document.createElement "div")
                 (#(set! (.-innerHTML %) (key event)))))))
 
-(def current-view (atom "HALLO"))
+(def current-view (atom {}))
 
 (defn view [key event]
   (let [prosemirror-dom-node (doto
@@ -50,13 +50,12 @@
             (.appendChild (serialized-content)))
       .-innerHTML))
 
-
 (defn prosemirror [key event]
   (reagent.core/create-class
     {:display-name         "prosemirror"
-     :reagent-render       (fn [key event] [:div.ProseMirror])
-     :component-did-mount  #(.appendChild (reagent.core/dom-node %) (view key @event))
+     :reagent-render       (fn [] [:div.ProseMirror])
+     :component-did-mount  #(.appendChild (reagent.core/dom-node %) (view key event))
      :component-will-update #(.replaceChild
                                       (reagent.core/dom-node %)
-                                      (view (second %2) @(get %2 2))
+                                      (view (second %2) (get %2 2))
                                       (js/document.getElementById "prosemirror"))}))
