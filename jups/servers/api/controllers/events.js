@@ -12,7 +12,7 @@ var events = {
 		var event = global.jupsstate.events.filter(event => event.id == req.params.id)[0];
 		if (event == undefined){
 			req.jupsdata = event;			
-			next({error: true, message: 'id not found'});
+			next({error: true, number: 201, message: 'id not found'});
 		}else{
 			req.jupsdata = event;			
 			next();
@@ -51,10 +51,10 @@ var events = {
 			if (found){
 				req.jupsdata = req.body;
 			}else{
-				next({error: true, message: 'id not found'});
+				next({error: true, number: 201, message: 'id not found'});
 			}
 		}else{
-			next({error: true, message: 'id in data does not match ip of REST connection'});
+			next({error: true, number: 202, message: 'id in data does not match id of REST connection'});
 		}
 	},
 	delete : (req, res, next) => {
@@ -71,8 +71,9 @@ var events = {
 			next();
 		}else{
 			req.jupsdata = {};
-			next({error: true, message: 'id not found in the system'});
+			next({error: true, number: 201, message: 'id not found in the system'});
 		}
 	}
 }
+
 module.exports = events;

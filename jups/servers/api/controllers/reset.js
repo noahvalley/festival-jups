@@ -2,6 +2,7 @@ var sha256 = require('sha256');
 
 var reset = {
 	reset : (req, res, next) => {
+		console.log('reset');
 		global.jupsstate = {
 			events: [],
 			pages: [],
@@ -76,15 +77,13 @@ var reset = {
 			preis : '20.- / 15.-'
 		});
 
-		console.log('reset');
 		res.setHeader('Content-Type', 'application/json');
 		res.send({
 			error : {error: false, message: ''},
 			data : {}
 		});
 	}
-};
-
+}
 
 
 module.exports = reset;

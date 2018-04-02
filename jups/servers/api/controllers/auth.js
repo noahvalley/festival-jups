@@ -16,6 +16,7 @@ var events = {
 			if (sessionTimeDiffSec > 86400){
 				next({error : true, number: 101, message: "Coockie too old."});
 			}else{
+				global.jupsstate.sessions[sessionID] = new Date();
 				next();
 			}
 		}else{

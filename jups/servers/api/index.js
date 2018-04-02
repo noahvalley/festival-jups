@@ -4,13 +4,14 @@ var connect = require('connect');
 var serveStatic = require('serve-static');
 var connectRoute = require('connect-route');
 var bodyParser = require('body-parser');
+var cors = require('cors')
 
 var events = require('./controllers/events.js');
 var pages = require('./controllers/pages.js');
+var files = require('./controllers/files.js');
 var auth = require('./controllers/auth.js');
 var reset = require('./controllers/reset.js');
 
-var app = connect();
 global.jupsstate = {
 	events: [],
 	pages: {
@@ -100,30 +101,40 @@ get$pagesDownloads.use(sendError);
 
 
 var post$pagesHome = connect();
+post$pagesHome.use(auth.check);
 post$pagesHome.use(pages.home.update);
 post$pagesHome.use(sendData);
 post$pagesHome.use(sendError);
 
 var post$pagesOrte = connect();
+post$pagesOrte.use(auth.check);
 post$pagesOrte.use(pages.orte.update);
 post$pagesOrte.use(sendData);
 post$pagesOrte.use(sendError);
 
 var post$pagesKontakt = connect();
+post$pagesKontakt.use(auth.check);
 post$pagesKontakt.use(pages.kontakt.update);
 post$pagesKontakt.use(sendData);
 post$pagesKontakt.use(sendError);
 
 var post$pagesArchiv = connect();
+post$pagesArchiv.use(auth.check);
 post$pagesArchiv.use(pages.archiv.update);
 post$pagesArchiv.use(sendData);
 post$pagesArchiv.use(sendError);
 
 var post$pagesDownloads = connect();
+post$pagesDownloads.use(auth.check);
 post$pagesDownloads.use(pages.downloads.update);
 post$pagesDownloads.use(sendData);
 post$pagesDownloads.use(sendError);
 
+
+var get$files = connect();
+get$files.use(files.getFileList)
+get$files.use(sendData);
+get$files.use(sendError);
 
 var post$login = connect();
 post$login.use(auth.login);
@@ -136,6 +147,20 @@ get$logincheck.use(sendData);
 get$logincheck.use(sendError);
 
 
+var app = connect();
+
+var corsWhitelist = ['http://festival-jups.ch', 'http://admin.festival-jups.ch','https://festival-jups.ch', 'https://admin.festival-jups.ch'];
+var corsOptionsDelegate = function (req, callback) {
+  var corsOptions;
+  if (corsWhitelist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response 
+  }else{
+    corsOptions = { origin: false } // disable CORS for this request 
+  }
+  callback(null, corsOptions) // callback expects two parameters: error and options 
+}
+
+app.use(cors(corsOptionsDelegate));
 app.use(bodyParser.json());
 app.use(connectRoute(function (router) {
 	router.get('/events', get$events);
@@ -157,12 +182,14 @@ app.use(connectRoute(function (router) {
 	router.put('/pages/archiv', post$pagesArchiv);
 	router.put('/pages/downloads', post$pagesDownloads);
 
+	router.get('/files', get$files);
+
+
 	router.post('/login', post$login);
 	router.get('/logincheck', get$logincheck);
 
 /*
 	router.post('/createuser', function(){});
-	router.get('/files', function(){});
 	router.delete('/files/:filename', function(){});
 */
 
