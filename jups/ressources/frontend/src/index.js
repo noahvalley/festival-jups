@@ -9,15 +9,13 @@ import store from './store'
 import './styles/index.css';
 
 import Home from './routes/Home';
-// import Programm from './routes/Programm';
-// import Tickets from './routes/Tickets';
-// import Kontakt from './routes/Kontakt';
-// import Downloads from './routes/Downloads';
 import Programm from './routes/Home';
 import Tickets from './routes/Home';
-import Kontakt from './routes/Home';
-import Downloads from './routes/Home';
+// import Programm from './routes/Programm';
+// import Tickets from './routes/Tickets';
 import Orte from './routes/Orte';
+import Kontakt from './routes/Kontakt';
+import Downloads from './routes/Downloads';
 import Archiv from './routes/Home';
 
 

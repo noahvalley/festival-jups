@@ -73,3 +73,39 @@
 .orte .karte a {
   border-bottom: none;
 }
+
+
+
+/* KONTAKT */
+
+.kontakt h2 {
+  margin-top: 30px;
+  margin-bottom: 8px;
+}
+
+
+
+/* DOWNLOADS */
+
+.content.downloads {
+  overflow: auto; // spannt sich um float
+  margin-right: 10px;
+}
+
+@media only screen and (max-width: 850px) {
+  .content.downloads { margin-right: 0px; }
+}
+
+.content.downloads a {
+  border-bottom: none;
+}
+
+.downloads {
+  line-height: 1.3em;
+}
+
+.downloads a {
+  float: left;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}

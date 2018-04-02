@@ -9,10 +9,7 @@ class Home extends Component {
     return (
       <div className="app-wrapper">
         <Header />
-
-        <div className="main">
-          <Menu currentPage="home" />
-        </div>
+        <Menu currentPage="home" />
 
         <div className="main">
           <div className="content home">

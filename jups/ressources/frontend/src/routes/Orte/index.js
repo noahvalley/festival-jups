@@ -10,10 +10,7 @@ class Orte extends Component {
     return (
       <div className="app-wrapper">
         <Header />
-
-        <div className="main">
-          <Menu currentPage="orte" />
-        </div>
+        <Menu currentPage="orte" />
 
         <div className="main">
           <div className="content orte">
@@ -23,7 +20,7 @@ class Orte extends Component {
 
                 <ul>
                   <li><div className="buchstabe">A</div>
-                  <strong>Kammgarn &amp; Vebikus</strong> (Festivalzentrum)
+                  <strong>Kammgarn &amp; Vebikus</strong> <em>(Festivalzentrum)</em>
                   <br/>Baumgartenstrasse 19
                   <br/><a href="http://www.kammgarn.ch/">www.kammgarn.ch</a></li>
 

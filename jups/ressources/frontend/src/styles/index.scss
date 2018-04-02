@@ -34,9 +34,13 @@ hr {
     margin-bottom: 12px;
   }
 
-  strong {
+  strong, b {
     font-weight: 700;
     color: #333;
+  }
+
+  em, i {
+    font-style: italic;
   }
 
   ul {
@@ -186,7 +190,7 @@ footer img {
 
 body {
   background-color: #eee;
-  background-image: url("bg.jpg");
+  background-image: url("../images/bg.jpg");
   background-repeat: repeat-x repeat-y;
 }
 
@@ -234,7 +238,8 @@ body {
 
   footer {
     text-align: center;
-    margin-top: 30px;
+    padding-top: 30px;
+    clear: both;
     img {
       display: inline;
       width: 110px;
