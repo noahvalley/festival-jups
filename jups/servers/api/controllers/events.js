@@ -3,23 +3,23 @@
 
 var events = {
 	getAll : (req, res, next) => {
-		req.jupserror = {error: false, message: ''};
-		req.jupsdata = global.jupsstate.events;
 		console.log('events.getAll');
+		req.jupsdata = global.jupsstate.events;
 		next();
 	},
 	get : (req, res, next) => {
+		console.log('events.get');
 		var event = global.jupsstate.events.filter(event => event.id == req.params.id)[0];
 		if (event == undefined){
-			req.jupserror = {error: true, message: 'id not found'};
 			req.jupsdata = event;			
+			next({error: true, message: 'id not found'});
 		}else{
-			req.jupserror = {error: false, message: ''};
 			req.jupsdata = event;			
+			next();
 		}
-		next();
 	},
 	create : (req, res, next) => {
+		console.log('events.create');
 		var nextid = 1;
 		for (var event in global.jupsstate.events){
 			if (!(global.jupsstate.events[event].id < nextid)){
@@ -31,7 +31,6 @@ var events = {
 
 		global.jupsstate.events.push(event);
 		
-		req.jupserror = {error: false, message: ''};
 		req.jupsdata = event;
 		next();
 		
@@ -39,6 +38,7 @@ var events = {
 
 	},
 	update : (req, res, next) => {
+		console.log('events.update');
 		var event = req.body;
 		if (req.params.id === event.id){
 			var found = false;
@@ -49,18 +49,16 @@ var events = {
 				}
 			}
 			if (found){
-				req.jupserror = {error: false, message: ''};
 				req.jupsdata = req.body;
 			}else{
-				req.jupserror = {error: true, message: 'id not found'};
-				req.jupsdata = {};
+				next({error: true, message: 'id not found'});
 			}
 		}else{
-			req.jupserror = {error: true, message: 'id in data does not match ip of REST connection'};
-			req.jupsdata = {};
+			next({error: true, message: 'id in data does not match ip of REST connection'});
 		}
 	},
 	delete : (req, res, next) => {
+		console.log('events.delete');
 		var found = false;
 		for (var event in global.jupsstate.events){
 			if (global.jupsstate.events[event].id == req.params.id){
@@ -69,13 +67,12 @@ var events = {
 			}
 		}
 		if (found){
-			req.jupserror = {error: false, message: ''};
 			req.jupsdata = {};
+			next();
 		}else{
-			req.jupserror = {error: true, message: 'id not found in the system'};
 			req.jupsdata = {};
+			next({error: true, message: 'id not found in the system'});
 		}
-		next();
 	}
 }
 module.exports = events;

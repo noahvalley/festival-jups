@@ -1,3 +1,4 @@
+var sha256 = require('sha256');
 
 var reset = {
 	reset : (req, res, next) => {
@@ -7,6 +8,8 @@ var reset = {
 			users: [],
 			sessions: {}
 		}
+		
+		global.jupsstate.users.push({username: 'martin', password: sha256('password')});
 		
 		global.jupsstate.pages.home = '<p><strong>JUPS findet dieses Jahr von Freitag 7.9. bis Sonntag 9.9. statt&#8230;</strong></p><p>&#8230;mit einem Konzert von <strong>Stärneföifi</strong>, dem Zirkusspektakel von <strong>FahrAwaY</strong>, mit <strong>Margrit Gysin</strong> und ihrem Figurentheater und mit vielen offenen Angeboten sowie neuen und altbekannten Workshops!</p><p>Es lohnt sich also das JUPS Wochenende jetzt schon in die Agenda einzutragen.</p><p>Die Fotos vom jups 2017 können <a href="https://www.facebook.com/pg/festivaljups/photos/?tab=album&amp;album_id=1900167376676972">hier auf Facebook</a> angesehen werden (dazu benötigt man keinen Facebook-Account).</p><p><strong>Save the date:</strong></p><p>jups 2019: 7./8. September</p><p>jups 2020: 12./13. September</p><p>Das Festival JUPS ist ein zweitägiges Schaffhauser Festival mit Veranstaltungen, offenen Angeboten und Workshops verschiedener Kunstsparten (Musik, Theater, Tanz, Literatur, diverse bildende Künste) für Kinder, Jugendliche, Familien und interessierte Erwachsene. Seit 2010 wird das Festival jups einmal jährlich durchgeführt.</p><p><iframe src="https://www.youtube.com/embed/2C5qwYhb4NU" width="820" height="460" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p><hr /><p><strong>Trägerschaft: </strong>Schauwerk Das andere Theater, KiK Kultur im Kammgarn, Vebikus Kunsthalle Schaffhausen, Musikschule MKS, KJM Ostschweiz, Theater Sgaramusch</p><p><strong>Danke!</strong></p><p><strong><br />Hauptsponsoren:</strong></p><p><a href="http://kulturraum.sh/"><img class="alignnone wp-image-707 size-full" src="http://festival-jups.ch/wp-content/uploads/kulturraum_-2.png" alt="" width="175" height="70" /></a> <img class="alignnone size-full wp-image-708" src="http://festival-jups.ch/wp-content/uploads/amsler_-2.png" alt="" width="175" height="70" /> <a href="sig.biz"><img class="alignnone wp-image-709 size-full" src="http://festival-jups.ch/wp-content/uploads/SIG_-1.png" alt="" width="175" height="70" /></a><a href="http://www.migros-kulturprozent.ch/de/home"><img class="alignnone wp-image-758 size-full" src="http://festival-jups.ch/wp-content/uploads/migros.png" alt="" width="175" height="70" /></a></p>';
 
