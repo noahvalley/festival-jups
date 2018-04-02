@@ -1,8 +1,14 @@
 (ns webbackend.core
     (:require
       [reagent.core :as r]
-      [webbackend.events :refer [random-form events-form event-list]]
-      [webbackend.entry :refer [home-page]]))
+      [webbackend.events :refer [events-form event-list]]
+      [webbackend.entry :refer [login]]
+      [webbackend.codemirror :refer [random-form]]))
+
+
+;; -------------------------
+;; Main view
+
 
 ;; -------------------------
 ;; Initialize app

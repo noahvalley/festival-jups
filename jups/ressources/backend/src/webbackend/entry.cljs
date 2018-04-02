@@ -5,7 +5,7 @@
     [reagent.core :as r]
     [cljs-http.client :as http]))
 
-(defn home-page []
+(defn login []
   (let [form-state (r/atom
                      {:username nil
                       :password nil})]
