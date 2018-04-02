@@ -8,7 +8,7 @@ var pages = {
 		},
 		update : function(req, res, next){
 			console.log('pages.home.update');
-			global.jupsstate.pages.home = req.body;
+			global.jupsstate.pages.home = req.body.data;
 		}
 	},
 	orte : {
@@ -18,7 +18,7 @@ var pages = {
 		},
 		update : function(req, res, next){
 			console.log('pages.orte.update');
-			global.jupsstate.pages.orte = req.body;
+			global.jupsstate.pages.orte = req.body.data;
 		}
 	},
 	kontakt : {
@@ -28,7 +28,7 @@ var pages = {
 		},
 		update : function(req, res, next){
 			console.log('pages.kontakt.update');
-			global.jupsstate.pages.kontakt = req.body;
+			global.jupsstate.pages.kontakt = req.body.data;
 		}
 	},
 	downloads : {
@@ -38,7 +38,7 @@ var pages = {
 		},
 		update : function(req, res, next){
 			console.log('pages.downloads.update');
-			global.jupsstate.pages.downloads = req.body;
+			global.jupsstate.pages.downloads = req.body.data;
 		}
 	},
 	archiv : {
@@ -47,7 +47,7 @@ var pages = {
 			req.jupsdata = global.jupsstate.pages.archiv;
 		},
 		update : function(req, res, next){
-			global.jupsstate.pages.archiv = req.body;
+			global.jupsstate.pages.archiv = req.body.data;
 			console.log('pages.archiv.update');
 		}
 	}

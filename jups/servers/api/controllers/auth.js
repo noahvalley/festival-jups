@@ -1,18 +1,15 @@
 'use strict';
 
 var database = require('./database.js');
-var cookie = require('cookie');
 var sha256 = require('sha256');
 
 var events = {
 	check : function(req, res, next){
 		console.log('auth.check');
-		var cookies = cookie.parse(req.headers.cookie || '');
-		var sessionID = cookies.jupsadmin;
-		var loggedin = false;
+		var sessionID = req.body.session;
 		var session = global.jupsstate.sessions[sessionID];
-		var sessionTimeDiffSec = (global.jupsstate.sessions[sessionID] - new Date())/1000;
 		if (session != undefined){
+			var sessionTimeDiffSec = (global.jupsstate.sessions[sessionID] - new Date())/1000;
 			if (sessionTimeDiffSec > 86400){
 				next({error : true, number: 101, message: "Coockie too old."});
 			}else{
@@ -25,9 +22,9 @@ var events = {
 	},
 	login : function(req, res, next){
 		console.log('auth.login');
-		var user = global.jupsstate.users.find(user => user.username === req.body.username && user.password === sha256(req.body.password));
-		console.log(req.body.username);
-		console.log(req.body.password);
+		var user = global.jupsstate.users.find(user => user.username === req.body.data.username && user.password === sha256(req.body.data.password));
+		console.log(req.body.data.username);
+		console.log(req.body.data.password);
 		if (user === undefined){
 			next({error : true, number: 102, message: "Username or Password incorrect."});
 		}else{
@@ -40,7 +37,7 @@ var events = {
 					global.jupsstate.sessions[sessionID] = new Date();
 				}
 			}
-			res.setHeader('Set-Cookie', cookie.serialize('jupsadmin', sessionID));
+			req.jupsdata = {session: sessionID};
 			next();	
 		}
 	},

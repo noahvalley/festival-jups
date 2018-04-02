@@ -26,7 +26,7 @@ var events = {
 				nextid = global.jupsstate.events[event].id+1;
 			}
 		}
-		var event = req.body;
+		var event = req.body.data;
 		event.id = nextid;
 
 		global.jupsstate.events.push(event);
@@ -39,17 +39,17 @@ var events = {
 	},
 	update : (req, res, next) => {
 		console.log('events.update');
-		var event = req.body;
+		var event = req.body.data;
 		if (req.params.id === event.id){
 			var found = false;
 			for (var event in global.jupsstate.events){
 				if (global.jupsstate.events[event].id === req.params.id){
-					global.jupsstate.events[event] = req.body;
+					global.jupsstate.events[event] = req.body.data;
 					found = true;
 				}
 			}
 			if (found){
-				req.jupsdata = req.body;
+				req.jupsdata = req.body.data;
 			}else{
 				next({error: true, number: 201, message: 'id not found'});
 			}
