@@ -28,13 +28,17 @@ var sendData = (req,res,next) => {
 		error : req.jupserror,
 		data : req.jupsdata
 	}
-	console.log('test');
     res.setHeader('Content-Type', 'application/json');
 	res.send(response);
 }
 
 var get$events = connect();
+get$events.use(auth.check);
 get$events.use(events.getAll);
+get$events.use(function(err, req, res, next){
+	console.log('errorfunc');
+	next(err);
+});
 get$events.use(sendData);
 
 var post$events = connect();
@@ -79,7 +83,8 @@ app.use(connectRoute(function (router) {
 	router.put('/pages/archiv', pages.archiv.update);
 
 
-	router.post('/login', function(){});
+	router.get('/login', auth.login);
+	router.get('/logincheck', auth.check);
 	router.post('/createuser', function(){});
 	router.get('/files', function(){});
 	router.delete('/files/:filename', function(){});

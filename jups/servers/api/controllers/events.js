@@ -5,6 +5,7 @@ var events = {
 	getAll : (req, res, next) => {
 		req.jupserror = {error: false, message: ''};
 		req.jupsdata = global.jupsstate.events;
+		console.log('events.getAll');
 		next();
 	},
 	get : (req, res, next) => {
