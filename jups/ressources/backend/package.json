@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "@cljs-oss/module-deps": "^1.1.1",
+    "prosemirror-example-setup": "^1.0.1",
+    "prosemirror-model": "^1.4.0",
+    "prosemirror-schema-basic": "^1.0.0",
+    "prosemirror-schema-list": "^1.0.1",
+    "prosemirror-state": "^1.1.1",
+    "prosemirror-view": "^1.2.0"
+  }
+}
