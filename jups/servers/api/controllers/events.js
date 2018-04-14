@@ -40,13 +40,13 @@ var events = {
 	update : (req, res, next) => {
 		console.log('events.update');
 		if (req.params.id == req.body.data.id){
-			var event = global.jupsstate.events.find(eventum => eventum.id == req.params.id);
-			if (event){
-				event = req.body.data;
+			var eventIndex = global.jupsstate.events.findIndex(eventum => eventum.id == req.params.id);
+			if (eventIndex === -1){
+				next({error: true, number: 201, message: 'id not found'+req.body.data.id});
+			}else{
+				global.jupsstate.events[eventIndex] = req.body.data;
 				req.jupssenddata = event;
 				next();
-			}else{
-				next({error: true, number: 201, message: 'id not found'+req.body.data.id});
 			}
 		}else{
 			next({error: true, number: 202, message: 'id in data does not match id of REST connection'});

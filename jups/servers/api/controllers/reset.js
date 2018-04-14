@@ -80,8 +80,44 @@ var reset = {
 			id : 4,
 			type : 'offenesangebot',
 			titel : 'Dini Mueter',
-			untertitel : 'chunt ims de Kamm',
+			untertitel : 'chunt ims de Kamm - prio5',
 			ort : 'Kamm',
+			zeitVon : '2018-09-08T13:00',
+			zeitBis : '2018-09-08T15:00',
+			priority : 5,
+			bild : '/example.jpg',
+			logo : '/example.jpg',
+			text : '"Irgendöppis fählt.<br> Was?<br> Dini Mueter."',
+			ausverkauft : false,
+			ausverkauftText : 'Keine Plätze mehr',
+			abAlter : '5+',
+			tuerOeffnung :  '15min vor Beginn',
+			preis : '20.- / 15.-'
+		});
+		global.jupsstate.events.push({
+			id : 5,
+			type : 'offenesangebot',
+			titel : 'D\'Iris vertellt allne dumme Chinde e Guetnachgschicht',
+			untertitel : 'vom de Leu und sind Fründe im Dschuneglz - prio3',
+			ort : 'Kamm',
+			zeitVon : '2018-09-08T13:00',
+			zeitBis : '2018-09-08T15:00',
+			priority : 3,
+			bild : '/example.jpg',
+			logo : '/example.jpg',
+			text : '"Jedes Kind baut sich eine Kuckucksflöte aus <b>Bambus</b> und verziert sie anschliessend.<br><br>Bei fünf- oder sechsjährigen Kindern ist die Mitwirkung eines Erwachsenen hilfreich.<br>Leitung: Hanna Stoll, Musikschule MKS, www.mksh.ch Jedes Kind baut sich eine Kuckucksflöte aus <b>Bambus</b> und verziert sie anschliessend.<br><br>Bei fünf- oder sechsjährigen Kindern ist die Mitwirkung eines Erwachsenen hilfreich.<br>Leitung: Hanna Stoll, Musikschule MKS, www.mksh.ch Jedes Kind baut sich eine Kuckucksflöte aus <b>Bambus</b> und verziert sie anschliessend.<br><br>Bei fünf- oder sechsjährigen Kindern ist die Mitwirkung eines Erwachsenen hilfreich.<br>Leitung: Hanna Stoll, Musikschule MKS, www.mksh.ch Jedes Kind baut sich eine Kuckucksflöte aus <b>Bambus</b> und verziert sie anschliessend.<br><br>Bei fünf- oder sechsjährigen Kindern ist die Mitwirkung eines Erwachsenen hilfreich.<br>Leitung: Hanna Stoll, Musikschule MKS, www.mksh.ch Jedes Kind baut sich eine Kuckucksflöte aus <b>Bambus</b> und verziert sie anschliessend.<br><br>Bei fünf- oder sechsjährigen Kindern ist die Mitwirkung eines Erwachsenen hilfreich.<br>Leitung: Hanna Stoll, Musikschule MKS, www.mksh.ch ."',
+			ausverkauft : false,
+			ausverkauftText : 'Keine Plätze mehr',
+			abAlter : '5+',
+			tuerOeffnung :  '15min vor Beginn',
+			preis : '20.- / 15.-'
+		});
+		global.jupsstate.events.push({
+			id : 6,
+			type : 'offenesangebot',
+			titel : 'Dini Mueter - prio1',
+			untertitel : 'chunt ims de Kamm',
+			ort : 'Kammgarnistas on da Pistas im Museum',
 			zeitVon : '2018-09-08T13:00',
 			zeitBis : '2018-09-08T15:00',
 			priority : 1,
@@ -94,7 +130,6 @@ var reset = {
 			tuerOeffnung :  '15min vor Beginn',
 			preis : '20.- / 15.-'
 		});
-
 		res.setHeader('Content-Type', 'application/json');
 		res.send({
 			error : {error: false, message: ''},

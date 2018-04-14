@@ -8,7 +8,8 @@ var cors = require('cors')
 
 var events = require('./controllers/events.js');
 var pages = require('./controllers/pages.js');
-var files = require('./controllers/files.js');
+var file = require('./controllers/file.js');
+var image = require('./controllers/image.js');
 var auth = require('./controllers/auth.js');
 var reset = require('./controllers/reset.js');
 
@@ -131,18 +132,44 @@ post$pagesDownloads.use(sendData);
 post$pagesDownloads.use(sendError);
 
 
-var get$files = connect();
-get$files.use(files.getFileList)
-get$files.use(sendData);
-get$files.use(sendError);
+var get$file = connect();
+get$file.use(file.getFileList)
+get$file.use(sendData);
+get$file.use(sendError);
 
-var post$files = connect();
-//post$files.use(auth.check);
-post$files.use(files.upload);
-post$files.use(files.getFileList);
-post$files.use(sendData);
-post$files.use(sendError);
+var post$file = connect();
+post$file.use(auth.check);
+post$file.use(file.upload);
+post$file.use(file.getFileList);
+post$file.use(sendData);
+post$file.use(sendError);
 
+var delete$file = connect();
+delete$file.use(auth.check);
+delete$file.use(file.delete);
+post$file.use(file.getFileList);
+delete$file.use(sendData);
+delete$file.use(sendError);
+
+
+var get$image = connect();
+get$image.use(image.getImageList)
+get$image.use(sendData);
+get$image.use(sendError);
+
+var post$image = connect();
+post$image.use(auth.check);
+post$image.use(image.upload);
+post$image.use(image.getImageList);
+post$image.use(sendData);
+post$image.use(sendError);
+
+var delete$image = connect();
+delete$image.use(auth.check);
+delete$image.use(image.delete);
+post$image.use(image.getImageList);
+delete$image.use(sendData);
+delete$image.use(sendError);
 
 var post$login = connect();
 post$login.use(auth.login);
@@ -156,6 +183,7 @@ get$logincheck.use(sendError);
 
 
 var app = connect();
+
 /*
 var corsWhitelist = ['http://festival-jups.ch', 'http://admin.festival-jups.ch','https://festival-jups.ch', 'https://admin.festival-jups.ch'];
 var corsOptionsDelegate = function (req, callback) {
@@ -192,21 +220,23 @@ app.use(connectRoute(function (router) {
 	router.put('/pages/archiv', post$pagesArchiv);
 	router.put('/pages/downloads', post$pagesDownloads);
 
-	router.get('/files', get$files);
-	router.post('/files', post$files);
+	router.get('/file', get$file);
+	router.post('/file', post$file);
+	router.delete('/file/:filename', delete$file);
 
+	router.get('/image', get$image);
+	router.post('/image', post$image);
+	router.delete('/image/:filename', delete$image);
 
 	router.post('/login', post$login);
 	router.post('/logincheck', get$logincheck);
 
-/*
-	router.post('/createuser', function(){});
-	router.delete('/files/:filename', function(){});
-*/
 
 	router.get('/resetstate', reset.reset);
 }));
 
-app.use(serveStatic('../jups/ressources/uploads'));
+app.use('/image', serveStatic('../jups/ressources/upload/image'));
+app.use('/file', serveStatic('../jups/ressources/upload/file'));
+
 
 module.exports = app;
