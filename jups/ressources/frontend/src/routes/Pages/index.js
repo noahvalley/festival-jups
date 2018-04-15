@@ -3,31 +3,12 @@ import Header from '../../components/Header';
 import Menu from '../../components/Menu';
 import figur from '../../images/figur.png';
 import { connect } from 'react-redux';
-import { fetchHome } from '../../store/actions';
 
 
 class Page extends Component {
-
-  componentDidMount() {
-    // checken ob nicht schon da
-    this.props.dispatch(fetchHome())
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      thisPage: this.getPageName()
-    }
-  }
-
-  getPageName = () => {
-    const path = this.props.match.path.slice(1);
-    if ( path==='' ) return 'home';
-    return path;
-  }
-
   render() {
-    const thisPage = this.state.thisPage;
+    const thisPage = this.props.thisPage;
+    console.log('rendern:',thisPage);
     return (
       <div className="app-wrapper">
         <Header />
@@ -46,9 +27,15 @@ class Page extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  console.log(state);
-  return { html: state.home };
+const mapStateToProps = (state, props) => {
+
+  const getPageName = () => {
+    const path = props.match.path.slice(1);
+    if ( path === '' ) return 'home';
+    return path;
+  }
+
+  return { thisPage: getPageName(), html: state.home };
 }
 
 export default connect(mapStateToProps)(Page);

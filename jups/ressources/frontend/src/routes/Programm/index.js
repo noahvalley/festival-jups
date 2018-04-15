@@ -3,10 +3,20 @@ import Header from '../../components/Header';
 import Menu from '../../components/Menu';
 import Event from './event.js';
 import figur from '../../images/figur.png';
+import loading from '../../images/loading.svg';
 import { connect } from 'react-redux';
+import { fetchEvents } from '../../store/actions';
 
 
 class Programm extends Component {
+
+  componentDidMount() {
+    if (this.props.error) {
+      this.props.dispatch(fetchEvents());
+    }
+
+  }
+
   render() {
     console.log(this.props.events);
     return (
@@ -17,11 +27,16 @@ class Programm extends Component {
         <div className="main">
           <div className="content programm">
 
-            <div className="legende">Farben:
-              &nbsp; <span className="veranstaltung" style={{ padding: 5 + 'px' }}>Veranstaltung</span>
-              &nbsp; <span className="workshop" style={{ padding: 5 + 'px' }}>Workshop</span>
-              &nbsp; <span className="offenesangebot" style={{ padding: 5 + 'px', whiteSpace: 'nowrap' }}>offenes Angebot</span>
-            </div>
+            {
+              this.props.error ? <img src={loading} alt="loading" height="50px" />
+              : (
+                <div className="legende">Farben:
+                  &nbsp; <span className="veranstaltung" style={{ padding: 5 + 'px' }}>Veranstaltung</span>
+                  &nbsp; <span className="workshop" style={{ padding: 5 + 'px' }}>Workshop</span>
+                  &nbsp; <span className="offenesangebot" style={{ padding: 5 + 'px', whiteSpace: 'nowrap' }}>offenes Angebot</span>
+                </div>
+              )
+            }
 
             {
               this.props.events &&
@@ -41,6 +56,7 @@ class Programm extends Component {
                             ort={event.ort}
                             titel={event.titel}
                             untertitel={event.untertitel}
+                            bild={event.bild}
                             beschreibung={event.beschreibung}
                             alter={event.alter}
                             beginn={event.beginn}
@@ -108,7 +124,6 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(Programm);
-
 
 
 /*
