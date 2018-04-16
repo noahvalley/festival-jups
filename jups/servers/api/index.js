@@ -128,7 +128,7 @@ post$file.use(sendError);
 var delete$file = connect();
 delete$file.use(auth.check);
 delete$file.use(file.delete);
-post$file.use(file.getFileList);
+delete$file.use(file.getFileList);
 delete$file.use(sendData);
 delete$file.use(sendError);
 
@@ -147,7 +147,7 @@ post$image.use(sendError);
 var delete$image = connect();
 delete$image.use(auth.check);
 delete$image.use(image.delete);
-post$image.use(image.getImageList);
+delete$image.use(image.getImageList);
 delete$image.use(sendData);
 delete$image.use(sendError);
 
