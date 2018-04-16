@@ -1,50 +1,60 @@
 'use strict';
 
+var res = require('dotenv').config({path: __dirname+'/data.env'});	
+
 var connect = require('connect');
 var serveStatic = require('serve-static');
 var connectRoute = require('connect-route');
 var bodyParser = require('body-parser');
 var cors = require('cors')
+var path = require('path');
 
+var init = require('./controllers/init.js');
 var events = require('./controllers/events.js');
 var pages = require('./controllers/pages.js');
 var file = require('./controllers/file.js');
 var image = require('./controllers/image.js');
 var auth = require('./controllers/auth.js');
-var reset = require('./controllers/reset.js');
+var mailer = require('./controllers/mailer.js');
 
-global.jupsstate = {
-	events: [],
-	pages: {
-		home: '',
-		orte: '',
-		kontakt: '',
-		archiv: '',
-	},
-	users: [],
-	sessions: {}
-}
-
-var sendData = (req,res,next) => {
-	console.log('sendData');
-	var response = {
-		error : req.jupserror || {error : false, number : 0, message: 'no error'},
-		data : req.jupssenddata || {}
+init.init();
+init.setDemodata();
+var sendData = init.sendData;
+var sendError = init.sendError;
+/*
+var dereq = {
+	body : {
+		data : {
+			vorname : "noah",
+			nachname : "valley",
+			alter : "29",
+			telefon : "0798132058",
+			email : "noah@mac-web.ch",
+			bemerkung : "erde an email!\nblablabla\n\ntest",
+			veranstalungen : [
+				{
+					veranstalung: "veranstalung 2",
+					anz: 3
+				},
+				{
+					veranstalung: "veranstalung 5",
+					anz: 5
+				},
+				{
+					veranstalung: "veranstalung 8",
+					anz: 8
+				}
+			]
+		}
 	}
-    res.setHeader('Content-Type', 'application/json');
-	res.send(response);
-}
+};
 
-var sendError = (err, req,res,next) => {
-	console.log('sendError');
-	var response = {
-		error : err,
-		data : req.jupssenddata || {}
-	}
-    res.setHeader('Content-Type', 'application/json');
-	res.send(response);
-}
+var deres = {};
+var denext = function(){};
 
+mailer.composemail(dereq, deres, denext)
+mailer.sendmail(dereq, deres, denext)
+*/
 var get$events = connect();
 get$events.use(events.getAll);
 get$events.use(sendData);
@@ -73,6 +83,11 @@ delete$eventsId.use(events.delete);
 delete$eventsId.use(sendData);
 delete$eventsId.use(sendError);
 
+
+var get$pages = connect()
+get$pages.use(pages.getAll);
+get$pages.use(sendData);
+get$pages.use(sendError);
 
 
 var get$pagesHome = connect();
@@ -138,7 +153,7 @@ get$file.use(sendData);
 get$file.use(sendError);
 
 var post$file = connect();
-post$file.use(auth.check);
+post$file.use(auth.checkMultipart);
 post$file.use(file.upload);
 post$file.use(file.getFileList);
 post$file.use(sendData);
@@ -208,11 +223,13 @@ app.use(connectRoute(function (router) {
 	router.put('/events/:id', put$eventsId);
 	router.delete('/events/:id', delete$eventsId);
 	
+	router.get('/pages', get$pages);
 	router.get('/pages/home', get$pagesHome);
 	router.get('/pages/orte', get$pagesOrte);
 	router.get('/pages/kontakt', get$pagesKontakt);
 	router.get('/pages/archiv', get$pagesArchiv);
 	router.get('/pages/downloads', get$pagesDownloads);
+
 
 	router.put('/pages/home', post$pagesHome);
 	router.put('/pages/orte', post$pagesOrte);
@@ -230,13 +247,9 @@ app.use(connectRoute(function (router) {
 
 	router.post('/login', post$login);
 	router.post('/logincheck', get$logincheck);
-
-
-	router.get('/resetstate', reset.reset);
 }));
 
-app.use('/image', serveStatic('../jups/ressources/upload/image'));
-app.use('/file', serveStatic('../jups/ressources/upload/file'));
-
+app.use('/image', serveStatic(path.join(__dirname,'../../ressources/upload/image')));
+app.use('/file', serveStatic(path.join(__dirname,'../../ressources/upload/file')));
 
 module.exports = app;

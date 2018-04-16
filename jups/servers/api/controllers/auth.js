@@ -3,7 +3,7 @@
 var database = require('./database.js');
 var sha256 = require('sha256');
 
-var events = {
+var auth = {
 	check : function(req, res, next){
 		console.log('auth.check');
 		var sessionID = req.body.session;
@@ -20,11 +20,35 @@ var events = {
 			next({error : true, number: 101, message: "Not logged in."});
 		}
 	},
+	checkMultipart : function(req, res, next){
+		console.log('auth.checkMultipart');
+		var form = new formidable.IncomingForm();
+		var session = "";
+		form.on('field', function(name, value) {
+			if (name === 'session'){
+				session = value;
+			}
+		});		
+		form.parse(req);
+		if (session != undefined){
+			var sessionTimeDiffSec = (global.jupsstate.sessions[sessionID] - new Date())/1000;
+			if (sessionTimeDiffSec > 86400){
+				next({error : true, number: 101, message: "Coockie too old."});
+			}else{
+				global.jupsstate.sessions[sessionID] = new Date();
+				next();
+			}
+		}else{
+			next({error : true, number: 101, message: "Not logged in."});
+		}
+	},
 	login : function(req, res, next){
 		console.log('auth.login');
+		if (req.body.data === undefined){
+			next({error : true, number: 110, message: "No Data."});
+		}else{
+
 		var user = global.jupsstate.users.find(user => user.username === req.body.data.username && user.password === sha256(req.body.data.password));
-		console.log(req.body.data.username);
-		console.log(req.body.data.password);
 		if (user === undefined){
 			next({error : true, number: 102, message: "Username or Password incorrect."});
 		}else{
@@ -39,7 +63,7 @@ var events = {
 			}
 			req.jupssenddata = {session: sessionID};
 			next();	
-		}
+		}}
 	},
 	logout : function(req, res, next){
 		console.log('auth.logout');
@@ -47,4 +71,4 @@ var events = {
 	}
 }
 
-module.exports = events;
+module.exports = auth;

@@ -1,16 +1,44 @@
 var sha256 = require('sha256');
 
 var reset = {
-	reset : (req, res, next) => {
-		console.log('reset');
+	init : function(){
+		console.log('init.init');
 		global.jupsstate = {
 			events: [],
-			pages: [],
-			users: [],
+			pages: {
+				home: '',
+				orte: '',
+				kontakt: '',
+				archiv: '',
+			},
+			users: [{username: process.env.jupsUser, password: sha256(process.env.jupsPass)}],
 			sessions: {}
 		}
+	},
+	sendData : function(req,res,next){
+		console.log('sendData');
+		var response = {
+			error : req.jupserror || {error : false, number : 0, message: 'no error'},
+			data : req.jupssenddata || {}
+		}
+	    res.setHeader('Content-Type', 'application/json');
+		res.send(response);
+	},
+	sendError : function(err, req,res,next){
+		console.log('sendError');
+		var response = {
+			error : err,
+			data : req.jupssenddata || {}
+		}
+	    res.setHeader('Content-Type', 'application/json');
+		res.send(response);
+	},
+	setDemodata : function(){
+		console.log('init.setDemodata');
+		global.jupsstate.events = [];
+		global.jupsstate.pages = [];
+		global.jupsstate.sessions = [];
 		
-		global.jupsstate.users.push({username: 'martin', password: sha256('password')});
 		
 		global.jupsstate.pages.home = '<p><strong>JUPS findet dieses Jahr von Freitag 7.9. bis Sonntag 9.9. statt&#8230;</strong></p><p>&#8230;mit einem Konzert von <strong>Stärneföifi</strong>, dem Zirkusspektakel von <strong>FahrAwaY</strong>, mit <strong>Margrit Gysin</strong> und ihrem Figurentheater und mit vielen offenen Angeboten sowie neuen und altbekannten Workshops!</p><p>Es lohnt sich also das JUPS Wochenende jetzt schon in die Agenda einzutragen.</p><p>Die Fotos vom jups 2017 können <a href="https://www.facebook.com/pg/festivaljups/photos/?tab=album&amp;album_id=1900167376676972">hier auf Facebook</a> angesehen werden (dazu benötigt man keinen Facebook-Account).</p><p><strong>Save the date:</strong></p><p>jups 2019: 7./8. September</p><p>jups 2020: 12./13. September</p><p>Das Festival JUPS ist ein zweitägiges Schaffhauser Festival mit Veranstaltungen, offenen Angeboten und Workshops verschiedener Kunstsparten (Musik, Theater, Tanz, Literatur, diverse bildende Künste) für Kinder, Jugendliche, Familien und interessierte Erwachsene. Seit 2010 wird das Festival jups einmal jährlich durchgeführt.</p><p><iframe src="https://www.youtube.com/embed/2C5qwYhb4NU" width="820" height="460" frameborder="0" allowfullscreen="allowfullscreen"></iframe></p><hr /><p><strong>Trägerschaft: </strong>Schauwerk Das andere Theater, KiK Kultur im Kammgarn, Vebikus Kunsthalle Schaffhausen, Musikschule MKS, KJM Ostschweiz, Theater Sgaramusch</p><p><strong>Danke!</strong></p><p><strong><br />Hauptsponsoren:</strong></p><p><a href="http://kulturraum.sh/"><img class="alignnone wp-image-707 size-full" src="http://festival-jups.ch/wp-content/uploads/kulturraum_-2.png" alt="" width="175" height="70" /></a> <img class="alignnone size-full wp-image-708" src="http://festival-jups.ch/wp-content/uploads/amsler_-2.png" alt="" width="175" height="70" /> <a href="sig.biz"><img class="alignnone wp-image-709 size-full" src="http://festival-jups.ch/wp-content/uploads/SIG_-1.png" alt="" width="175" height="70" /></a><a href="http://www.migros-kulturprozent.ch/de/home"><img class="alignnone wp-image-758 size-full" src="http://festival-jups.ch/wp-content/uploads/migros.png" alt="" width="175" height="70" /></a></p>';
 
@@ -25,14 +53,14 @@ var reset = {
 		global.jupsstate.events.push({
 			id : 1,
 			type : 'workshop',
-			titel : 'Kuckucksflöte bauen',
+			titel : 'KICK OFF',
 			untertitel : 'mit Hanna Stoll',
 			ort : 'Kammgarn',
-			zeitVon : '2018-09-08T14:00',
-			zeitBis : '2018-09-08T16:00',
+			zeitVon : '2018-02-08T14:00',
+			zeitBis : '2018-02-08T16:00',
 			priority : 1,
-			bild : '/example.jpg',
-			logo : '/example.jpg',
+			bild : 'example.jpg',
+			logo : 'example.jpg',
 			text : 'Jedes Kind baut sich eine Kuckucksflöte aus <b>Bambus</b> und verziert sie anschliessend.<br><br>Bei fünf- oder sechsjährigen Kindern ist die Mitwirkung eines Erwachsenen hilfreich.<br>Leitung: Hanna Stoll, Musikschule MKS, www.mksh.ch',
 			ausverkauft : false,
 			ausverkauftText : 'Es gibt noch Stehplätze an der Abendkasse',
@@ -46,11 +74,11 @@ var reset = {
 			titel : 'Graffiti',
 			untertitel : 'mit Alice Marugg',
 			ort : 'Cardinal',
-			zeitVon : '2018-09-08T14:00',
-			zeitBis : '2018-09-08T16:00',
+			zeitVon : '2018-09-09T14:00',
+			zeitBis : '2018-09-09T16:00',
 			priority : 2,
-			bild : '/example.jpg',
-			logo : '/example.jpg',
+			bild : 'example.jpg',
+			logo : 'example.jpg',
 			text : 'Graffiti: modern, bunt, knallig und einfach cool! Möchtest du selbst mal mit Spraydosen ein Bild gestalten? Du lernst die Technik vom Sprayen kennen und gestaltest deinen eigenen Schriftzug. Ein tolles Bild zum Nachhausenehmen ist dann deine Belohnung!<b>Zusätzlich 10.- für Materialkosten.</b>',
 			ausverkauft : true,
 			ausverkauftText : 'Es gibt noch Stehplätze an der Abendkasse',
@@ -64,11 +92,11 @@ var reset = {
 			titel : 'Theater Sgaramusch: Knapp e Familie',
 			untertitel : 'Stefan und Nora',
 			ort : 'Kammgarn',
-			zeitVon : '2018-09-08T10:00',
-			zeitBis : '2018-09-08T12:00',
+			zeitVon : '2018-09-09T10:00',
+			zeitBis : '2018-09-09T12:00',
 			priority : 1,
-			bild : '/example.jpg',
-			logo : '/example.jpg',
+			bild : 'example.jpg',
+			logo : 'example.jpg',
 			text : '"Irgendöppis fählt.<br> Was?<br> Es Chind."<br> Wie wäre es, wenn man eins hätte?<br> Schön, lustig, streng, ernst?<br> Möchte man wirklich eins?<br> Eine Frau und ein Mann stellen sich vor, dass sie zusammen ein Kind hätten. Dabei entsteht ein ganzes Familienleben mit Geschrei, Ferien und was halt so dazu gehört.<br> Sgaramusch gibt den Zuschauerkindern die Gelegenheit, Erwachsene zu beobachten, wie sie über Kinder reden, wenn die Kinder nicht dabei sind.<br> Und sich einzumischen!<br> Mindestalter 7 Jahre.<br> www.sgaramusch.ch',
 			ausverkauft : false,
 			ausverkauftText : 'Keine Plätze mehr',
@@ -85,8 +113,8 @@ var reset = {
 			zeitVon : '2018-09-08T13:00',
 			zeitBis : '2018-09-08T15:00',
 			priority : 5,
-			bild : '/example.jpg',
-			logo : '/example.jpg',
+			bild : 'example.jpg',
+			logo : 'example.jpg',
 			text : '"Irgendöppis fählt.<br> Was?<br> Dini Mueter."',
 			ausverkauft : false,
 			ausverkauftText : 'Keine Plätze mehr',
@@ -103,8 +131,8 @@ var reset = {
 			zeitVon : '2018-09-08T13:00',
 			zeitBis : '2018-09-08T15:00',
 			priority : 3,
-			bild : '/example.jpg',
-			logo : '/example.jpg',
+			bild : 'example.jpg',
+			logo : 'example.jpg',
 			text : '"Jedes Kind baut sich eine Kuckucksflöte aus <b>Bambus</b> und verziert sie anschliessend.<br><br>Bei fünf- oder sechsjährigen Kindern ist die Mitwirkung eines Erwachsenen hilfreich.<br>Leitung: Hanna Stoll, Musikschule MKS, www.mksh.ch Jedes Kind baut sich eine Kuckucksflöte aus <b>Bambus</b> und verziert sie anschliessend.<br><br>Bei fünf- oder sechsjährigen Kindern ist die Mitwirkung eines Erwachsenen hilfreich.<br>Leitung: Hanna Stoll, Musikschule MKS, www.mksh.ch Jedes Kind baut sich eine Kuckucksflöte aus <b>Bambus</b> und verziert sie anschliessend.<br><br>Bei fünf- oder sechsjährigen Kindern ist die Mitwirkung eines Erwachsenen hilfreich.<br>Leitung: Hanna Stoll, Musikschule MKS, www.mksh.ch Jedes Kind baut sich eine Kuckucksflöte aus <b>Bambus</b> und verziert sie anschliessend.<br><br>Bei fünf- oder sechsjährigen Kindern ist die Mitwirkung eines Erwachsenen hilfreich.<br>Leitung: Hanna Stoll, Musikschule MKS, www.mksh.ch Jedes Kind baut sich eine Kuckucksflöte aus <b>Bambus</b> und verziert sie anschliessend.<br><br>Bei fünf- oder sechsjährigen Kindern ist die Mitwirkung eines Erwachsenen hilfreich.<br>Leitung: Hanna Stoll, Musikschule MKS, www.mksh.ch ."',
 			ausverkauft : false,
 			ausverkauftText : 'Keine Plätze mehr',
@@ -121,19 +149,14 @@ var reset = {
 			zeitVon : '2018-09-08T13:00',
 			zeitBis : '2018-09-08T15:00',
 			priority : 1,
-			bild : '/example.jpg',
-			logo : '/example.jpg',
+			bild : 'example.jpg',
+			logo : 'example.jpg',
 			text : '"Irgendöppis fählt.<br> Was?<br> Dini Mueter."',
 			ausverkauft : false,
 			ausverkauftText : 'Keine Plätze mehr',
 			abAlter : '5+',
 			tuerOeffnung :  '15min vor Beginn',
 			preis : '20.- / 15.-'
-		});
-		res.setHeader('Content-Type', 'application/json');
-		res.send({
-			error : {error: false, message: ''},
-			data : {}
 		});
 	}
 }

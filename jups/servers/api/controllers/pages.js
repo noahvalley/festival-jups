@@ -1,6 +1,17 @@
 'use strict';
 
 var pages = {
+	getAll : function(req, res, next){
+			console.log('pages.getAll');
+			req.jupssenddata = {
+				home: global.jupsstate.pages.home,
+				orte: global.jupsstate.pages.orte,
+				kontakt: global.jupsstate.pages.kontakt,
+				downloads: global.jupsstate.pages.downloads,
+				archiv: global.jupsstate.pages.archiv
+			};
+			next();		
+	},
 	home : {
 		get : function(req, res, next){
 			console.log('pages.home.get');

@@ -2,53 +2,53 @@
 var nodemailer = require('nodemailer');
 
 var mailer = {
-	sendmail : function(){
-		empfaenger = req.body.
-		
-		// Generate test SMTP service account from ethereal.email
-		// Only needed if you don't have a real mail account for testing
+	composemail : function(req, res, next){
+		console.log('mailer.composemail');	
+		req.mailReplyTo = req.body.data.email;
+		req.mailcontent = 
+			"vorname: " + req.body.data.vorname +
+			"\nnachname: " + req.body.data.vorname +
+			"\nalter: " + req.body.data.alter +
+			"\ntelefon: " + req.body.data.telefon +
+			"\nemail: " + req.body.data.email +
+			"\n\nbemerkung\n: " + req.body.data.bemerkung+
+			"\n\nVeranstaltungen";
+		;
+		for (var event in req.body.data.veranstalungen){
+			req.mailcontent = req.mailcontent + "\n1. " + req.body.data.veranstalungen[event].veranstalung;
+		}
+
+	},
+	sendmail : function(req, res, next){
+		console.log('mailer.sendmail');
 		nodemailer.createTestAccount((err, account) => {
-		    // create reusable transporter object using the default SMTP transport
 		    let transporter = nodemailer.createTransport({
-		        host: 'smtp.ethereal.email',
-		        port: 587,
-		        secure: false, // true for 465, false for other ports
+		        host: process.env.mailerServer,
+		        port: 465,
+		        secure: true,
 		        auth: {
-		            user: account.user, // generated ethereal user
-		            pass: account.pass // generated ethereal password
+		            user: process.env.mailerUser,
+		            pass: process.env.mailerPass
 		        }
 		    });
 		
-		    // setup email data with unicode symbols
-		    let mailOptions = {
-		        from: '"Website" <foo@example.com>', // sender address
-		        to: empfaenger, // list of receivers
-		        subject: 'Hello ✔', // Subject line
-		        text: 'Hello world?', // plain text body
-		        html: '<b>Hello world?</b>' // html body
+		    var mailOptions = {
+		        from: '"Website" <website-mailer@festival-jups.ch>',
+		        to: process.env.mailerRecipient,
+		        replyTo: req.mailReplyTo,
+		        subject: 'Reservation von der Website',
+		        text: req.mailcontent
 		    };
-		
-		    // send mail with defined transport object
+		console.log(mailOptions);
 		    transporter.sendMail(mailOptions, (error, info) => {
-		        if (error) {
-		            return console.log(error);
+		        if (err) {
+					next({error: true, number: 9050, message: 'something wrong with mailing', suberror: err});
 		        }
-		        console.log('Message sent: %s', info.messageId);
-		        // Preview only available when sending through an Ethereal account
-		        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-		
-		        // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-		        // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+				next();
 		    });
 		});
 	}
 }
 
-/*
-website-mailer
-[NQ2Tu6JjeH8cq+^U6e=pQxf78dCP]fuycX[bsUsbKr7qwZzz3=wuMmK
-*/
 
-
-
-module.exports = database;
+module.exports = mailer;
