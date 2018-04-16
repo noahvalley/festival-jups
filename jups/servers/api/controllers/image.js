@@ -3,7 +3,7 @@
 var path = require('path');
 var fs = require('fs');
 var formidable = require('formidable');
-
+console.log(path.join(__dirname, '../../../ressources/upload/image'));
 var image = {
 	getImageList : function(req, res, next){
 		console.log('image.getImageList');

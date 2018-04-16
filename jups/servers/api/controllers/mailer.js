@@ -20,11 +20,12 @@ var mailer = {
 			"\nemail: " + req.body.data.email +
 			"\n\nbemerkung\n: " + req.body.data.bemerkung+
 			"\n\nVeranstaltungen";
-		;
+
 		for (var event in req.body.data.veranstaltungen){
 			req.mailcontent = req.mailcontent + "\n1. " + req.body.data.veranstaltungen[event].veranstalung;
 		}
 
+		next();
 	},
 	sendmail : function(req, res, next){
 		console.log('mailer.sendmail');
