@@ -174,7 +174,7 @@ get$image.use(sendError);
 
 var post$image = connect();
 post$image.use(auth.checkMultipart);
-//post$image.use(image.upload);
+post$image.use(image.upload);
 post$image.use(image.getImageList);
 post$image.use(sendData);
 post$image.use(sendError);
