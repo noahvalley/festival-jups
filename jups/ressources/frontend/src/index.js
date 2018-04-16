@@ -13,7 +13,7 @@ import Tickets from './routes/Tickets';
 import Orte from './routes/Orte';
 import Kontakt from './routes/Kontakt';
 import Downloads from './routes/Downloads';
-import Archiv from './routes/Home';
+import Archiv from './routes/Pages';
 
 
 ReactDOM.render(

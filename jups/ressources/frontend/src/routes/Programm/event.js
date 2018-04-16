@@ -31,6 +31,7 @@ class Event extends Component {
       ort,
       titel,
       untertitel,
+      bild,
       beschreibung,
       alter,
       beginn,
@@ -39,22 +40,32 @@ class Event extends Component {
       ausverkauftText,
       sponsorImg,
     } = this.props;
+    // const bildURL =
 
     return (
       <li className={ typ }>
         <div className="zeit" >{zeitVonStd}<span className="minuten">{zeitVonMin}</span> – {zeitBisStd}<span className="minuten">{zeitBisMin}</span></div>
-        <div className="ort">{ort}</div>
+        <div className="ort">{ort}
+        </div>
+
         <div className="infos">
 
+          <button onClick={ () => this.toggle() }>
+            <img
+              className="ausfahr-button"
+              src={expanded ? collapse : expand}
+              alt={expanded ? 'weniger Infos' : 'mehr Infos'}
+              />
+          </button>
           <div className="titel" onClick={ () => this.toggle() }>
-            <img src={expanded ? collapse : expand} alt={expanded ? 'weniger Infos' : 'mehr Infos'} style={{ height: 20 + 'px', marginRight: 8 + 'px', position: 'relative', top: 4 + 'px' }} />
             {titel}
             <span className="untertitel">{untertitel}</span>
           </div>
+
           <div style={{ clear: 'both' }} />
 
           <div className={ expanded ? 'details' : 'details hide' } >
-            <img className="bild" src={eventpic} alt="" />
+            <img className="bild" src={ /*bildURL*/ eventpic } alt="" />
             <div className="beschreibung" dangerouslySetInnerHTML={{__html: beschreibung}} />
             { alter &&
               <div className="alter"><strong className="farbig">Zielpublikum:</strong> {alter}</div>
@@ -72,7 +83,9 @@ class Event extends Component {
             <div className="sponsoring">Patronat: <img src={sponsor} alt="Patronat" /></div>
             <div style={{ clear: 'both', paddingBottom: 30 + 'px' }} />
           </div>
+
         </div>
+
       </li>
     );
   }

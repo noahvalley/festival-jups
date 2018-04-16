@@ -18,6 +18,7 @@ h1, h2, h3 {
   font-family: 'Fresca', sans-serif;
   text-transform: uppercase;
   margin-top: 30px;
+  color: #333;
 }
 
 a {
@@ -31,6 +32,8 @@ hr {
 }
 
 .content {
+  min-height: 500px;
+
   p {
     line-height: 1.6em;
     margin-bottom: 12px;
@@ -178,9 +181,11 @@ html, body, #root {
   height: 100%;
 }
 
-
-footer img {
-  display: none;
+footer {
+  padding-bottom: 10px;
+  img {
+    display: none;
+  }
 }
 
 
