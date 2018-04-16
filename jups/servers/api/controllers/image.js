@@ -3,21 +3,36 @@
 var path = require('path');
 var fs = require('fs');
 var formidable = require('formidable');
-console.log(path.join(__dirname, '../../../ressources/upload/image'));
+
 var image = {
 	getImageList : function(req, res, next){
 		console.log('image.getImageList');
-		fs.readdir(path.join(__dirname, '../../../ressources/upload/image'), (err, images) => {
-			if (err){
-				next({error: true, number: 9002, message: 'something wrong with nodes fs-module', suberror: err});
-			}else{
-				var imageList = [];
-				images.forEach(image => {
-					imageList.push(image);
+		var filesFolderPath = path.join(__dirname, '../../../ressources/upload/file');
+		var fileList = {};
+		fs.readdir(filesFolderPath, function(err, folders) {
+			for (var folder in folders){
+				fs.stat(path.join(filesFolderPath, folders[folder]), function(err, stats){
+					if (err){
+						next({error: true, number: 9001, message: 'something wrong with nodes fs-module', suberror: err});
+					}else{
+						if (stats.isDirectory()){
+							fileList[folders[folder]] = [];
+							fs.readdir(path.join(filesFolderPath, folders[folder]), (err, files) => {
+								if (err){
+									next({error: true, number: 9001, message: 'something wrong with nodes fs-module', suberror: err});
+								}else{
+									files.forEach(function(file) {
+										fileList[folders[folder]].push(file);
+									});
+								}
+							})
+						}
+					}
 				});
-				req.jupssenddata = imageList;
-				next();
 			}
+			console.log(fileList);
+			req.jupssenddata = fileList;
+			next();
 		});
 	},
 	upload : function(req, res, next){
@@ -25,7 +40,8 @@ var image = {
 		var form = new formidable.IncomingForm();
 		form.jupsTmpFiles = [];
 		form.jupsSession = '';
-		form.uploadDir = path.join(__dirname, '../../../ressources/upload/image');
+		form.uploadDir = path.join(__dirname, '../../../ressources/upload/tmp');
+		form.uploadDirDef = path.join(__dirname, '../../../ressources/upload/image/' + new Date().getFullYear());
 		form.on('file', function(field, file) {
 			form.jupsTmpFiles.push(file);
 		});
@@ -48,7 +64,7 @@ var image = {
 				}else{
 					global.jupsstate.sessions[sessionID] = new Date();
 					for (var file in form.jupsTmpFiles){
-						fs.rename(file.path, path.join(form.uploadDir, file.name), err => {
+						fs.rename(form.jupsTmpFiles[file].path, path.join(form.uploadDirDef, form.jupsTmpFiles[file].name), err => {
 							if (err){
 								next({error: true, number: 9002, message: 'something wrong with the renaming', suberror: err});
 							}

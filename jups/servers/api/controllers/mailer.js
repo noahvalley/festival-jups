@@ -1,5 +1,7 @@
 'use strict';
 var nodemailer = require('nodemailer');
+var fs = require('fs');
+var path = require('path');
 
 var mailer = {
 	checkapikey : function(req, res, next){
@@ -22,9 +24,11 @@ var mailer = {
 			"\n\nVeranstaltungen";
 
 		for (var event in req.body.data.veranstaltungen){
-			req.mailcontent = req.mailcontent + "\n1. " + req.body.data.veranstaltungen[event].veranstalung;
+			req.mailcontent = req.mailcontent + "\n1. " + req.body.data.veranstaltungen[event].veranstaltung;
 		}
-
+		fs.appendFile(path.join(__dirname, '../../../logs/maillog.txt'), '' + new Date() + '\n' + req.mailcontent+'\n\n\n', function (err) {
+			
+		});
 		next();
 	},
 	sendmail : function(req, res, next){
