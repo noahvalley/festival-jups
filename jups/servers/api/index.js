@@ -166,7 +166,7 @@ var post$sendmail = connect();
 post$sendmail.use(mailer.checkapikey);
 post$sendmail.use(mailer.composemail);
 post$sendmail.use(mailer.sendmail);
-get$logincheck.use(sendData);
+post$sendmail.use(sendData);
 post$sendmail.use(sendError);
 
 
