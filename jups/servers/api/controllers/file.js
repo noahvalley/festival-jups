@@ -23,23 +23,42 @@ var file = {
 	upload : function(req, res, next){
 		console.log('file.upload');
 		var form = new formidable.IncomingForm();
+		form.jupsTmpFiles = [];
+		form.jupsSession = '';
 		form.uploadDir = path.join(__dirname, '../../../ressources/upload/file');
 		form.on('file', function(field, file) {
-			fs.rename(file.path, path.join(form.uploadDir, file.name), err => {
-				if (err){
-					next({error: true, number: 9002, message: 'something wrong with the renaming', suberror: err});
-				}
-			});
+			form.jupsTmpFiles.push(file);
 		});
-		
-		// log any errors that occur
+		form.on('field', function(name, value) {
+			if (name === 'session'){
+				form.jupsSession = value;
+			}
+		});
+
 		form.on('error', function(err) {
-			next({error: true, number: 9000, message: 'something wrong with the upload', suberror: err});
+			next({error: true, number: 9000, message: 'something wrong with the form', suberror: err});
 		});
 		
-		// once all the files have been uploaded, send a response to the client
 		form.on('end', function() {
-			next();
+			var session = global.jupsstate.sessions[form.jupsSession];
+			if (session != undefined){
+				var sessionTimeDiffSec = (global.jupsstate.sessions[sessionID] - new Date())/1000;
+				if (sessionTimeDiffSec > 86400){
+					next({error : true, number: 101, message: "Coockie too old."});
+				}else{
+					global.jupsstate.sessions[sessionID] = new Date();
+					for (var file in form.jupsTmpFiles){
+						fs.rename(file.path, path.join(form.uploadDir, file.name), err => {
+							if (err){
+								next({error: true, number: 9002, message: 'something wrong with the renaming', suberror: err});
+							}
+						});
+					}
+					next();
+				}
+			}else{
+				next({error : true, number: 101, message: "Not logged in."});
+			}
 		});
 		form.parse(req);
 	},

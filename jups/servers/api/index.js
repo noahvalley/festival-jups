@@ -153,7 +153,6 @@ get$file.use(sendData);
 get$file.use(sendError);
 
 var post$file = connect();
-post$file.use(auth.checkMultipart);
 post$file.use(file.upload);
 post$file.use(file.getFileList);
 post$file.use(sendData);
@@ -173,7 +172,6 @@ get$image.use(sendData);
 get$image.use(sendError);
 
 var post$image = connect();
-post$image.use(auth.checkMultipart);
 post$image.use(image.upload);
 post$image.use(image.getImageList);
 post$image.use(sendData);
