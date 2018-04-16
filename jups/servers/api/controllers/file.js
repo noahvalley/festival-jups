@@ -40,8 +40,8 @@ var file = {
 		});
 		
 		form.on('end', function() {
-			var session = global.jupsstate.sessions[form.jupsSession];
-			if (session != undefined){
+			var sessionID = global.jupsstate.sessions[form.jupsSession];
+			if (sessionID != undefined){
 				var sessionTimeDiffSec = (global.jupsstate.sessions[sessionID] - new Date())/1000;
 				if (sessionTimeDiffSec > 86400){
 					next({error : true, number: 101, message: "Coockie too old."});
