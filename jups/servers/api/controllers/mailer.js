@@ -2,6 +2,13 @@
 var nodemailer = require('nodemailer');
 
 var mailer = {
+	checkapikey : function(req, res, next){
+		if (req.body.apikey === process.env.mailerApiKey){
+			next();
+		}else{
+			next({error: true, number: 100, message: 'no api key'});
+		}
+	},
 	composemail : function(req, res, next){
 		console.log('mailer.composemail');	
 		req.mailReplyTo = req.body.data.email;
@@ -14,8 +21,8 @@ var mailer = {
 			"\n\nbemerkung\n: " + req.body.data.bemerkung+
 			"\n\nVeranstaltungen";
 		;
-		for (var event in req.body.data.veranstalungen){
-			req.mailcontent = req.mailcontent + "\n1. " + req.body.data.veranstalungen[event].veranstalung;
+		for (var event in req.body.data.veranstaltungen){
+			req.mailcontent = req.mailcontent + "\n1. " + req.body.data.veranstaltungen[event].veranstalung;
 		}
 
 	},

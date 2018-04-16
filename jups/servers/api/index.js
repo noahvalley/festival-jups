@@ -21,40 +21,7 @@ init.init();
 init.setDemodata();
 var sendData = init.sendData;
 var sendError = init.sendError;
-/*
-var dereq = {
-	body : {
-		data : {
-			vorname : "noah",
-			nachname : "valley",
-			alter : "29",
-			telefon : "0798132058",
-			email : "noah@mac-web.ch",
-			bemerkung : "erde an email!\nblablabla\n\ntest",
-			veranstalungen : [
-				{
-					veranstalung: "veranstalung 2",
-					anz: 3
-				},
-				{
-					veranstalung: "veranstalung 5",
-					anz: 5
-				},
-				{
-					veranstalung: "veranstalung 8",
-					anz: 8
-				}
-			]
-		}
-	}
-};
 
-var deres = {};
-var denext = function(){};
-
-mailer.composemail(dereq, deres, denext)
-mailer.sendmail(dereq, deres, denext)
-*/
 var get$events = connect();
 get$events.use(events.getAll);
 get$events.use(sendData);
@@ -195,6 +162,14 @@ get$logincheck.use(sendData);
 get$logincheck.use(sendError);
 
 
+var post$sendmail = connect();
+post$sendmail.use(mailer.checkapikey);
+post$sendmail.use(mailer.composemail);
+post$sendmail.use(mailer.sendmail);
+get$logincheck.use(sendData);
+post$sendmail.use(sendError);
+
+
 var app = connect();
 
 /*
@@ -245,6 +220,8 @@ app.use(connectRoute(function (router) {
 
 	router.post('/login', post$login);
 	router.post('/logincheck', get$logincheck);
+	
+	router.post('/sendmail', post$sendmail);
 }));
 
 app.use('/image', serveStatic(path.join(__dirname,'../../ressources/upload/image')));
