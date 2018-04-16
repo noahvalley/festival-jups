@@ -1,10 +1,7 @@
 (ns webbackend.core
     (:require
       [reagent.core :as r]
-      [webbackend.events :refer [events-form event-list]]
-      [webbackend.entry :refer [login]]
-      [webbackend.codemirror :refer [random-form]]))
-
+      [webbackend.main :refer [main]]))
 
 ;; -------------------------
 ;; Main view
@@ -13,7 +10,7 @@
 ;; -------------------------
 ;; Initialize app
 (defn mount-root []
-  (r/render [events-form] (.getElementById js/document "app")))
+  (r/render [main] (.getElementById js/document "app")))
 
 (defn init! []
   (mount-root))

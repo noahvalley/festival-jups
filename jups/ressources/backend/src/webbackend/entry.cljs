@@ -3,41 +3,34 @@
   (:require
     [cljs.core.async :refer [<!]]
     [reagent.core :as r]
-    [cljs-http.client :as http]))
+    [cljs-http.client :as http]
+    [webbackend.fields :refer [field]]))
 
-(defn login []
-  (let [form-state (r/atom
+
+(defn login-request [global username password]
+  (go (let [response (<! (http/post "http://api.festival-jups.ch/login"
+                                    {:json-params       {:session ""
+                                                         :data    {:username username
+                                                                   :password password}}
+                                     :with-credentials? false}))
+            session (get-in response [:body :data :session])]
+        (swap! global
+               #(assoc % :session session)))))
+
+(defn login [global]
+  (let [state (r/atom
                      {:username nil
                       :password nil})]
     (fn []
       [:div
-       [:p (:username @form-state)]
-       [:p (:password @form-state)]
        [:h2 "festival jups backend"]
-       [:form
-        [:div
-         [:label {:for "username"} "Benutzername: "]
-         [:input {:type      "text"
-                  :name      "username"
-                  :on-change (fn [e]
-                               (swap!
-                                 form-state
-                                 #(assoc
-                                    %
-                                    :username
-                                    (-> e .-target .-value))))}]]
-        [:div
-         [:label {:for "password"} "Passwort: "]
-         [:input {:type "password"
-                  :name "password"
-                  :on-change (fn [e]
-                               (swap!
-                                 form-state
-                                 #(assoc
-                                    %
-                                    :password
-                                    (-> e .-target .-value))))}]]
-        [:button {:type "submit"
-                  :on-click (fn [e]
-                              (.preventDefault e))}
-         "submit"]]])))
+       [field "username" :username "Benutzername" state]
+       [field "password" :password "Passwort" state]
+       [:button {:type "submit"
+                 :on-click (fn [e]
+                             (.preventDefault e)
+                             (login-request
+                               global
+                               (:username @state)
+                               (:password @state)))}
+        "weiter"]])))

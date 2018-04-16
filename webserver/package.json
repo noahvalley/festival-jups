@@ -4,8 +4,8 @@
   "description": "festival jups webserver",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js"
+    "dev": "sudo nodemon index.js",
+    "start": "sudo node index.js"
   },
   "author": "Noah Valley",
   "license": "MIT",
