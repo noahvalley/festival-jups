@@ -9,31 +9,19 @@ var file = {
 		console.log('file.getFileList');
 		var filesFolderPath = path.join(__dirname, '../../../ressources/upload/file');
 		var fileList = {};
-		fs.readdir(filesFolderPath, function(err, folders) {
-			for (var folder in folders){
-				fs.stat(path.join(filesFolderPath, folders[folder]), function(err, stats){
-					if (err){
-						next({error: true, number: 9001, message: 'something wrong with nodes fs-module', suberror: err});
-					}else{
-						if (stats.isDirectory()){
-							fileList[folders[folder]] = [];
-							fs.readdir(path.join(filesFolderPath, folders[folder]), (err, files) => {
-								if (err){
-									next({error: true, number: 9001, message: 'something wrong with nodes fs-module', suberror: err});
-								}else{
-									files.forEach(function(file) {
-										fileList[folders[folder]].push(file);
-									});
-								}
-							})
-						}
-					}
+		var folders = fs.readdirSync(filesFolderPath);
+		folders.forEach(function(folder) {
+			var stats = fs.statSync(path.join(filesFolderPath, folder));
+			if (stats.isDirectory()){
+				fileList[folder] = [];
+				var files = fs.readdirSync(path.join(filesFolderPath,folder));
+				files.forEach(function(file) {
+					fileList[folder].push(file);
 				});
 			}
-			console.log(fileList);
-			req.jupssenddata = fileList;
-			next();
 		});
+		req.jupssenddata = fileList;
+		next();
 	},
 	upload : function(req, res, next){
 		console.log('file.upload');
@@ -42,6 +30,7 @@ var file = {
 		form.jupsSession = '';
 		form.uploadDir = path.join(__dirname, '../../../ressources/upload/tmp');
 		form.uploadDirDef = path.join(__dirname, '../../../ressources/upload/file/' + new Date().getFullYear());
+		fs.mkdirSync(form.uploadDirDef);
 		form.on('file', function(field, file) {
 			form.jupsTmpFiles.push(file);
 		});
