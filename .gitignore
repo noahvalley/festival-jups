@@ -3,4 +3,4 @@ jups/servers/api/node_modules/
 jups/servers/backend/node_modules/
 jups/servers/frontend/node_modules/
 .DS_Store
-.env
+*.env
