@@ -119,43 +119,67 @@
 .tickets {
   font-size: 90%;
   .reservation {
+
+    .selectgroup {
+      max-width: 100%;
+    }
+
     select {
       padding: 1px;
-      width: 100%;
+      font-size: 90%;
 
-      option {
-        font-size: 120%;
+      &.anzahl {
+        width: 50px;
+        margin: 0 10px;
+      }
 
-        &:disabled {
-          font-weight: 700;
-          color: #999;
-        }
+      &.events {
+        width: 600px;
+        max-width: calc(100% - 100px);
+      }
+    }
 
-        &:focus {
-          color: $farbe1-schwach;
-        }
+    button.weitere-res {
+      font-size: 90%;
+      padding: 6px 0 12px;
+
+      img {
+        margin-right: 6px;
+        height: 24px;
+        position: relative;
+        top: 8px;
       }
     }
 
     label {
       display: block;
-      float: left;
-      width: 150px;
-      position: relative;
-      top: 6px;
-      margin-bottom: 10px;
+      margin-bottom: 4px;
     }
     input, textarea {
-      float: left;
       font-size: 100%;
       color: #333;
       width: 250px;
-      max-width: calc(100% - 6px);
+      max-width: calc(100% - 10px);
+      border-radius: 0;
+      -webkit-appearance: none;
       padding: 3px;
     }
 
     textarea {
-      height: 100px;
+      height: 120px;
+      width: 2 * 254px + 20px;
+    }
+
+    .formularfeld {
+      float: left;
+      margin-right: 20px;
+      margin-bottom: 15px;
+      max-width: 100%;
+    }
+
+    .erklaerung {
+      font-size: 80%;
+      color: #777;
     }
 
     input, textarea, select {
@@ -165,24 +189,24 @@
         outline-color: $farbe1-nochheller;
       }
     }
-  }
 
-  option, input, textarea, button {
-    font-family: 'Montserrat', sans-serif;
-  }
+    select, input, textarea, button {
+      font-family: 'Montserrat', sans-serif;
+    }
 
-  button {
-    font-size: 100%;
-    background-color: $farbe1-schwach;
-    padding: 5px 8px;
-    border: 1px solid $farbe1-dunkler;
-    border-radius: 5px;
-    margin: 20px 15px 10px 0;
-  }
+    button.send {
+      font-size: 100%;
+      background-color: $farbe1-schwach;
+      padding: 5px 8px;
+      border: 1px solid $farbe1-dunkler;
+      border-radius: 5px;
+      margin: 20px 15px 10px 0;
+    }
 
-  div.status {
-    display: inline;
-    color: #b70018;
+    div.status {
+      display: inline;
+      color: #b70018;
+    }
   }
 
   h1 {
@@ -193,5 +217,11 @@
 @media only screen and (max-width: 620px) {
   .tickets div.status {
     display: block;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .tickets .reservation input {
+    width: 350px;
   }
 }

@@ -2,65 +2,114 @@ import React, { Component } from 'react';
 import Header from '../../components/Header';
 import Menu from '../../components/Menu';
 import figur from '../../images/figur.png';
+import trash from './button-trash.svg';
+import plus from './button-plus.svg';
 import { connect } from 'react-redux';
+import { sendMail } from '../../store/actions';
 
 
 class Tickets extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      veranstaltungen: [],
-      name: '',
+      eventWahl: [ {id: props.location.preselectedId, anzahl: '1'} ],
+      // eventWahl: [ {id: 'leer', anzahl: '1'}, {id: '4', anzahl: '5'} ],
+      vorname: '',
+      nachname: '',
       email: '',
-      kommentar: '',
+      telefon: '',
+      alter: '',
+      bemerkung: '',
       statusMessage: '',
-      sentDialogToggled: false
+      istVersendet: false
     }
   }
 
-  handleNameChange = (event) => {
-    this.setState({ name: event.currentTarget.value });
+  handleVornameChange = (event) => {
+    this.setState({ vorname: event.currentTarget.value });
   }
-
+  handleNachnameChange = (event) => {
+    this.setState({ nachname: event.currentTarget.value });
+  }
   handleEmailChange = (event) => {
     this.setState({ email: event.currentTarget.value });
   }
-
-
-  handleKommentarChange = (event) => {
-    this.setState({ kommentar: event.currentTarget.value });
+  handleTelefonChange = (event) => {
+    this.setState({ telefon: event.currentTarget.value });
+  }
+  handleAlterChange = (event) => {
+    this.setState({ alter: event.currentTarget.value });
+  }
+  handleBemerkungChange = (event) => {
+    this.setState({ bemerkung: event.currentTarget.value });
   }
 
-  getVeranstaltungen = (event) => {
-    var options = event.target.options;
-    var value = [];
-    for (var i = 0, l = options.length; i < l; i++) {
-      if (options[i].selected) {
-        value.push(options[i].value);
-      }
-    }
-    // [...event.target.options].filter(opt => opt.selected).map(o => o.value)
-    this.setState({ veranstaltungen: value });
+  handleNrOfTicketsChange = (event, index) => {
+    const eventWahl = [...this.state.eventWahl];
+    eventWahl[index].anzahl = event.currentTarget.value;
+    this.setState({ eventWahl });
+  }
+  handleEventChange = (event, index) => {
+    // console.log( 'event value: ' + event.currentTarget.value );
+    const eventWahl = [...this.state.eventWahl];
+    eventWahl[index].id = event.currentTarget.value;
+    this.setState({ eventWahl });
+  }
+  handleAddEvent = () => {
+    const eventWahl = [...this.state.eventWahl].concat({id: 'leer', anzahl: 1});
+    this.setState({ eventWahl });
+  }
+  handleRemoveEvent = (index) => {
+    // console.log(index);
+    const eventWahl = [...this.state.eventWahl];
+    // const eventWahlAlt = [...this.state.eventWahl];
+    // console.log(eventWahlAlt);
+    eventWahl.splice(index,1);
+    // console.log(eventWahl);
+    if ( eventWahl.length === 0 ) eventWahl.push ({id: 'leer', anzahl: '1'})
+    this.setState({ eventWahl });
   }
 
   handleSend = (event) => {
     event.preventDefault();
-    const { name, email, kommentar, veranstaltungen } = this.state;
-    if ( name !== '' && email !== '' && veranstaltungen ) {
+    const { vorname, nachname, email, telefon, alter, bemerkung, eventWahl } = this.state;
+    if ( /*vorname !== '' && nachname !== '' && email !== '' && telefon !== ''*/ true ) {
       this.setState({ statusMessage: '' });
-      console.log(name);
-      console.log(email);
-      console.log(kommentar);
-      console.log(veranstaltungen);
-      this.setState({ toggleSentDialog: true });
-    } else {
-      this.setState({ statusMessage: 'Bitte Email & Name angeben und eine Veranstaltung auswählen!' });
-    }
-  }
 
-  toggleSentDialog = () => {
-    this.setState({ sentDialogToggled: !this.state.sentDialogToggled });
+      // key: id; text: beschreibung (zum IDs auflösen nachher)
+      const events = {}
+      this.props.events.forEach( ({id, text}) => {
+        events[id] = text;
+      })
+
+      // daten für mail vorbereiten
+      const data = {
+        vorname, nachname, alter, telefon, email, bemerkung,
+        veranstaltungen: eventWahl.map( event => {
+          return {
+            veranstaltung: events[event.id], // id auflösen
+            anz: event.anzahl
+          }
+        })
+        .filter( ({ veranstaltung }) => veranstaltung ) // leere rausfiltern
+      }
+
+      if ( data.veranstaltungen.length === 0 ) {
+        this.setState({ statusMessage: 'Bitte eine Veranstaltung auswählen.' });
+        return;
+      }
+
+      // mail versenden
+      sendMail(data)
+        .then( response => {
+          console.log(response);
+          if ( response && response.error && response.error.error === false) this.setState({ istVersendet: true });
+          else this.setState({ statusMessage: 'Senden ist fehlgeschlagen.' });
+        })
+
+    } else {
+      this.setState({ statusMessage: 'Bitte alle Felder mit * ausfüllen.' });
+    }
   }
 
 
@@ -85,55 +134,120 @@ class Tickets extends Component {
             <p><strong>Reservationen sind verbindlich.</strong></p>
 
             <div className="reservation">
-              <p>
-                Eine Veranstaltung (oder mehrere) wählen:<br/>
-                { this.props.error
-                  ? 'keine Veranstaltungen mit offener Reservation'
-                  : (
-                    <select multiple size={this.props.events.length}
-                      onChange={ this.getVeranstaltungen } defaultValue={[0]} >
-                      <option style={{ display: 'none' }} />
-                      { this.props.events.map( event => {
-                            if (event.istTag) {
-                              return (
-                                <option disabled key={event.text}>{event.text}</option>
-                              )
-                            } else {
-                              return (
-                                <option key={event.text}>{event.text}</option>
+              { this.props.error
+                ? this.props.error === 'loading'
+                  ? 'Veranstaltungen laden... '
+                  : 'Momentan gibt es keine Veranstaltungen mit offener Reservation.'
+                : this.state.istVersendet
+                  ? <div className="status">
+                      Die Anfrage wurde versendet. Wir werden uns bei Ihnen melden.
+                    </div>
+                  :
+                  <span>
+                    <div className="erklaerung" style={{ width: 60 + 'px', display: 'inline-box', float: 'left', paddingLeft: 30 + 'px' }}>
+                      Anzahl
+                    </div>
+                    <div className="erklaerung">
+                      Veranstaltung
+                    </div>
+                    { this.state.eventWahl.map( ({id, anzahl}, index) => {
+                      return (
+                        <div key={'selectgroup-'+index} className="selectgroup">
+
+                          { /*this.state.eventWahl.length === 1
+                            ? <span>
+                                <div style={{ width: 20 + 'px', height: 4 + 'px'}} />
+                                <div style={{ width: 19 + 'px', height: 20 + 'px', float: 'left' }} />
+                              </span>
+                            : */
+                            <button onClick={ () => this.handleRemoveEvent(index) }>
+                              <img style={{ height: 20 + 'px', position: 'relative', top: 5 + 'px', marginLeft: 5 + 'px' }} src={ trash } />
+                            </button>
+                          }
+
+                          <select className="anzahl" onChange={ (event) => this.handleNrOfTicketsChange(event, index) } value={anzahl} >
+                            { [1,2,3,4,5,6,7,8,9,10].map( zahl => {
+                                return (
+                                  <option value={zahl} key={zahl + 'tickets'}>{zahl}</option>
+                                )}
                               )
                             }
-                          }
-                        )
-                      }
-                    </select>
-                  )
-                }
-              </p>
+                          </select>
 
-              <label htmlFor="email">Email:</label>
-              <input id="email" type="email" placeholder="Email"
-              onChange={ this.handleEmailChange }
-              value={ this.state.email } />
+                          <select className="events" onChange={ (e) => this.handleEventChange(e, index) } value={id} >
+                            <option value="leer" style={{ display: 'none' }} />
+                            { this.props.events.map( event => {
+                                return (
+                                  <option value={event.id} key={'event-'+event.id}>{event.id} {event.text}</option>
+                                )}
+                              )
+                            }
+                          </select>
 
-              <div style={{ clear: 'both', marginTop: 12 + 'px' }}>&nbsp;</div>
+                        </div>
+                      )
+                    })
+                  }
 
-              <label htmlFor="email">Name:</label>
-              <input id="name" type="text" placeholder="Vorname Nachname"
-              onChange={ this.handleNameChange }
-              value={ this.state.name } />
+                  <button className="weitere-res" onClick={ this.handleAddEvent }>
+                    <img src={plus} />
+                    weitere Veranstaltung reservieren
+                  </button>
 
-              <div style={{ clear: 'both', marginTop: 12 + 'px' }}>&nbsp;</div>
+                  <div style={{ clear: 'both', marginTop: 20 + 'px' }} />
 
-              <label htmlFor="email">Kommentar:</label>
-              <textarea id="kommentar" type="text" placeholder="Platz für Anmerkungen"
-              onChange={ this.handleKommentarChange }
-              value={ this.state.kommentar } />
+                  <div className="formularfeld">
+                    <label htmlFor="vorname">Vorname* <span className="erklaerung">bei Workshop: Kind</span></label>
+                    <input id="vorname" type="text"
+                    onChange={ this.handleVornameChange }
+                    value={ this.state.vorname } />
+                  </div>
 
-              <div style={{ clear: 'both', marginTop: 12 + 'px' }}>&nbsp;</div>
+                  <div className="formularfeld">
+                    <label htmlFor="nachname">Nachname*</label>
+                    <input id="nachname" type="text"
+                    onChange={ this.handleNachnameChange }
+                    value={ this.state.nachname } />
+                  </div>
 
-              <button type="submit" onClick={ this.handleSend }>Senden</button>
-              <div className="status">{this.state.statusMessage}</div>
+                  <div style={{ clear: 'both' }} />
+
+                  <div className="formularfeld">
+                    <label htmlFor="email">Email*</label>
+                    <input id="email" type="email"
+                    onChange={ this.handleEmailChange }
+                    value={ this.state.email } />
+                  </div>
+
+                  <div className="formularfeld">
+                    <label htmlFor="telefon">Telefon*</label>
+                    <input id="telefon" type="telefon"
+                    onChange={ this.handleTelefonChange }
+                    value={ this.state.telefon } />
+                  </div>
+
+                  <div style={{ clear: 'both' }} />
+
+                  <div className="formularfeld">
+                    <label htmlFor="alter">Alter (nur Workshops) <br/><span className="erklaerung">Für die Planung der Workshops brauchen wir die Altersangaben der Teilnehmenden.</span></label>
+                    <input id="alter" type="text"
+                    onChange={ this.handleAlterChange }
+                    value={ this.state.alter } />
+                  </div>
+
+                  <div style={{ clear: 'both' }} />
+
+                  <label htmlFor="bemerkung">Bemerkung</label>
+                  <textarea id="bemerkung" type="text"
+                  onChange={ this.handleBemerkungChange }
+                  value={ this.state.bemerkung } />
+
+                  <div style={{ clear: 'both' }} />
+
+                  <button className="send" type="submit" onClick={ this.handleSend }>Senden</button>
+                  <div className="status">{this.state.statusMessage}</div>
+                </span>
+            }
             </div>
 
           </div>
@@ -149,6 +263,8 @@ class Tickets extends Component {
 }
 
 const mapStateToProps = (state) => {
+  if ( !state.fetchState.events ) return {error: 'loading'}
+
   const events = state.events.map( event => {
     const { zeitVon, zeitBis, titel, position, ausverkauft, id } = event;
     const datumVon = new Date(zeitVon);
@@ -158,12 +274,11 @@ const mapStateToProps = (state) => {
     if (zeitVonMin<10) zeitVonMin = '0' + zeitVonMin;
     if (zeitBisMin<10) zeitBisMin = '0' + zeitBisMin;
     const monat = datumVon.getMonth()+1;
-    const tage = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
+    const tage = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
+    const tag = tage[datumVon.getDay()] + ' ' + datumVon.getDate() + '.' + monat + '.' + datumVon.getFullYear();
 
     return { titel, position, datumVon, ausverkauft, id,
-      zeitVon: datumVon.getHours() + ':' + zeitVonMin,
-      zeitBis: datumBis.getHours() + ':' + zeitBisMin,
-      tag: tage[datumVon.getDay()] + ', ' + datumVon.getDate() + '.' + monat + '.' + datumVon.getFullYear()
+      text: tag + ', ' + datumVon.getHours() + ':' + zeitVonMin + '–' + datumBis.getHours() + ':' + zeitBisMin + ': ' + titel
     }
   }).filter( event => { // schon vergangene events weg
     return event.datumVon > new Date();
@@ -171,36 +286,9 @@ const mapStateToProps = (state) => {
     return !event.ausverkauft;
   }).sort( (a, b) => a.position - b.position )
 
-  // in tage einteilen
-  const eventsJeTag = {};
-  events.forEach( event => {
-    if (!eventsJeTag[event.tag]) { eventsJeTag[event.tag] = [] };
-    eventsJeTag[event.tag].push(event);
-  })
+  if ( events.length > 0 ) return { events };
 
-  // hierarchie mit tagen wieder flach machen
-  const tage = Object.keys(eventsJeTag);
-  const tageUndEvents = [];
-  tage.forEach( ( tag, index ) => {
-    // e.g. "Sonntag, 1.2.1345"
-    tageUndEvents.push( { text: tag, istTag: true } )
-
-    // alle events an diesem tag
-    eventsJeTag[tag].forEach( event => {
-      tageUndEvents.push({
-        text: event.zeitVon + '–' + event.zeitBis + ': ' + event.titel,
-        istTag: false
-      })
-    })
-
-    // abstand, falls noch ein tag nachher
-    if ( index < tage.length-1 ) {
-      tageUndEvents.push( { text: '', istTag: true} )
-    }
-  })
-
-  if ( tage.length > 0 ) return { events: tageUndEvents };
-  return { error: 'No events' };
+  return { error: 'keine Veranstaltungen mit offener Reservation' };
 }
 
 export default connect(mapStateToProps)(Tickets);

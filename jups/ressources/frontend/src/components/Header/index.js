@@ -9,10 +9,10 @@ import { fetchHome } from '../../store/actions';
 class Header extends Component {
 
   componentDidMount() {
-    if ( this.props.events.length === 0 ) {
+    if ( !this.props.events ) {
       this.props.dispatch(fetchEvents());
     }
-    if ( this.props.home === '' ) {
+    if ( !this.props.pages ) {
       this.props.dispatch(fetchHome());
     }
   }
@@ -28,8 +28,9 @@ class Header extends Component {
 }
 
 
-const mapStateToProps = (state, props) => {
-  return state;
+const mapStateToProps = (state) => {
+  const { pages, events } = state.fetchState;
+  return { pages, events };
 }
 
 export default connect(mapStateToProps)(Header);
