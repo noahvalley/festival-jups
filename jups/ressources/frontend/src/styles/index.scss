@@ -73,35 +73,6 @@ hr {
     &:active, &:focus, &:hover {
       color: $farbe1;
     }
-
-    /* fancy animation */
-    // position: relative;
-    // &:after{
-    //   content: "";
-    //   transition: 0.3s all ease;
-    //   position: absolute;
-    //   bottom: -0.2em;
-    //   height: 4px;
-    //   width: 0;
-    //   background: #fff;
-    //   right: 0;
-    // }
-    // &:before{
-    //   content: "";
-    //   transition: 0.3s all ease;
-    //   position: absolute;
-    //   bottom: -0.2em;
-    //   height: 4px;
-    //   width: 0;
-    //   background: #fff;
-    //   left: 0;
-    // }
-    // &:hover:after{
-    //   width: 50%;
-    // }
-    // &:hover:before{
-    //   width: 50%;
-    // }
   }
 
   .sponsoren a {

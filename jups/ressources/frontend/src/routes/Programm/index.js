@@ -3,22 +3,22 @@ import Header from '../../components/Header';
 import Menu from '../../components/Menu';
 import Event from './event.js';
 import figur from '../../images/figur.png';
-import loading from '../../images/loading.svg';
 import { connect } from 'react-redux';
-import { fetchEvents } from '../../store/actions';
+// import { fetchEvents } from '../../store/actions';
+import { Link } from 'react-router-dom';
 
 
 class Programm extends Component {
 
-  componentDidMount() {
-    if (this.props.error) {
-      this.props.dispatch(fetchEvents());
-    }
-
-  }
+  // componentDidMount() {
+  //   if (this.props.error) {
+  //     this.props.dispatch(fetchEvents());
+  //   }
+  //
+  // }
 
   render() {
-    console.log(this.props.events);
+    // console.log(this.props.events);
     return (
       <div className="app-wrapper">
         <Header />
@@ -27,9 +27,12 @@ class Programm extends Component {
         <div className="main">
           <div className="content programm">
 
+            {/* beispiel für link auf reservation */}
+            <Link to={{ pathname: '/tickets', preselectedId: '5' }}>link mit vorauswahl</Link>
+
             {
-              this.props.error ? <img src={loading} alt="loading" height="50px" />
-              : (
+              !this.props.error &&
+              (
                 <div className="legende">Farben:
                   &nbsp; <span className="veranstaltung" style={{ padding: 5 + 'px' }}>Veranstaltung</span>
                   &nbsp; <span className="workshop" style={{ padding: 5 + 'px' }}>Workshop</span>
