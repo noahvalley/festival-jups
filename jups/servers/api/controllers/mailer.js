@@ -2,16 +2,17 @@
 var nodemailer = require('nodemailer');
 var fs = require('fs');
 var path = require('path');
+var error = require('../libraries/error.js');
 
 var mailer = {
-	checkapikey : function(req, res, next){
+	checkapikey : (req, res, next) => {
 		if (req.body.apikey === process.env.mailerApiKey){
 			next();
 		}else{
-			next({error: true, number: 100, message: 'no api key'});
+			next(error.noMailerApiKey());
 		}
 	},
-	composemail : function(req, res, next){
+	composemail : (req, res, next) => {
 		console.log('mailer.composemail');	
 		req.mailReplyTo = req.body.data.email;
 		req.mailcontent = 
@@ -26,12 +27,10 @@ var mailer = {
 		for (var event in req.body.data.veranstaltungen){
 			req.mailcontent = req.mailcontent + "\n1. " + req.body.data.veranstaltungen[event].veranstaltung;
 		}
-		fs.appendFile(path.join(__dirname, '../../../logs/maillog.txt'), '' + new Date() + '\n' + req.mailcontent+'\n\n\n', function (err) {
-			
-		});
+		console.log('' + new Date() + '\n' + req.mailcontent+'\n\n\n');
 		next();
 	},
-	sendmail : function(req, res, next){
+	sendmail : (req, res, next) => {
 		console.log('mailer.sendmail');
 		nodemailer.createTestAccount((err, account) => {
 		    let transporter = nodemailer.createTransport({
@@ -54,7 +53,7 @@ var mailer = {
 		console.log(mailOptions);
 		    transporter.sendMail(mailOptions, (error, info) => {
 		        if (err) {
-					next({error: true, number: 9050, message: 'something wrong with mailing', suberror: err});
+					next(error.genMailingFail());
 		        }
 				next();
 		    });

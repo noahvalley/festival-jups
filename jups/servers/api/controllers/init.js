@@ -1,7 +1,7 @@
 var sha256 = require('sha256');
 
 var reset = {
-	init : function(){
+	init : () => {
 		console.log('init.init');
 		global.jupsstate = {
 			events: [],
@@ -15,7 +15,7 @@ var reset = {
 			sessions: {}
 		}
 	},
-	sendData : function(req,res,next){
+	sendData : (req,res,next) => {
 		console.log('sendData');
 		var response = {
 			error : req.jupserror || {error : false, number : 0, message: 'no error'},
@@ -24,7 +24,7 @@ var reset = {
 	    res.setHeader('Content-Type', 'application/json');
 		res.send(response);
 	},
-	sendError : function(err, req,res,next){
+	sendError : (err, req,res,next) => {
 		console.log('sendError');
 		var response = {
 			error : err,
@@ -33,7 +33,7 @@ var reset = {
 	    res.setHeader('Content-Type', 'application/json');
 		res.send(response);
 	},
-	setDemodata : function(){
+	setDemodata : () => {
 		console.log('init.setDemodata');
 		global.jupsstate.events = [];
 		global.jupsstate.pages = [];

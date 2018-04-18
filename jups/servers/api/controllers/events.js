@@ -1,5 +1,7 @@
 'use strict';
 
+var error = require('../libraries/database.js');
+var error = require('../libraries/error.js');
 
 var events = {
 	getAll : (req, res, next) => {
@@ -12,7 +14,7 @@ var events = {
 		var event = global.jupsstate.events.find(eventum => eventum.id == req.params.id);
 		if (event == undefined){
 			req.jupssenddata = event;			
-			next({error: true, number: 201, message: 'id not found'});
+			next(error.eventIdNotFound());
 		}else{
 			req.jupssenddata = event;			
 			next();
@@ -42,14 +44,14 @@ var events = {
 		if (req.params.id == req.body.data.id){
 			var eventIndex = global.jupsstate.events.findIndex(eventum => eventum.id == req.params.id);
 			if (eventIndex === -1){
-				next({error: true, number: 201, message: 'id not found'+req.body.data.id});
+				next(error.eventIdNotFound());
 			}else{
 				global.jupsstate.events[eventIndex] = req.body.data;
 				req.jupssenddata = event;
 				next();
 			}
 		}else{
-			next({error: true, number: 202, message: 'id in data does not match id of REST connection'});
+			next(error.eventIdAndRestMissmatch());
 		}
 	},
 	delete : (req, res, next) => {
@@ -66,7 +68,7 @@ var events = {
 			next();
 		}else{
 			req.jupssenddata = {};
-			next({error: true, number: 201, message: 'id not found in the system'});
+			next(error.eventIdNotFound());
 		}
 	}
 }
