@@ -14,12 +14,12 @@ class Downloads extends Component {
         <div className="main">
           <div className="content downloads">
 
-              <a href=""><img src={''} alt="" /><br/>Flyer Front (.pdf)</a>
-              <a href=""><img src={''} alt="" /><br/>Zeitplan Samstag (.jpg)</a>
-              <a href=""><img src={''} alt="" /><br/>Zeitplan Sonntag (.jpg)</a>
-              <a href=""><img src={''} alt="" /><br/>Flyer Back (.pdf)</a>
-              <a href=""><img src={''} alt="" /><br/>Plakat A3 Front (.pdf)</a>
-              <a href=""><img src={''} alt="" /><br/>Plakat A3 Back (.pdf)</a>
+              <a href=""><img src={figur} alt="" /><br/>Flyer Front (.pdf)</a>
+              <a href=""><img src={figur} alt="" /><br/>Zeitplan Samstag (.jpg)</a>
+              <a href=""><img src={figur} alt="" /><br/>Zeitplan Sonntag (.jpg)</a>
+              <a href=""><img src={figur} alt="" /><br/>Flyer Back (.pdf)</a>
+              <a href=""><img src={figur} alt="" /><br/>Plakat A3 Front (.pdf)</a>
+              <a href=""><img src={figur} alt="" /><br/>Plakat A3 Back (.pdf)</a>
 
           </div>
 

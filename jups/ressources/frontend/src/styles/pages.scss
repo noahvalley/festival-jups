@@ -92,24 +92,34 @@
 .content.downloads {
   overflow: auto; // spannt sich um float
   margin-right: 10px;
+  a { border-bottom: none; }
 }
 
 @media only screen and (max-width: 850px) {
   .content.downloads { margin-right: 0px; }
 }
 
-.content.downloads a {
-  border-bottom: none;
-}
-
 .downloads {
   line-height: 1.3em;
+  a {
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 20px;
+  }
 }
 
-.downloads a {
-  float: left;
-  margin-right: 20px;
-  margin-bottom: 20px;
+
+
+/* ARCHIV */
+
+.content.archiv {
+  h1 { margin-bottom: 30px;}
+  a {
+    border-bottom: none;
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 20px;
+  }
 }
 
 
@@ -117,7 +127,7 @@
 /* TICKETS */
 
 .tickets {
-  font-size: 90%;
+  // font-size: 90%;
   .reservation {
 
     .selectgroup {
