@@ -47,6 +47,7 @@
   .menu {
     .title {
       display: block;
+      h1 { color: $farbe1; }
     }
 
     li {
@@ -146,6 +147,6 @@
 
 }
 
-body.noScrolling { /* wird mit overlay getriggert */
+body.noScrolling { // wird mit overlay getriggert
   overflow: hidden;
 }

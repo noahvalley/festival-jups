@@ -3,7 +3,7 @@ import Header from '../../components/Header';
 import Menu from '../../components/Menu';
 import figur from '../../images/figur.png';
 import trash from './button-trash.svg';
-import plus from './button-plus.svg';
+import plusImg from './button-plus.svg';
 import { connect } from 'react-redux';
 import { sendMail } from '../../store/actions';
 
@@ -13,7 +13,6 @@ class Tickets extends Component {
     super(props);
     this.state = {
       eventWahl: [ {id: props.location.preselectedId, anzahl: '1'} ],
-      // eventWahl: [ {id: 'leer', anzahl: '1'}, {id: '4', anzahl: '5'} ],
       vorname: '',
       nachname: '',
       email: '',
@@ -50,7 +49,6 @@ class Tickets extends Component {
     this.setState({ eventWahl });
   }
   handleEventChange = (event, index) => {
-    // console.log( 'event value: ' + event.currentTarget.value );
     const eventWahl = [...this.state.eventWahl];
     eventWahl[index].id = event.currentTarget.value;
     this.setState({ eventWahl });
@@ -60,12 +58,8 @@ class Tickets extends Component {
     this.setState({ eventWahl });
   }
   handleRemoveEvent = (index) => {
-    // console.log(index);
     const eventWahl = [...this.state.eventWahl];
-    // const eventWahlAlt = [...this.state.eventWahl];
-    // console.log(eventWahlAlt);
     eventWahl.splice(index,1);
-    // console.log(eventWahl);
     if ( eventWahl.length === 0 ) eventWahl.push ({id: 'leer', anzahl: '1'})
     this.setState({ eventWahl });
   }
@@ -73,10 +67,12 @@ class Tickets extends Component {
   handleSend = (event) => {
     event.preventDefault();
     const { vorname, nachname, email, telefon, alter, bemerkung, eventWahl } = this.state;
-    if ( /*vorname !== '' && nachname !== '' && email !== '' && telefon !== ''*/ true ) {
+    if ( vorname === '' || nachname === '' || email === '' || telefon === '' ) {
+      this.setState({ statusMessage: 'Bitte alle Felder mit * ausfüllen.' });
+    } else {
       this.setState({ statusMessage: '' });
 
-      // key: id; text: beschreibung (zum IDs auflösen nachher)
+      // id als key; beschreibung als value (zum IDs auflösen nachher)
       const events = {}
       this.props.events.forEach( ({id, text}) => {
         events[id] = text;
@@ -106,9 +102,6 @@ class Tickets extends Component {
           if ( response && response.error && response.error.error === false) this.setState({ istVersendet: true });
           else this.setState({ statusMessage: 'Senden ist fehlgeschlagen.' });
         })
-
-    } else {
-      this.setState({ statusMessage: 'Bitte alle Felder mit * ausfüllen.' });
     }
   }
 
@@ -136,14 +129,14 @@ class Tickets extends Component {
             <div className="reservation">
               { this.props.error
                 ? this.props.error === 'loading'
-                  ? 'Veranstaltungen laden... '
-                  : 'Momentan gibt es keine Veranstaltungen mit offener Reservation.'
-                : this.state.istVersendet
+                  ? 'Veranstaltungen laden... ' /* error: loading */
+                  : 'Momentan gibt es keine Veranstaltungen mit offener Reservation.' /* events da, aber keine reservierbar */
+                : this.state.istVersendet /* nach dem versenden wird formular nicht mehr angezeigt */
                   ? <div className="status">
                       Die Anfrage wurde versendet. Wir werden uns bei Ihnen melden.
                     </div>
                   :
-                  <span>
+                  <form onSubmit={ this.handleSend }>
                     <div className="erklaerung" style={{ width: 60 + 'px', display: 'inline-box', float: 'left', paddingLeft: 30 + 'px' }}>
                       Anzahl
                     </div>
@@ -154,17 +147,13 @@ class Tickets extends Component {
                       return (
                         <div key={'selectgroup-'+index} className="selectgroup">
 
-                          { /*this.state.eventWahl.length === 1
-                            ? <span>
-                                <div style={{ width: 20 + 'px', height: 4 + 'px'}} />
-                                <div style={{ width: 19 + 'px', height: 20 + 'px', float: 'left' }} />
-                              </span>
-                            : */
-                            <button onClick={ () => this.handleRemoveEvent(index) }>
-                              <img style={{ height: 20 + 'px', position: 'relative', top: 5 + 'px', marginLeft: 5 + 'px' }} src={ trash } />
+                          { /* button LÖSCHEN */
+                            <button type="button" onClick={ () => this.handleRemoveEvent(index) }>
+                              <img style={{ height: 20 + 'px', position: 'relative', top: 5 + 'px', marginLeft: 5 + 'px' }} src={ trash } alt="entfernen" />
                             </button>
                           }
 
+                          { /* drop down ANZAHL */ }
                           <select className="anzahl" onChange={ (event) => this.handleNrOfTicketsChange(event, index) } value={anzahl} >
                             { [1,2,3,4,5,6,7,8,9,10].map( zahl => {
                                 return (
@@ -174,11 +163,12 @@ class Tickets extends Component {
                             }
                           </select>
 
+                          { /* drop down EVENTS */ }
                           <select className="events" onChange={ (e) => this.handleEventChange(e, index) } value={id} >
                             <option value="leer" style={{ display: 'none' }} />
                             { this.props.events.map( event => {
                                 return (
-                                  <option value={event.id} key={'event-'+event.id}>{event.id} {event.text}</option>
+                                  <option value={event.id} key={'event-'+event.id}>{event.text}</option>
                                 )}
                               )
                             }
@@ -189,8 +179,8 @@ class Tickets extends Component {
                     })
                   }
 
-                  <button className="weitere-res" onClick={ this.handleAddEvent }>
-                    <img src={plus} />
+                  <button className="weitere-res" type="button" onClick={ this.handleAddEvent }>
+                    <img src={plusImg} alt="" />
                     weitere Veranstaltung reservieren
                   </button>
 
@@ -246,7 +236,7 @@ class Tickets extends Component {
 
                   <button className="send" type="submit" onClick={ this.handleSend }>Senden</button>
                   <div className="status">{this.state.statusMessage}</div>
-                </span>
+                </form>
             }
             </div>
 

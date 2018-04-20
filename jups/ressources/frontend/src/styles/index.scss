@@ -20,6 +20,11 @@ h1, h2, h3 {
   margin-top: 30px;
   color: #333;
 }
+.tickets, .kontakt, .archiv {
+  h1, h2, h3 {
+    color: $farbe2;
+  }
+}
 
 a {
   text-decoration: none;
@@ -33,6 +38,7 @@ hr {
 
 .content {
   min-height: 500px;
+  color: #333;
 
   p {
     line-height: 1.6em;
@@ -41,7 +47,6 @@ hr {
 
   strong, b {
     font-weight: 700;
-    color: #333;
   }
 
   em, i {
@@ -51,7 +56,6 @@ hr {
   ul {
     margin-top: 10px;
   }
-
   li {
     line-height: 1.6em;
     list-style-type: disc;
@@ -61,13 +65,12 @@ hr {
   h1 {
     font-size: 28px;
   }
-
   h2 {
     font-size: 24px;
   }
 
   a {
-    color: #000;
+    color: #333;
     border-bottom: 2px solid $farbe1;
 
     &:active, &:focus, &:hover {
@@ -75,26 +78,8 @@ hr {
     }
   }
 
-  .sponsoren a {
-    border-bottom: none;
-  }
-
   .kleiner {
     font-size: 90%;
-  }
-
-  .video-container {
-    position: relative;
-    width: 100%;
-    height: 0;
-    padding-bottom: 56%;
-  }
-  .video {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
   }
 }
 

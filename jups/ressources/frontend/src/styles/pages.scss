@@ -7,18 +7,30 @@
 /* HOME */
 
 // zwei spalten (ab 500px)
+.home {
+  .video-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56%;
+  }
+  .video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+  }
+}
+
 @media only screen and (min-width: 320px + 180px + 2 * 20px) {
   .home .spalte-links {
-    // width: 45%;
-    // margin-right: 5%;
     width: 320px;
     display: inline-block;
     vertical-align: top;
   }
 
   .home .spalte-rechts {
-    // width: 45%;
-    // margin-left: 5%;
     width: calc(100% - 320px);
     display: inline-block;
     vertical-align: top;
@@ -32,7 +44,7 @@
 
 #map {
  height: 550px;
- width: 100%; /* min. 300px*/
+ width: 100%; // min. 300px
 }
 
 .content.orte ul {
@@ -54,7 +66,6 @@
     margin-right: 20px;
     display: inline-block;
     vertical-align: top;
-    // float: right;
   }
 
   .orte .karte {
@@ -81,8 +92,7 @@
 /* KONTAKT */
 
 .kontakt h2 {
-  margin-top: 30px;
-  margin-bottom: 8px;
+  margin: 30px 0 8px;
 }
 
 
@@ -92,24 +102,29 @@
 .content.downloads {
   overflow: auto; // spannt sich um float
   margin-right: 10px;
+  line-height: 1.3em;
+  a {
+    border-bottom: none;
+    float: left;
+    margin: 0 20px 20px 0;
+  }
 }
 
 @media only screen and (max-width: 850px) {
   .content.downloads { margin-right: 0px; }
 }
 
-.content.downloads a {
-  border-bottom: none;
-}
 
-.downloads {
-  line-height: 1.3em;
-}
 
-.downloads a {
-  float: left;
-  margin-right: 20px;
-  margin-bottom: 20px;
+/* ARCHIV */
+
+.content.archiv {
+  h1 { margin-bottom: 30px;}
+  a {
+    border-bottom: none;
+    float: left;
+    margin: 0 20px 20px 0;
+  }
 }
 
 
@@ -117,7 +132,10 @@
 /* TICKETS */
 
 .tickets {
-  font-size: 90%;
+  h1 {
+    margin: 30px 0 10px;
+  }
+
   .reservation {
 
     .selectgroup {
@@ -207,10 +225,6 @@
       display: inline;
       color: #b70018;
     }
-  }
-
-  h1 {
-    margin: 30px 0 10px;
   }
 }
 

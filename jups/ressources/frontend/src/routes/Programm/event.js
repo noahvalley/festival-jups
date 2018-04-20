@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import expand from './arrow-bottom-circle.svg';
 import collapse from './arrow-top-circle.svg';
-
-// dev
-import eventpic from '../../images/event-platzhalter.png';
-import sponsor from '../../images/event-sponsor.png';
+import { Collapse } from 'react-collapse';
+import { API_BASE_URL } from '../../constants/apiBaseURL';
+import { Link } from 'react-router-dom';
 
 
 class Event extends Component {
@@ -23,6 +22,7 @@ class Event extends Component {
   render() {
     const expanded = this.state.expanded;
     const {
+      id,
       zeitVonStd,
       zeitVonMin,
       zeitBisStd,
@@ -40,7 +40,7 @@ class Event extends Component {
       ausverkauftText,
       sponsorImg,
     } = this.props;
-    // const bildURL =
+    const bildURL = API_BASE_URL + '/images/' + bild;
 
     return (
       <li className={ typ }>
@@ -64,25 +64,36 @@ class Event extends Component {
 
           <div style={{ clear: 'both' }} />
 
-          <div className={ expanded ? 'details' : 'details hide' } >
-            <img className="bild" src={ /*bildURL*/ eventpic } alt="" />
-            <div className="beschreibung" dangerouslySetInnerHTML={{__html: beschreibung}} />
-            { alter &&
-              <div className="alter"><strong className="farbig">Zielpublikum:</strong> {alter}</div>
-            }
-            { beginn &&
-              <div className="beginn"><strong className="farbig">Türöffnung:</strong> {beginn}</div>
-            }
-            {
-              preis &&
-              <div className="preis"><strong className="farbig">Kosten:</strong> {preis}</div>
-            }
-            { ausverkauft &&
-              <div className="ausverkauft"><strong className="farbig">{ausverkauftText}</strong></div>
-            }
-            <div className="sponsoring">Patronat: <img src={sponsor} alt="Patronat" /></div>
-            <div style={{ clear: 'both', paddingBottom: 30 + 'px' }} />
-          </div>
+          <Collapse isOpened={ expanded } springConfig={{ stiffness: 250 }} >
+            <div className="details" >
+              { bild &&
+                <img className="bild" src={ bildURL } alt="" />
+              }
+
+              <div className="beschreibung" dangerouslySetInnerHTML={{__html: beschreibung}} />
+
+              { alter &&
+                <div className="alter"><strong className="farbig">Zielpublikum:</strong> {alter}</div>
+              }
+              { beginn &&
+                <div className="beginn"><strong className="farbig">Türöffnung:</strong> {beginn}</div>
+              }
+              { preis &&
+                <div className="preis"><strong className="farbig">Kosten:</strong> {preis}</div>
+              }
+              { ausverkauft /* annahme: kein text = reservation offen (link darauf), text = geschlossen */
+                ? <div className="ausverkauft"><strong className="farbig">{ausverkauftText}</strong></div>
+                : <div className="ausverkauft">
+                    <Link to={{ pathname: '/tickets', preselectedId: id }}>Reservation</Link>
+                  </div>
+              }
+              {
+                sponsorImg &&
+                <div className="sponsoring">Patronat: <img src={ sponsorImg } alt="Patronat" /></div>
+              }
+              <div style={{ clear: 'both', paddingBottom: 30 + 'px' }} />
+            </div>
+          </Collapse>
 
         </div>
 

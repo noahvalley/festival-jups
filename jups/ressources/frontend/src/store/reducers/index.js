@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
 
 import eventReducer from './events';
-import homeReducer from './pages';
+import pagesReducer from './pages';
 import fetchStateReducer from './fetchState';
 
 
 const reducers = combineReducers({
   events: eventReducer,
-  home: homeReducer,
+  pages: pagesReducer,
   fetchState: fetchStateReducer,
 });
 

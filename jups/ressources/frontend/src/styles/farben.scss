@@ -1,10 +1,12 @@
-// benutzt für links
-$farbe1: #EA001F;
+$farbe1: #EA001F; // links, seitenname @smallscreen
+$farbe2: #f18c43; // überschriften
 
 // programm
 $veranstaltung: #bc8deb;
 $offenesAngebot: #8ade12;
 $workshop: #ffb863;
+
+
 
 // varianten werden automatisch berechnet - prozentzahlen bei bedarf anpassen
 $farbe1-dunkler: darken($farbe1, 10%); // links hover
@@ -12,6 +14,7 @@ $farbe1-heller: lighten($farbe1, 15%); // links menu smartphone hover
 $farbe1-nochheller: lighten($farbe1, 30%); // tickets formular
 $farbe1-schwach: lighten($farbe1, 40%); // tickets formular
 
+// varianten programm
 $veranstaltung-dunkler: darken($veranstaltung, 10%);
 $offenesAngebot-dunkler: darken($offenesAngebot, 5%);
 $workshop-dunkler: darken($workshop, 20%);

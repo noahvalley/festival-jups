@@ -35,10 +35,12 @@ class Kontakt extends Component {
             </ul>
 
             <h2>Design & Webumsetzung</h2>
-            <p>Remo Keller
-            <br/>Milk And Wodka</p>
-            <p>Noah Valley
-            <br/>Kontakt: ego@noahvalley.ch</p>
+            <ul>
+              <li>Remo Keller (Milk And Wodka)</li>
+              <li>Noah Valley (Kontakt: ego@noahvalley.ch)</li>
+              <li>Martin Jung</li>
+              <li>Kim Beyeler</li>
+            </ul>
 
           </div>
 
