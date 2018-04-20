@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Header from '../../components/Header';
 import Menu from '../../components/Menu';
 import figur from '../../images/figur.png';
-import download from '../../images/download-platzhalter.jpg';
 
 
 class Downloads extends Component {
@@ -15,12 +14,12 @@ class Downloads extends Component {
         <div className="main">
           <div className="content downloads">
 
-              <a href=""><img src={download} alt="" /><br/>Flyer Front (.pdf)</a>
-              <a href=""><img src={download} alt="" /><br/>Zeitplan Samstag (.jpg)</a>
-              <a href=""><img src={download} alt="" /><br/>Zeitplan Sonntag (.jpg)</a>
-              <a href=""><img src={download} alt="" /><br/>Flyer Back (.pdf)</a>
-              <a href=""><img src={download} alt="" /><br/>Plakat A3 Front (.pdf)</a>
-              <a href=""><img src={download} alt="" /><br/>Plakat A3 Back (.pdf)</a>
+              <a href=""><img src={''} alt="" /><br/>Flyer Front (.pdf)</a>
+              <a href=""><img src={''} alt="" /><br/>Zeitplan Samstag (.jpg)</a>
+              <a href=""><img src={''} alt="" /><br/>Zeitplan Sonntag (.jpg)</a>
+              <a href=""><img src={''} alt="" /><br/>Flyer Back (.pdf)</a>
+              <a href=""><img src={''} alt="" /><br/>Plakat A3 Front (.pdf)</a>
+              <a href=""><img src={''} alt="" /><br/>Plakat A3 Back (.pdf)</a>
 
           </div>
 

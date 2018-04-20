@@ -4,21 +4,11 @@ import Menu from '../../components/Menu';
 import Event from './event.js';
 import figur from '../../images/figur.png';
 import { connect } from 'react-redux';
-// import { fetchEvents } from '../../store/actions';
-import { Link } from 'react-router-dom';
 
 
 class Programm extends Component {
 
-  // componentDidMount() {
-  //   if (this.props.error) {
-  //     this.props.dispatch(fetchEvents());
-  //   }
-  //
-  // }
-
   render() {
-    // console.log(this.props.events);
     return (
       <div className="app-wrapper">
         <Header />
@@ -26,9 +16,6 @@ class Programm extends Component {
 
         <div className="main">
           <div className="content programm">
-
-            {/* beispiel für link auf reservation */}
-            <Link to={{ pathname: '/tickets', preselectedId: '5' }}>link mit vorauswahl</Link>
 
             {
               !this.props.error &&
@@ -52,6 +39,7 @@ class Programm extends Component {
                         return (
                           <Event
                             key={event.id}
+                            id={event.id}
                             zeitVonStd={event.zeitVonStd}
                             zeitVonMin={event.zeitVonMin}
                             zeitBisStd={event.zeitBisStd}
@@ -127,23 +115,3 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(Programm);
-
-
-/*
-<Event
-  zeitVonStd="10"
-  zeitVonMin="00"
-  zeitBisStd="11"
-  zeitBisMin="45"
-  ort="Kammgarn"
-  titel="Besuch bei Radio Munotgraben"
-  untertitel="mit Oberhirsch Peter"
-  beschreibung="Bei einem Rundgang im Studio von Radion Munot kannst ud Radiolust schnupper n und bei einer Lisverbsuni mit dabei sein. <br/>Leitung: Marcel Fischer, Ragdio vongs Mungot"
-  alter="6+"
-  beginn="10min vor Beginn"
-  preis="10 Fr."
-  ausverkauft={true}
-  ausverkauftText="Es hat noch Plätze."
-  sponsorImg=""
-/>
-*/

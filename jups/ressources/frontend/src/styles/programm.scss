@@ -62,18 +62,16 @@
 
   .details {
     overflow: hidden;
-    max-height: 800px;
-    transition: max-height 0.5s;
+    // max-height: 800px;
+    // transition: max-height 0.5s;
     font-size: 90%;
   }
 
-  .details.hide {
-    max-height: 0;
-    // transition: max-height 0.5s;
-  }
+  // .details.hide {
+  //   max-height: 0;
+  // }
 
   .titel {
-    // font-family: 'Fresca';
     font-size: 100%;
     font-weight: bold;
     padding-top: 5px;
@@ -84,7 +82,6 @@
   }
 
   .untertitel {
-    // font-style: italic;
     font-weight: normal;
     font-size: 90%;
     margin-left: 5px;
@@ -120,6 +117,9 @@
   .sponsoring {
     margin-top: 20px;
     font-size: 90%;
+    img {
+      max-height: 15px;
+    }
   }
 
   .beschreibung {
@@ -143,6 +143,19 @@
   .veranstaltung strong.farbig { color: $veranstaltung-dunkler; }
   .workshop strong.farbig { color: $workshop-dunkler; }
   .offenesangebot strong.farbig { color: $offenesAngebot-dunkler; }
+
+  .veranstaltung .ausverkauft a {
+    border-color: $veranstaltung-dunkler;
+    &:active, &:focus, &:hover { color: $veranstaltung-dunkler; }
+  }
+  .workshop .ausverkauft a {
+    border-color: $workshop-dunkler;
+    &:active, &:focus, &:hover { color: $workshop-dunkler; }
+  }
+  .offenesangebot .ausverkauft a {
+    border-color: $offenesAngebot-dunkler;
+    &:active, &:focus, &:hover { color: $offenesAngebot-dunkler; }
+  }
 }
 
 
@@ -200,27 +213,17 @@
     .ort {
       float: none;
       margin-left: 106px;
-      // padding-bottom: 2px;
       padding-right: 10px;
-      // position: relative;
-      // top: 4px;
-      // padding-top: 5px;
-
       background-color: white;
-      // margin-left: 130px;
-      // padding-left: 130px;
-
-      // display: inline-block;
-
       padding-top: 8px;
       padding-bottom: 4px;
       line-height: 1.3em;
     }
 
-    .details {
-      max-height: 2000px;
-      transition: max-height 1s;
-    }
+    // .details {
+    //   max-height: 2000px;
+    //   transition: max-height 1s;
+    // }
 
     button {
       position: relative;

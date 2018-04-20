@@ -3,7 +3,7 @@ import headerKlein from '../../images/header-klein.jpg';
 import headerGross from '../../images/header-gross.jpg';
 import { connect } from 'react-redux';
 import { fetchEvents } from '../../store/actions';
-import { fetchHome } from '../../store/actions';
+import { fetchPages } from '../../store/actions';
 
 
 class Header extends Component {
@@ -13,7 +13,7 @@ class Header extends Component {
       this.props.dispatch(fetchEvents());
     }
     if ( !this.props.pages ) {
-      this.props.dispatch(fetchHome());
+      this.props.dispatch(fetchPages());
     }
   }
 

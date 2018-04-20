@@ -35,7 +35,9 @@ const mapStateToProps = (state, props) => {
     return path;
   }
 
-  return { thisPage: getPageName(), html: state.home };
+  const thisPage = getPageName();
+
+  return { thisPage, html: state.pages[thisPage] };
 }
 
 export default connect(mapStateToProps)(Page);

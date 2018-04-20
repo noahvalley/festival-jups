@@ -16,27 +16,26 @@ export const fetchEvents = () => (dispatch) => {
     .then( events => {
       if (!events.error.error) dispatch( setEvents(events.data) )
     })
-    .catch( error => { } );
+    .catch( error => {} );
 }
 
 
 
-export const setHome = (page) => ({
+export const setPages = (pages) => ({
   type: 'setHome',
-  payload: page
+  payload: pages
 });
 
-export const fetchHome = () => (dispatch) => {
-  const url = `${API_BASE_URL}/pages/home`;
+export const fetchPages = () => (dispatch) => {
+  const url = `${API_BASE_URL}/pages`;
   const params = { method: 'GET' }
 
   return fetch(url, params)
     .then( response => response.json() )
     .then( pages => {
-      // console.log(page)
-      if (!pages.error.error) dispatch( setHome(pages.data) )
+      if (!pages.error.error) dispatch( setPages(pages.data) )
     })
-    .catch( error => { } );
+    .catch( error => {} );
 }
 
 
@@ -51,5 +50,5 @@ export const sendMail = (data) => {
 
   return fetch(url, params)
     .then( response => response.json() )
-    .catch( error => { } );
+    .catch( error => {} );
 }
