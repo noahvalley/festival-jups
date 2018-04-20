@@ -17,19 +17,7 @@
     margin-bottom: 2px;
   }
 
-  // ul li.veranstaltung {
-  //   border-top: 1px solid $veranstaltung;
-  // }
-  // ul li.workshop {
-  //   border-top: 1px solid $workshop;
-  // }
-  // ul li.offenesangebot {
-  //   border-top: 1px solid $offenesAngebot;
-  // }
-
-
   .zeit {
-    // font-family: 'Fresca';
     font-size: 120%;
     width: 120px;
     padding-left: 6px ;
@@ -62,14 +50,8 @@
 
   .details {
     overflow: hidden;
-    // max-height: 800px;
-    // transition: max-height 0.5s;
     font-size: 90%;
   }
-
-  // .details.hide {
-  //   max-height: 0;
-  // }
 
   .titel {
     font-size: 100%;
@@ -125,12 +107,8 @@
   .beschreibung {
     font-size: 90%;
     line-height: 1.5em;
-    margin-top: 20px;
-    margin-bottom: 20px;
-
-    p {
-      margin-top: 12px;
-    }
+    margin: 20px 0;
+    p { margin-top: 12px; }
   }
 
   .alter,
@@ -138,6 +116,10 @@
   .preis,
   .ausverkauft {
     font-size: 90%;
+  }
+
+  .ausverkauft a {
+    font-weight: 700;
   }
 
   .veranstaltung strong.farbig { color: $veranstaltung-dunkler; }
@@ -172,19 +154,16 @@
     ul li.veranstaltung {
       border: 1px solid $veranstaltung;
       background-color: white;
-      // background-color: $veranstaltung-heller;
       .zeit {background-color: $veranstaltung-heller;}
     }
     ul li.workshop {
       border: 1px solid $workshop;
       background-color: white;
-      // background-color: $workshop-heller;
       .zeit {background-color: $workshop-heller;}
     }
     ul li.offenesangebot {
       border: 1px solid $offenesAngebot;
       background-color: white;
-      // background-color: $offenesAngebot-heller;
       .zeit {background-color: $offenesAngebot-heller;}
     }
 
@@ -205,7 +184,6 @@
 
     .infos {
       margin-left: 0px;
-      padding-left: 0px;
       background-color: white;
       padding: 2px 6px 6px;
     }
@@ -214,16 +192,11 @@
       float: none;
       margin-left: 106px;
       padding-right: 10px;
-      background-color: white;
       padding-top: 8px;
       padding-bottom: 4px;
+      background-color: white;
       line-height: 1.3em;
     }
-
-    // .details {
-    //   max-height: 2000px;
-    //   transition: max-height 1s;
-    // }
 
     button {
       position: relative;

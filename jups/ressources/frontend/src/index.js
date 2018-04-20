@@ -8,7 +8,6 @@ import './styles/index.css';
 
 
 import DynamicPage from './routes/PagesDynamic';
-
 import Programm from './routes/Programm';
 import Tickets from './routes/Tickets';
 import Orte from './routes/Orte';
