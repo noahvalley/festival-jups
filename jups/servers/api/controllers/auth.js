@@ -1,11 +1,12 @@
 'use strict';
 
-var error = require('../libraries/error.js');
 var sha256 = require('sha256');
+var error = require('../libraries/error.js');
+var logger = require('../libraries/logger.js');
 
 var auth = {
   check : (req, res, next) => {
-    console.log('auth.check');
+    logger('auth.check');
     var sessionID = req.body.session;
     var session = global.jupsstate.sessions[sessionID];
     if (session != undefined){
@@ -43,7 +44,7 @@ var auth = {
     }}
   },
   logout : (req, res, next) => {
-    console.log('auth.logout');
+    logger('auth.logout');
     next();
   }
 }

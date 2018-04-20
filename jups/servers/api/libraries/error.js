@@ -13,11 +13,8 @@ var errors = {
   },
 
   //Events Errors
-  eventIdNotFound : (subinfo) => {
-    return{error: true, number: 2000, message: 'id not found', subinfo: subinfo};
-  },
   eventIdAndRestMissmatch : (subinfo) => {
-    return {error: true, number: 2001, message: 'id in data does not match id of REST connection', subinfo: subinfo};
+    return {error: true, number: 2000, message: 'id in data does not match id of REST connection', subinfo: subinfo};
   },
 
   //Files Errors
@@ -37,7 +34,19 @@ var errors = {
   },
   genMailingFail : (subinfo) => {
     return {error: true, number: 6001, message: 'something wrong with mailing', subinfo: subinfo}
+  },
+  
+  //Database Errors
+  DBWriteFile : (subinfo) => {
+    return {error: true, number: 8000, message: 'something wrong with DB File writing', subinfo: subinfo}
+  },
+  DBReadFile : (subinfo) => {
+    return {error: true, number: 8001, message: 'something wrong with DB File reading', subinfo: subinfo}
+  },
+  eventIdNotFound : (subinfo) => {
+    return{error: true, number: 8002, message: 'id not found in database', subinfo: subinfo};
   }
+  
 }
 
 module.exports = errors;

@@ -1,8 +1,9 @@
 'use strict';
+var logger = require('../libraries/logger.js');
 
 var pages = {
   getAll : (req, res, next) => {
-      console.log('pages.getAll');
+      logger('pages.getAll');
       req.jupssenddata = {
         home: global.jupsstate.pages.home,
         orte: global.jupsstate.pages.orte,
@@ -14,61 +15,61 @@ var pages = {
   },
   home : {
     get : (req, res, next) => {
-      console.log('pages.home.get');
+      logger('pages.home.get');
       req.jupssenddata = global.jupsstate.pages.home;
       next();
     },
     update : (req, res, next) => {
-      console.log('pages.home.update');
+      logger('pages.home.update');
       global.jupsstate.pages.home = req.body.data;
       next();
     }
   },
   orte : {
     get : (req, res, next) => {
-      console.log('pages.orte.get');
+      logger('pages.orte.get');
       req.jupssenddata = global.jupsstate.pages.orte;
       next();
     },
     update : (req, res, next) => {
-      console.log('pages.orte.update');
+      logger('pages.orte.update');
       global.jupsstate.pages.orte = req.body.data;
       next();
     }
   },
   kontakt : {
     get : (req, res, next) => {
-      console.log('pages.kontakt.get');
+      logger('pages.kontakt.get');
       req.jupssenddata = global.jupsstate.pages.kontakt;      
       next();
     },
     update : (req, res, next) => {
-      console.log('pages.kontakt.update');
+      logger('pages.kontakt.update');
       global.jupsstate.pages.kontakt = req.body.data;
       next();
     }
   },
   downloads : {
     get : (req, res, next) => {
-      console.log('pages.downloads.get');
+      logger('pages.downloads.get');
       req.jupssenddata = global.jupsstate.pages.downloads;
       next();
     },
     update : (req, res, next) => {
-      console.log('pages.downloads.update');
+      logger('pages.downloads.update');
       global.jupsstate.pages.downloads = req.body.data;
       next();
     }
   },
   archiv : {
     get : (req, res, next) => {
-      console.log('pages.archiv.get');
+      logger('pages.archiv.get');
       req.jupssenddata = global.jupsstate.pages.archiv;
       next();
     },
     update : (req, res, next) => {
       global.jupsstate.pages.archiv = req.body.data;
-      console.log('pages.archiv.update');
+      logger('pages.archiv.update');
       next();
     }
   }

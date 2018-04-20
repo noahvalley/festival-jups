@@ -3,6 +3,7 @@ var nodemailer = require('nodemailer');
 var fs = require('fs');
 var path = require('path');
 var error = require('../libraries/error.js');
+var logger = require('../libraries/logger.js');
 
 var mailer = {
   checkapikey : (req, res, next) => {
@@ -13,7 +14,7 @@ var mailer = {
     }
   },
   composemail : (req, res, next) => {
-    console.log('mailer.composemail');  
+    logger('mailer.composemail');  
     req.mailReplyTo = req.body.data.email;
     req.mailcontent = 
       "vorname: " + req.body.data.vorname +
@@ -27,11 +28,11 @@ var mailer = {
     for (var event in req.body.data.veranstaltungen){
       req.mailcontent = req.mailcontent + "\n1. " + req.body.data.veranstaltungen[event].veranstaltung;
     }
-    console.log('' + new Date() + '\n' + req.mailcontent+'\n\n\n');
+    logger('' + new Date() + '\n' + req.mailcontent+'\n\n\n');
     next();
   },
   sendmail : (req, res, next) => {
-    console.log('mailer.sendmail');
+    logger('mailer.sendmail');
     nodemailer.createTestAccount((err, account) => {
         let transporter = nodemailer.createTransport({
             host: process.env.mailerServer,
@@ -50,7 +51,7 @@ var mailer = {
             subject: 'Reservation von der Website',
             text: req.mailcontent
         };
-    console.log(mailOptions);
+    logger(mailOptions);
         transporter.sendMail(mailOptions, (error, info) => {
             if (err) {
           next(error.genMailingFail());
