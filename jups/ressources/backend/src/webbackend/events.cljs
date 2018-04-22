@@ -4,59 +4,25 @@
     [reagent.core :as r]
     [cljs-http.client :as http]
     [webbackend.prosemirror :refer [prosemirror get-html-string]]
-    [webbackend.fields :refer [field checkbox dropdown dropdown-image upload-field]])
+    [webbackend.fields :refer [field checkbox dropdown dropdown-image upload-field delete-field]]
+    [webbackend.requests :refer [get-list new-event update-event delete-event]])
   (:require-macros [cljs.core.async :refer [go]]))
 
-(defn file-list [files]
-  (go (let [response (<! (http/get "http://api.festival-jups.ch/file"
-                                   {:with-credentials? false}))]
-        (reset! files (-> response :body :data)))))
-
-(defn image-list [images]
-  (go (let [response (<! (http/get "http://api.festival-jups.ch/image"
-                                   {:with-credentials? false}))]
-        (reset! images (-> response :body :data)))))
-
-(defn events-list [events]
-  (go (let [response (<! (http/get "http://api.festival-jups.ch/events"
-                                   {:with-credentials? false}))]
-        (reset! events (:body response)))))
-
-#_(defn login-check [session]
-    (http/get "http://api.festival-jups.ch/logincheck"
-              {:json-params {:session @session}
-               :with-credentials? false}))
-
-(defn logout [session]
-  (reset! session nil))
-
-(defn update-event [event session]
-      (http/put (str "http://api.festival-jups.ch/events/" (:id @event))
-                {:json-params       {:session @session
-                                     :data @event}
-                 :with-credentials? false}))
-
-(defn new-event [event session]
-  (http/post "http://api.festival-jups.ch/events/"
-             {:json-params       {:session @session
-                                  :data @event}
-              :with-credentials? false}))
-
-(defn delete-event [event session]
-  (http/delete (str "http://api.festival-jups.ch/events/" (:id @event))
-               {:json-params       {:session @session}
-                :with-credentials? false}))
+#_(defn logout [session]
+    (reset! session nil))
 
 (defn event-list[global]
   (let [events (r/cursor global [:events])
         event (r/cursor global [:event])
-        session (r/cursor global [:session])]
+        session (r/cursor global [:session])
+        image-list (r/cursor global [:images])]
     [:div
-     [upload-field "image" (r/cursor global [:image]) session (r/cursor global [:images])]
+     [upload-field global "Bild speichern" "image" (r/cursor global [:image]) image-list]
+     [delete-field global "Bild löschen" "image" image-list]
      [:div
       [:button {:on-click #(
                              (delete-event event session)
-                             (events-list events))}
+                             (get-list global "events" events))}
        "löschen"]
       [:button {:on-click #(reset! event {:ausverkauft false})}
        "neu"]
@@ -65,9 +31,9 @@
                             (if (:id @event)
                               (update-event event session)
                               (new-event event session))
-                            (events-list events))}
+                            (get-list global "events" events))}
        "speichern"]]
-     [:ul (for [list-event (:data @events)]
+     [:ul (for [list-event @events]
             ^{:key (:id list-event)}
             [:li
              [:a {:style    {:cursor "pointer"}
@@ -76,8 +42,7 @@
 
 (defn event-form [global]
   (let [event (r/cursor global [:event])
-        images (r/cursor global [:images])
-        files (r/cursor global [:files])]
+        images (r/cursor global [:images])]
     [:div {:style {:display        "flex"
                    :flex-direction "column"
                    :width          "100%"}}
@@ -97,22 +62,20 @@
      [field "text" :tuerOeffnung "Türöffnung" event]
      [field "text" :preis "Preis" event]]))
 
-(defn events-form-success [global]
-  [:div {:style {:display        "flex"
-                 :flex-direction "row"
-                 :justify-content "space-between"
-                 :width "100%"
-                 :height "100%"}}
-   [event-list global]
-   [event-form global]])
-
 (defn events-form [global]
   (let [events (r/cursor global [:events])
         images (r/cursor global [:images])
         files (r/cursor global [:files])]
-    (events-list events)
-    (file-list files)
-    (image-list images)
-    (fn []
-      (cond (:error (:error @events)) [:div [:p (:message (:error (@events)))]]
-            :default [events-form-success global]))))
+    (get-list global "events" events)
+    (get-list global "file" files)
+    (get-list global "image" images)
+    [:div {:style {:display         "flex"
+                   :flex-direction  "column"}}
+     [:p (:error global)]
+     [:div {:style {:display         "flex"
+                    :flex-direction  "row"
+                    :justify-content "space-between"
+                    :width           "100%"
+                    :height          "100%"}}
+      [event-list global]
+      [event-form global]]]))

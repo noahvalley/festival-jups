@@ -1,7 +1,7 @@
 (ns webbackend.fields
   (:require [cljs-http.client :as http]
             [reagent.core :as r]
-            [cljs.core.async :refer [go <!]]))
+            [webbackend.requests :refer [upload-file delete-file]]))
 
 (def label-style {:width "10%"})
 (def input-style {:width "90%"})
@@ -60,25 +60,28 @@
             :checked   (key @data)
             :on-change (fn [e] (swap! data #(assoc % key (if (-> e .-target .-checked) true false))))}]])
 
-(defn upload-file [type file session]
-  (http/post (str "http://api.festival-jups.ch/" type)
-             {:multipart-params  [["session" @session] ["file" @file]]
-              :with-credentials? false}))
+(defn delete-field [global name type file-list]
+  (let [key :filename
+        data (r/atom {:filename nil})]
+    [:div {:display "flex"
+           :flex-direction "row"
+           :justify-content "flex-start"
+           :max-width "90%"}
+     [dropdown @file-list key name data]
+     [:button {:on-click #(delete-file global type (:filename @data) file-list)}
+      "löschen"]]))
 
-(defn delete-file [type name session]
-  (http/delete (str "http://api.festival-jups.ch/" type "/" name)
-               {:with-credentials? false
-                :json-params {:session session}}))
-
-(defn image-list [images]
-  (go (let [response (<! (http/get "http://api.festival-jups.ch/image"
-                                   {:with-credentials? false}))]
-        (reset! images (-> response :body :data)))))
-
-(defn upload-field [type file session images]
-  [:div
+(defn upload-field [global name type file file-list]
+  [:div {:style {:display "flex"
+                 :flex-direction "row"
+                 :justify-content "flex-start"
+                 :max-width "90%"}}
+   [:label {:for type
+            :style {:width "30%"}}
+    (str name ": ")]
    [:input {:style {:display "flex"
                     :flex-direction "row"}
+            :name type
             :type      "file"
             :on-change (fn [e]
                          (reset! file
@@ -87,6 +90,5 @@
                                             .-files)
                                         0)))}]
    [:button
-    {:on-click #(go (let [response (<!(upload-file type file session))]
-                      (image-list images)))}
+    {:on-click #(upload-file global type file file-list)}
     "upload"]])
