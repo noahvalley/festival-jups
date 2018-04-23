@@ -41,6 +41,7 @@ class Event extends Component {
       sponsorImg,
     } = this.props;
     const bildURL = API_BASE_URL + '/images/' + bild;
+    const sponsorImgURL = API_BASE_URL + '/images/' + sponsorImg;
 
     return (
       <li className={ typ }>
@@ -81,7 +82,7 @@ class Event extends Component {
               { preis &&
                 <div className="preis"><strong className="farbig">Kosten:</strong> {preis}</div>
               }
-              { ausverkauft /* annahme: kein text = reservation offen (link darauf), text = geschlossen */
+              { ausverkauft /* false = reservation offen (ergo link darauf), true = geschlossen */
                 ? <div className="ausverkauft"><strong className="farbig">{ausverkauftText}</strong></div>
                 : <div className="ausverkauft">
                     <Link to={{ pathname: '/tickets', preselectedId: id }}>Reservation</Link>
@@ -89,7 +90,7 @@ class Event extends Component {
               }
               {
                 sponsorImg &&
-                <div className="sponsoring">Patronat: <img src={ sponsorImg } alt="Patronat" /></div>
+                <div className="sponsoring">Patronat: <img src={ sponsorImgURL } alt="Patronat" /></div>
               }
               <div style={{ clear: 'both', paddingBottom: 30 + 'px' }} />
             </div>
