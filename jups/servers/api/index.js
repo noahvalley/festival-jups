@@ -222,7 +222,7 @@ app.use(connectRoute((router) => {
   );
 }));
 
-app.use('/images', serveStatic(path.join(__dirname,'../../ressources/upload/image')));
-app.use('/files', serveStatic(path.join(__dirname,'../../ressources/upload/file')));
+app.use('/images', serveStatic(path.join(__dirname,'../../ressources/upload/images')));
+app.use('/files', serveStatic(path.join(__dirname,'../../ressources/upload/files')));
 
 module.exports = app;
