@@ -8,7 +8,33 @@ import { connect } from 'react-redux';
 
 class Programm extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      filterText: '',
+      filterTextLowerCase: '',
+      zeigeVeranstaltungen: true,
+      zeigeWorkshops: true,
+      zeigeOffeneAngebote: true,
+    }
+  }
+
+  handleInput = (event) => {
+    const filterText = event.currentTarget.value;
+    this.setState({ filterText, filterTextLowerCase: filterText.toLowerCase() });
+  }
+  handleFilterVeranstaltungen = () => {
+    this.setState({ zeigeVeranstaltungen: !this.state.zeigeVeranstaltungen });
+  }
+  handleFilterWorkshops = () => {
+    this.setState({ zeigeWorkshops: !this.state.zeigeWorkshops });
+  }
+  handleFilterOffeneAngebote = () => {
+    this.setState({ zeigeOffeneAngebote: !this.state.zeigeOffeneAngebote });
+  }
+
   render() {
+    const {zeigeWorkshops, zeigeOffeneAngebote, zeigeVeranstaltungen, filterTextLowerCase} = this.state;
     return (
       <div className="app-wrapper">
         <Header />
@@ -20,10 +46,17 @@ class Programm extends Component {
             {
               !this.props.error &&
               (
-                <div className="legende">Farben:
-                  &nbsp; <span className="veranstaltung" style={{ padding: 5 + 'px' }}>Veranstaltung</span>
-                  &nbsp; <span className="workshop" style={{ padding: 5 + 'px' }}>Workshop</span>
-                  &nbsp; <span className="offenesangebot" style={{ padding: 5 + 'px', whiteSpace: 'nowrap' }}>offenes Angebot</span>
+
+                <div className="filter">
+                  <div className="legende">Anzeigen:
+                    &nbsp; <button className={ zeigeVeranstaltungen ? 'veranstaltung active' : 'veranstaltung' } onClick={ this.handleFilterVeranstaltungen }>Veranstaltungen</button>
+                    &nbsp; <button className={ zeigeWorkshops ? 'workshop active' : 'workshop' } onClick={ this.handleFilterWorkshops }>Workshops</button>
+                    &nbsp; <button className={ zeigeOffeneAngebote ? 'offenesangebot active' : 'offenesangebot' } onClick={ this.handleFilterOffeneAngebote }>offene Angebote</button>
+                  </div>
+
+                  <div className="textfilter">Durchsuchen: &nbsp;
+                    <input className="textfilter" type="text" value={ this.state.filterText } onChange={ this.handleInput } />
+                  </div>
                 </div>
               )
             }
@@ -35,30 +68,51 @@ class Programm extends Component {
                   <span key={tag}>
                     <h1>{tag}</h1>
                     <ul>
-                    { this.props.events[tag].map( event => {
-                        return (
-                          <Event
-                            key={event.id}
-                            id={event.id}
-                            zeitVonStd={event.zeitVonStd}
-                            zeitVonMin={event.zeitVonMin}
-                            zeitBisStd={event.zeitBisStd}
-                            zeitBisMin={event.zeitBisMin}
-                            ort={event.ort}
-                            titel={event.titel}
-                            untertitel={event.untertitel}
-                            bild={event.bild}
-                            beschreibung={event.beschreibung}
-                            alter={event.alter}
-                            beginn={event.beginn}
-                            preis={event.preis}
-                            ausverkauft={event.ausverkauft}
-                            ausverkauftText={event.ausverkauftText}
-                            sponsorImg={event.sponsorImg}
-                            typ={event.typ}
-                          />
-                        )
-                      })
+                    { this.props.events[tag]
+                        .filter( event => {
+                          if ( event.titel.toLowerCase().indexOf(filterTextLowerCase) >= 0 ) return true;
+                          if ( event.untertitel.toLowerCase().indexOf(filterTextLowerCase) >= 0 ) return true;
+                          if ( event.ort.toLowerCase().indexOf(filterTextLowerCase) >= 0 ) return true;
+                          if ( event.beschreibung.toLowerCase().indexOf(filterTextLowerCase) >= 0 ) return true;
+                          return false;
+                        }
+                        ) // textsuche
+                        .filter( event => { // typen von events
+                          switch (event.typ) {
+                            case 'veranstaltung':
+                              return zeigeVeranstaltungen;
+                            case 'workshop':
+                              return zeigeWorkshops;
+                            case 'offenesangebot':
+                              return zeigeOffeneAngebote;
+                            default:
+                              return true
+                          }
+                        })
+                        .map( event => {
+                          return (
+                            <Event
+                              key={event.id}
+                              id={event.id}
+                              zeitVonStd={event.zeitVonStd}
+                              zeitVonMin={event.zeitVonMin}
+                              zeitBisStd={event.zeitBisStd}
+                              zeitBisMin={event.zeitBisMin}
+                              ort={event.ort}
+                              titel={event.titel}
+                              untertitel={event.untertitel}
+                              bild={event.bild}
+                              beschreibung={event.beschreibung}
+                              alter={event.alter}
+                              beginn={event.beginn}
+                              preis={event.preis}
+                              ausverkauft={event.ausverkauft}
+                              ausverkauftText={event.ausverkauftText}
+                              sponsorImg={event.sponsorImg}
+                              typ={event.typ}
+                            />
+                          )
+                        })
                     }
                     </ul>
                   </span>
