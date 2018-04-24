@@ -1,7 +1,6 @@
 (ns webbackend.codemirror
   (:require [cljs.core.async :refer [<!]]
             [reagent.core :as r]
-            [reagent.cookies]
             [cljs-http.client :as http]))
 
 (defn create-codemirror [dom-id]
