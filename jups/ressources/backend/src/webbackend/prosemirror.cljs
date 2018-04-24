@@ -1,10 +1,10 @@
 (ns webbackend.prosemirror
-    (:require [prosemirror-state :refer [EditorState]]
-              [prosemirror-view :refer [EditorView]]
-              [prosemirror-model :refer [Schema DOMParser DOMSerializer]]
-              [prosemirror-schema-basic :refer [schema]]
-              [prosemirror-schema-list :refer [addListNodes]]
-              [prosemirror-example-setup :refer [exampleSetup]]))
+  (:require [prosemirror-state :refer [EditorState]]
+            [prosemirror-view :refer [EditorView]]
+            [prosemirror-model :refer [Schema DOMParser DOMSerializer]]
+            [prosemirror-schema-basic :refer [schema]]
+            [prosemirror-schema-list :refer [addListNodes]]
+            [prosemirror-example-setup :refer [exampleSetup]]))
 
 (def mySchema
   (Schema.
@@ -47,7 +47,7 @@
 
 (defn get-html-string []
   (-> (doto (js/document.createElement "div")
-            (.appendChild (serialized-content)))
+        (.appendChild (serialized-content)))
       .-innerHTML))
 
 (defn prosemirror [key event]
@@ -56,6 +56,6 @@
      :reagent-render       (fn [] [:div.ProseMirror])
      :component-did-mount  #(.appendChild (reagent.core/dom-node %) (view key event))
      :component-will-update #(.replaceChild
-                                      (reagent.core/dom-node %)
-                                      (view (second %2) (get %2 2))
-                                      (js/document.getElementById "prosemirror"))}))
+                               (reagent.core/dom-node %)
+                               (view (second %2) (get %2 2))
+                               (js/document.getElementById "prosemirror"))}))

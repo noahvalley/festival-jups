@@ -10,17 +10,17 @@
 (defn login-request [global]
   (go (let [response (<! (http/post "http://api.festival-jups.ch/login"
                                     {:json-params       {:session ""
-                                                         :data    {:username (:username global)
-                                                                   :password (:password global)}}
+                                                         :data    {:username (:username @global)
+                                                                   :password (:password @global)}}
                                      :with-credentials? false}))
             error (get-in response [:body :error])
             session (get-in response [:body :data :session])]
         (if (or (nil? error)
                 (true? (:error error)))
-            (swap! global
-                   #(assoc % :error (:message error)))
-            (swap! global
-                   #(assoc % :session session))))))
+          (swap! global
+                 #(assoc % :error (:message error)))
+          (swap! global
+                 #(assoc % :session session))))))
 
 (defn login [global]
   (fn []

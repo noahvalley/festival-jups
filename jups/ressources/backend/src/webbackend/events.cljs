@@ -4,27 +4,43 @@
     [reagent.core :as r]
     [cljs-http.client :as http]
     [webbackend.prosemirror :refer [prosemirror get-html-string]]
-    [webbackend.fields :refer [field checkbox dropdown dropdown-image upload-field delete-field]]
+    [webbackend.fields :refer [field checkbox dropdown double-dropdown-image upload-field delete-field]]
     [webbackend.requests :refer [get-list new-event update-event delete-event]])
   (:require-macros [cljs.core.async :refer [go]]))
 
 #_(defn logout [session]
     (reset! session nil))
 
+(defn update-selected-values [global event property-key]
+  (let [year-key (keyword (str "selected-year-" (name property-key)))
+        thing-key (keyword (str "selected-" (name property-key)))]
+    (swap! global
+           (fn [g]
+             (let [parsed-path (clojure.string/split (property-key event) "/")]
+               (-> g
+                   (assoc year-key
+                          (or (first parsed-path) ""))
+                   (assoc thing-key
+                          (or (second parsed-path) ""))))))))
+
 (defn event-list[global]
   (let [events (r/cursor global [:events])
         event (r/cursor global [:event])
-        session (r/cursor global [:session])
-        image-list (r/cursor global [:images])]
+        session (r/cursor global [:session])]
     [:div
-     [upload-field global "Bild speichern" "image" (r/cursor global [:image]) image-list]
-     [delete-field global "Bild löschen" "image" image-list]
      [:div
-      [:button {:on-click #(
-                             (delete-event event session)
-                             (get-list global "events" events))}
+      [:button
+       {:on-click #(do
+                     (delete-event event session)
+                     (get-list global "events" events)
+                     (reset! event {:ausverkauft false}))}
        "löschen"]
-      [:button {:on-click #(reset! event {:ausverkauft false})}
+      [:button
+       {:on-click (fn [e]
+                    (let [new-event {:ausverkauft false}]
+                      (update-selected-values global new-event :bild)
+                      (update-selected-values global new-event :logo)
+                      (reset! event new-event)))}
        "neu"]
       [:button {:on-click (fn []
                             (swap! event #(assoc % :text (get-html-string)))
@@ -37,7 +53,10 @@
             ^{:key (:id list-event)}
             [:li
              [:a {:style    {:cursor "pointer"}
-                  :on-click (fn [] (reset! event list-event))}
+                  :on-click (fn []
+                              (update-selected-values global list-event :bild)
+                              (update-selected-values global list-event :logo)
+                              (reset! event list-event))}
               (or (:titel list-event) "OHNE TITEL")]])]]))
 
 (defn event-form [global]
@@ -53,8 +72,8 @@
      [field "datetime-local" :zeitVon "Beginn" event]
      [field "datetime-local" :zeitBis "Ende" event]
      [field "number" :priority "Priorität" event]
-     [dropdown-image (cons "" @images) :bild "Bild" event]
-     [dropdown-image (cons "" @images) :logo "Logo" event]
+     [double-dropdown-image global :bild :images "Bild"]
+     [double-dropdown-image global :logo :images "Logo"]
      [prosemirror :text @event]
      [checkbox :ausverkauft "Ausverkauft" event]
      [field "text" :ausverkauftText "Ausverkauft" event]
@@ -67,8 +86,8 @@
         images (r/cursor global [:images])
         files (r/cursor global [:files])]
     (get-list global "events" events)
-    (get-list global "file" files)
-    (get-list global "image" images)
+    (get-list global "files" files)
+    (get-list global "images" images)
     [:div {:style {:display         "flex"
                    :flex-direction  "column"}}
      [:p (:error global)]
