@@ -6,11 +6,45 @@
   .legende {
     font-size: 90%;
     line-height: 2.5em;
+    button {
+      float: none;
+      position: inherit;
+      top: 0;
+      padding: 4px;
+      white-space: nowrap;
+      font-family: inherit;
+      font-size: 90%;
+      &.veranstaltung { border: 1px solid $veranstaltung; background-color: white; }
+      &.veranstaltung.active { background-color: $veranstaltung; }
+      &.workshop { border: 1px solid $workshop; background-color: white;  }
+      &.workshop.active { background-color: $workshop; }
+      &.offenesangebot { border: 1px solid $offenesAngebot; background-color: white;  }
+      &.offenesangebot.active { background-color: $offenesAngebot; }
+    }
   }
 
   .veranstaltung { background-color: $veranstaltung; }
   .workshop { background-color: $workshop; }
   .offenesangebot { background-color: $offenesAngebot; }
+
+  .textfilter {
+    font-size: 90%;
+    margin: 10px 0;
+    input {
+      font-family: inherit;
+      height: 20px;
+      width: 200px;
+      color: #333;
+      border-radius: 0;
+      -webkit-appearance: none;
+      padding: 3px;
+      border: 1px solid #999;
+
+      &:focus {
+        outline-color: $farbe1-nochheller;
+      }
+    }
+  }
 
   ul li {
     list-style: none;
