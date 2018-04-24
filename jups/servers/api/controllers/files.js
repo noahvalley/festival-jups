@@ -38,7 +38,7 @@ var file = {
     form.jupsSession = '';
     form.uploadDir = req.jupsfilepathtmp;
     form.uploadDirDef = path.join(req.jupsfilepath, new Date().getFullYear().toString());
-    fs.mkdirSync(form.uploadDirDef);
+    //fs.mkdirSync(form.uploadDirDef);
     form.on('file', (field, file) => {
       form.jupsTmpFiles.push(file);
     });
@@ -77,7 +77,7 @@ var file = {
   },
   delete : (req, res, next) => {
     fs.unlink(path.join(req.jupsfilepath, req.params.filename), (err) => {
-      if (err) next(notLoggedIn.deletingFileFail(err));
+      if (err) next(error.deletingFileFail(err));
       next();
     });
   }
