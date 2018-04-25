@@ -76,7 +76,7 @@ var file = {
     form.parse(req);
   },
   delete : (req, res, next) => {
-    fs.unlink(path.join(req.jupsfilepath, req.params.filename), (err) => {
+    fs.unlink(path.join(path.join(req.jupsfilepath, req.params.fileyear), req.params.filename), (err) => {
       if (err) next(error.deletingFileFail(err));
       next();
     });

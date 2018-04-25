@@ -189,7 +189,7 @@ app.use(connectRoute((router) => {
     .use(init.sendData)
     .use(init.sendError)
   );
-  router.delete('/images/:filename',
+  router.delete('/images/:fileyear/:filename',
     connect()
     .use(auth.check)
     .use(file.setPathImages)
