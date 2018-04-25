@@ -38,7 +38,9 @@ var file = {
     form.jupsSession = '';
     form.uploadDir = req.jupsfilepathtmp;
     form.uploadDirDef = path.join(req.jupsfilepath, new Date().getFullYear().toString());
-    //fs.mkdirSync(form.uploadDirDef);
+    if (!fs.existsSync(form.uploadDirDef)){
+      fs.mkdirSync(form.uploadDirDef);
+    }
     form.on('file', (field, file) => {
       form.jupsTmpFiles.push(file);
     });

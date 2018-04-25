@@ -2,28 +2,39 @@
 var fs = require('fs');
 var path = require('path');
 var error = require('../libraries/error.js');
-var evntsPath = path.join(__dirname, '../../../ressources/database/events.txt');
-var pagesPath = path.join(__dirname, '../../../ressources/database/pages.txt');
+var databasePath = path.join(__dirname, '../../../ressources/database/');
+var evntsPath = path.join(databasePath, 'events.txt');
+var pagesPath = path.join(databasePath, 'pages.txt');
 
 var database = {
   init : (callback) => {
-      global.jupsstate.events = [];
+    global.jupsstate.events = [];
     global.jupsstate.pages = {home: '',orte: '',kontakt: '',archiv: '',};
-    fs.readFile(evntsPath, (err, date) => {
+    if (!fs.existsSync(databasePath)){
+      fs.mkdirSync(databasePath);
+    }
+    if (!fs.existsSync(evntsPath)){
+      fs.writeFileSync(evntsPath, '[]');
+    }
+    if (!fs.existsSync(pagesPath)){
+      fs.writeFileSync(pagesPath, '[]');
+    }
+    
+    fs.readFile(evntsPath, (err, data) => {
       if (err){
 		      callback(error.DBReadFile(err));
       }else{
-        global.jupsstate.events = JSON.parse(date);
+        global.jupsstate.events = JSON.parse(data);
+        fs.readFile(pagesPath, (err, data) => {
+          if (err){
+    		      callback(error.DBReadFile(err));
+          }else{
+            global.jupsstate.pages = JSON.parse(data);
+            callback();
+          }
+        });
       }
     });
-    fs.readFile(pagesPath, (err, date) => {
-      if (err){
-		      callback(error.DBReadFile(err));
-      }else{
-        global.jupsstate.pages = JSON.parse(date);
-      }
-    });
-    callback();
   },
   dumpDB : (callback) => {
 		fs.writeFile(evntsPath, JSON.stringify(global.jupsstate.events), function(err) {

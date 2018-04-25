@@ -20,7 +20,7 @@ var database = require('./libraries/database.js');
 init.init();
 database.init((err)=>{
   if (err){
-    logger('DataBaseInitError: ' + err);
+    console.log('DataBaseInitError: ' + JSON.stringify(err));
   }
 });
 
