@@ -1,12 +1,25 @@
 (ns webbackend.events
   (:require
-    [cljs.core.async :refer [<!]]
     [reagent.core :as r]
-    [cljs-http.client :as http]
     [webbackend.prosemirror :refer [prosemirror get-html-string]]
-    [webbackend.fields :refer [field checkbox dropdown double-dropdown-image upload-field delete-field]]
-    [webbackend.requests :refer [get-list new-event update-event delete-event]])
-  (:require-macros [cljs.core.async :refer [go]]))
+    [webbackend.fields :refer [field checkbox dropdown double-dropdown-image]]
+    [webbackend.requests :refer [get-list new-event update-event delete-event]]))
+
+(def empty-event {:type "workshop"
+                  :zeitBis "2000-12-31T23:42"
+                  :zeitVon "2000-12-31T23:42"
+                  :ausverkauft false
+                  :priority 1})
+
+(defn compare-events [a b]
+  (let [dateA (or (first (clojure.string/split (:zeitVon a) "T")) "0")
+        dateB (or (first (clojure.string/split (:zeitVon b) "T")) "0")]
+    (cond
+      (< dateA dateB) -1
+      (> dateA dateB) 1
+      (> (:priority a) (:priority b)) 1
+      (< (:priority a) (:priority b)) -1
+      :default 0)))
 
 #_(defn logout [session]
     (reset! session nil))
@@ -30,26 +43,33 @@
     [:div
      [:div
       [:button
-       {:on-click #(do
-                     (delete-event event session)
-                     (get-list global "events" events)
-                     (reset! event {:ausverkauft false}))}
+       {:on-click (fn []
+                    (delete-event global event session empty-event)
+                    (get-list global "events" events))}
        "löschen"]
       [:button
-       {:on-click (fn [e]
-                    (let [new-event {:ausverkauft false}]
+       {:on-click (fn []
+                    (let [new-event empty-event]
                       (update-selected-values global new-event :bild)
                       (update-selected-values global new-event :logo)
                       (reset! event new-event)))}
        "neu"]
-      [:button {:on-click (fn []
-                            (swap! event #(assoc % :text (get-html-string)))
-                            (if (:id @event)
-                              (update-event event session)
-                              (new-event event session))
-                            (get-list global "events" events))}
+      [:button
+       {:on-click (fn []
+                    #_(swap! event #(assoc % :text (get-html-string)))
+                    (swap! event #(dissoc % :id))
+                    (new-event global event session)
+                    (get-list global "events" events))}
+       "kopieren"]
+      [:button
+       {:on-click (fn []
+                    (swap! event #(assoc % :text (get-html-string)))
+                    (if (:id @event)
+                      (update-event global event session)
+                      (new-event global event session))
+                    (get-list global "events" events))}
        "speichern"]]
-     [:ul (for [list-event @events]
+     [:ul (for [list-event (sort compare-events @events)]
             ^{:key (:id list-event)}
             [:li
              [:a {:style    {:cursor "pointer"}
@@ -60,8 +80,7 @@
               (or (:titel list-event) "OHNE TITEL")]])]]))
 
 (defn event-form [global]
-  (let [event (r/cursor global [:event])
-        images (r/cursor global [:images])]
+  (let [event (r/cursor global [:event])]
     [:div {:style {:display        "flex"
                    :flex-direction "column"
                    :width          "100%"}}

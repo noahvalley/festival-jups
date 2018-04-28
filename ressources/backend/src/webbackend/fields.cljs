@@ -1,7 +1,6 @@
 (ns webbackend.fields
-  (:require [cljs-http.client :as http]
-            [reagent.core :as r]
-            [webbackend.requests :refer [upload-file delete-file]]))
+  (:require [reagent.core :as r]
+            [webbackend.requests :refer [upload-files delete-file]]))
 
 (def label-style {:width "10%"})
 (def input-style {:width "90%"})
@@ -139,7 +138,7 @@
              :on-click #(delete-file global type (property-key @global) list-key)}
     "löschen"]])
 
-(defn upload-field [global description type file file-list]
+#_(defn upload-field [global description type file file-list]
   [:div {:style {:border-style "solid"
                  :border-color "black"
                  :display         "flex"
@@ -161,4 +160,35 @@
                                         0)))}]
    [:button
     {:on-click #(upload-file global type file file-list)}
+    "upload"]])
+
+(defn multi-upload-field [global description type files file-list]
+  [:div {:style {:border-style "solid"
+                 :border-color "black"
+                 :display         "flex"
+                 :flex-direction  "row"
+                 :justify-content "flex-start"
+                 :max-width       "90%"}}
+   [:label {:for   type
+            :style {:width "30%"}}
+    (str description ": ")]
+   [:input {:style     {:display        "flex"
+                        :flex-direction "row"}
+            :multiple  true
+            :name      type
+            :type      "file"
+            :on-change (fn [e]
+                         (.persist e)
+                         (let [selected-files (for [i (range (-> e
+                                                                 .-target
+                                                                 .-files
+                                                                 .-length))]
+                                                (.item
+                                                  (-> e
+                                                      .-target
+                                                      .-files)
+                                                  i))]
+                           (reset! files selected-files)))}]
+   [:button
+    {:on-click #(upload-files global type files file-list)}
     "upload"]])

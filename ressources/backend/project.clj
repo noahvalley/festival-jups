@@ -10,15 +10,15 @@
                  [reagent "0.7.0"]
                  [cljs-http "0.1.44"]]
 
-  :plugins [[lein-cljsbuild "1.1.5"]
+  :plugins [[lein-cljsbuild "1.1.7"]
             [lein-figwheel "0.5.15"]]
 
   :min-lein-version "2.5.0"
 
   :clean-targets ^{:protect false}
-  [:target-path
-   [:cljsbuild :builds :app :compiler :output-dir]
-   [:cljsbuild :builds :app :compiler :output-to]]
+[:target-path
+ [:cljsbuild :builds :app :compiler :output-dir]
+ [:cljsbuild :builds :app :compiler :output-to]]
 
   :source-paths ["src" "script"]
 
@@ -32,35 +32,42 @@
   :cljsbuild {:builds {:app
                        {:source-paths ["src" "env/dev/cljs" "node_modules"]
                         :compiler
-                        {:main "webbackend.dev"
-                         :output-to "public/js/app.js"
-                         :output-dir "public/js/out"
-                         :asset-path   "js/out"
-                         :source-map true
-                         :optimizations :none
-                         :pretty-print  true
-                         :install-deps true
-                         :npm-deps {:prosemirror-view "1.2.0"
-                                    :prosemirror-state "1.1.1"
-                                    :prosemirror-model "1.4.0"
-                                    :prosemirror-schema-basic "1.0.0"
-                                    :prosemirror-schema-list "1.0.1"
-                                    :prosemirror-example-setup "1.0.1"}}
+                                      {:main "webbackend.dev"
+                                       :output-to "public/js/app.js"
+                                       :output-dir "public/js/out"
+                                       :asset-path   "js/out"
+                                       :source-map true
+                                       :optimizations :none
+                                       :pretty-print  true
+                                       :install-deps true
+                                       :npm-deps {:prosemirror-view "1.3.0"
+                                                  :prosemirror-state "1.2.0"
+                                                  :prosemirror-model "1.4.3"
+                                                  :prosemirror-schema-basic "1.0.0"
+                                                  :prosemirror-schema-list "1.0.1"
+                                                  :prosemirror-example-setup "1.0.1"}}
                         :figwheel
-                        {:on-jsload "webbackend.core/mount-root"
-                         :open-urls ["http://localhost:3449/index.html"]}}
+                                      {:on-jsload "webbackend.core/mount-root"
+                                       :open-urls ["http://localhost:3449/index.html"]}}
                        :release
                        {:source-paths ["src" "env/prod/cljs"]
                         :compiler
-                        {:output-to "public/js/app.js"
-                         :output-dir "public/js/release"
-                         :asset-path   "js/out"
-                         :optimizations :advanced
-                         :pretty-print false}}}}
+                                      {:output-to "public/js/app.js"
+                                       :output-dir "public/js/release"
+                                       :asset-path   "js/out"
+                                       :optimizations :advanced
+                                       :pretty-print false
+                                       :install-deps true
+                                       :npm-deps {:prosemirror-view "1.3.0"
+                                                  :prosemirror-state "1.2.0"
+                                                  :prosemirror-model "1.4.3"
+                                                  :prosemirror-schema-basic "1.0.0"
+                                                  :prosemirror-schema-list "1.0.1"
+                                                  :prosemirror-example-setup "1.0.1"}}}}}
 
   :aliases {"package" ["do" "clean" ["cljsbuild" "once" "release"]]}
 
-  :profiles {:dev {:dependencies [[binaryage/devtools "0.9.7"]
+  :profiles {:dev {:dependencies [[binaryage/devtools "0.9.9"]
                                   [figwheel-sidecar "0.5.15"]
                                   [org.clojure/tools.nrepl "0.2.13"]
                                   [com.cemerick/piggieback "0.2.2"]]}})

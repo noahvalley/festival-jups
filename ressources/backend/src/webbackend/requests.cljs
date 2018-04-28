@@ -65,26 +65,40 @@
         (if (success? global response)
           (swap! global #(assoc % list-key (-> response :body :data)))))))
 
-(defn upload-file [global type file file-list]
-  (go (let [response (http/post (str "http://api.festival-jups.ch/" type)
-                                {:multipart-params  [["session" (:session @global)] ["file" @file]]
-                                 :with-credentials? false})]
+#_(defn upload-file [global type file file-list]
+  (go (let [response (<! (http/post (str "http://api.festival-jups.ch/" type)
+                                    {:multipart-params  [["session" (:session @global)] ["file" @file]]
+                                     :with-credentials? false}))]
         (if (success? global response)
           (reset! file-list (-> response :body :data))))))
 
-(defn update-event [event session]
-  (http/put (str "http://api.festival-jups.ch/events/" (:id @event))
-            {:json-params       {:session @session
-                                 :data @event}
-             :with-credentials? false}))
+(defn upload-files [global type files file-list]
+  (go (let [response (<! (http/post (str "http://api.festival-jups.ch/" type)
+                                    {:multipart-params  (conj (map (fn [file] ["file" file]) @files) ["session" (:session @global)])
+                                     :with-credentials? false}))]
+        (if (success? global response)
+          (reset! file-list (-> response :body :data)))
+        (reset! files nil))))
 
-(defn new-event [event session]
-  (http/post "http://api.festival-jups.ch/events/"
-             {:json-params       {:session @session
-                                  :data @event}
-              :with-credentials? false}))
+(defn update-event [global event session]
+  (go (let [response (<! (http/put (str "http://api.festival-jups.ch/events/" (:id @event))
+                                   {:json-params       {:session @session
+                                                        :data    @event}
+                                    :with-credentials? false}))]
+        (if (success? global response)
+          (reset! event (-> response :body :data))))))
 
-(defn delete-event [event session]
-  (http/delete (str "http://api.festival-jups.ch/events/" (:id @event))
-               {:json-params       {:session @session}
-                :with-credentials? false}))
+(defn new-event [global event session]
+  (go (let [response (<! (http/post "http://api.festival-jups.ch/events/"
+                                    {:json-params       {:session @session
+                                                         :data    @event}
+                                     :with-credentials? false}))]
+        (if (success? global response)
+          (reset! event (-> response :body :data))))))
+
+(defn delete-event [global event session empty-event]
+  (go (let [response (<! (http/delete (str "http://api.festival-jups.ch/events/" (:id @event))
+                                      {:json-params       {:session @session}
+                                       :with-credentials? false}))]
+        (success? global response)
+        (reset! event empty-event))))
