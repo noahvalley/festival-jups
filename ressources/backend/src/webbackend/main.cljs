@@ -15,9 +15,10 @@
                          :session nil
                          :event   {:ausverkauft false}}))
 
-(defn selected-view [global]
+(defn selected-view []
   (fn [global]
     [:div {:style {:display "flex" :flex-direction "column" }}
+     [:p (:error @global)]
      [:div {:style {:display "flex" :flex-direction "row" :justify-content "space-between"}}
       [:button {:on-click (fn [e] (swap! global #(assoc % :page :events)))} "Events"]
       [:button {:on-click (fn [e] (swap! global #(assoc % :page :pages)))} "Pages"]

@@ -6,7 +6,7 @@
 (defn upload [global]
   (let [image-list (r/cursor global [:images])
         file-list (r/cursor global [:files])]
-    [:div
+    [:div {:style {:display "flex" :flex-direction "column"}}
      [upload-field global "Bild speichern" "images" (r/cursor global [:image]) image-list]
      [delete-field global "images" :delete-image :images "Bild löschen" false]
      [upload-field global "Datei speichern" "files" (r/cursor global [:file]) file-list]

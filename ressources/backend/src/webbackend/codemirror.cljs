@@ -1,6 +1,5 @@
 (ns webbackend.codemirror
-  (:require [reagent.core :as r]
-            [webbackend.requests :refer [update-page]]))
+  (:require [webbackend.requests :refer [update-page]]))
 
 (defonce mirror (atom nil))
 
@@ -27,7 +26,7 @@
                     #js {:line 0 :ch 0}
                     #js {:line (.lineCount @mirror)}))
 
-(defn codemirror-area [initial-content]
+(defn codemirror [initial-content]
   (reagent.core/create-class
     {:display-name        "codemirror"
      :reagent-render      #(render-codemirror initial-content)
@@ -42,5 +41,4 @@
                             (reagent.core/render
                               (render-codemirror (second new-args))
                               (js/document.getElementById "cmContainer")
-                              #(mount-codemirror)))
-     }))
+                              #(mount-codemirror)))}))
