@@ -23,7 +23,8 @@ const events = (state = [], action) => {
           preis,
         } = event;
 
-        const position = Date.parse(zeitVon) + priority;
+        let position = Date.parse(zeitVon);
+        if (priority) position = position + parseInt(priority, 10) ;
 
         events.push({
           id,

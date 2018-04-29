@@ -3,6 +3,8 @@
 
 .programm {
 
+  button { cursor: pointer; }
+
   .legende {
     font-size: 90%;
     line-height: 2.5em;
@@ -134,7 +136,8 @@
     margin-top: 20px;
     font-size: 90%;
     img {
-      max-height: 15px;
+      max-height: 30px;
+      margin-left: 10px;
     }
   }
 
@@ -160,15 +163,15 @@
   .workshop strong.farbig { color: $workshop-dunkler; }
   .offenesangebot strong.farbig { color: $offenesAngebot-dunkler; }
 
-  .veranstaltung .ausverkauft a {
+  .veranstaltung a {
     border-color: $veranstaltung-dunkler;
     &:active, &:focus, &:hover { color: $veranstaltung-dunkler; }
   }
-  .workshop .ausverkauft a {
+  .workshop a {
     border-color: $workshop-dunkler;
     &:active, &:focus, &:hover { color: $workshop-dunkler; }
   }
-  .offenesangebot .ausverkauft a {
+  .offenesangebot a {
     border-color: $offenesAngebot-dunkler;
     &:active, &:focus, &:hover { color: $offenesAngebot-dunkler; }
   }

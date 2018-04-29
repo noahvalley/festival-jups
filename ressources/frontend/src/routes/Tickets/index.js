@@ -98,7 +98,6 @@ class Tickets extends Component {
       // mail versenden
       sendMail(data)
         .then( response => {
-          console.log(response);
           if ( response && response.error && response.error.error === false) this.setState({ istVersendet: true });
           else this.setState({ statusMessage: 'Senden ist fehlgeschlagen.' });
         })
@@ -256,7 +255,7 @@ const mapStateToProps = (state) => {
   if ( !state.fetchState.events ) return {error: 'loading'}
 
   const events = state.events.map( event => {
-    const { zeitVon, zeitBis, titel, position, ausverkauft, id } = event;
+    const { zeitVon, zeitBis, titel, position, ausverkauft, id, typ } = event;
     const datumVon = new Date(zeitVon);
     const datumBis = new Date(zeitBis);
     let zeitVonMin = datumVon.getMinutes();
@@ -267,13 +266,15 @@ const mapStateToProps = (state) => {
     const tage = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
     const tag = tage[datumVon.getDay()] + ' ' + datumVon.getDate() + '.' + monat + '.' + datumVon.getFullYear();
 
-    return { titel, position, datumVon, ausverkauft, id,
+    return { titel, position, datumVon, ausverkauft, id, typ,
       text: tag + ', ' + datumVon.getHours() + ':' + zeitVonMin + '–' + datumBis.getHours() + ':' + zeitBisMin + ': ' + titel
     }
-  }).filter( event => { // schon vergangene events weg
-    return event.datumVon > new Date();
+  }).filter( event => { // offene angebote weg
+    return event.typ !== 'offenesangebot';
   }).filter( event => { // unreservierbare events weg
     return !event.ausverkauft;
+  }).filter( event => { // schon vergangene events weg
+    return event.datumVon > new Date();
   }).sort( (a, b) => a.position - b.position )
 
   if ( events.length > 0 ) return { events };

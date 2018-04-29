@@ -70,10 +70,10 @@ class Programm extends Component {
                     <ul>
                     { this.props.events[tag]
                         .filter( event => {
-                          if ( event.titel.toLowerCase().indexOf(filterTextLowerCase) >= 0 ) return true;
-                          if ( event.untertitel.toLowerCase().indexOf(filterTextLowerCase) >= 0 ) return true;
-                          if ( event.ort.toLowerCase().indexOf(filterTextLowerCase) >= 0 ) return true;
-                          if ( event.beschreibung.toLowerCase().indexOf(filterTextLowerCase) >= 0 ) return true;
+                          if ( event.titel && event.titel.toLowerCase().indexOf(filterTextLowerCase) >= 0 ) return true;
+                          if ( event.untertitel && event.untertitel.toLowerCase().indexOf(filterTextLowerCase) >= 0 ) return true;
+                          if ( event.ort && event.ort.toLowerCase().indexOf(filterTextLowerCase) >= 0 ) return true;
+                          if ( event.beschreibung && event.beschreibung.toLowerCase().indexOf(filterTextLowerCase) >= 0 ) return true;
                           return false;
                         }
                         ) // textsuche
@@ -106,6 +106,7 @@ class Programm extends Component {
                               alter={event.alter}
                               beginn={event.beginn}
                               preis={event.preis}
+                              reservierbar={event.reservierbar}
                               ausverkauft={event.ausverkauft}
                               ausverkauftText={event.ausverkauftText}
                               sponsorImg={event.sponsorImg}
@@ -144,7 +145,10 @@ const mapStateToProps = (state) => {
     const monat = datumVon.getMonth()+1;
     const tage = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
 
+    const reservierbar = /* reservation offen && */ event.typ !== 'offenesangebot' && new Date() < datumVon;
+
     return { ...rest,
+      reservierbar,
       zeitVonStd: datumVon.getHours(),
       zeitVonMin,
       zeitBisStd: datumBis.getHours(),
