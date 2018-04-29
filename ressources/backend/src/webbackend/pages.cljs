@@ -8,22 +8,23 @@
 
 (defn pages-list [global]
   [:div
-   {:style {:display "flex" :flex-direction "column" :width "100%"}}
-   [:div
-    {:style {:display "flex" :flex-direction "row" :justify-content "space-between" :width "100%"}}
-    (for [page (keys (:pages @global))]
-      ^{:key page}
-      [:p
-       [:a {:style    {:cursor "pointer"}
-            :on-click (fn [e]
-                        (swap! global #(assoc % :selected-page page)))}
-        (name page)]])]])
+   {:style
+    {:display         "flex"
+     :flex-direction  "row"
+     :justify-content "space-between"
+     :width           "100%"}}
+   (for [page (keys (:pages @global))]
+     ^{:key page}
+     [:p
+      [:a {:style    {:cursor "pointer"}
+           :on-click (fn [e]
+                       (swap! global #(assoc % :selected-page page)))}
+       (name page)]])])
 
 (defn pages-form [global]
   (let [session (r/cursor global [:session])]
     [:div {:style {:display        "flex"
-                   :flex-direction "column"
-                   :width          "100%"}}
+                   :flex-direction "column"}}
      [:button
       {:on-click
        (fn []
@@ -40,6 +41,9 @@
   (dorun (for [page (keys (:pages @global))]
            (get-page global (name page) (r/cursor global [:pages page]))))
   (fn [global]
-    [:div
+    [:div {:style {:display "flex"
+                   :flex-direction "column"
+                   :width          "100%"
+                   :height "100%"}}
      [pages-list global]
      [pages-form global]]))

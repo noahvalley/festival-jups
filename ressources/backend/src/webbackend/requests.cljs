@@ -47,30 +47,12 @@
                                  :data content}
              :with-credentials? false}))
 
-#_(defn login-check [session]
-    (http/get "http://api.festival-jups.ch/logincheck"
-              {:json-params {:session @session}
-               :with-credentials? false}))
-
-#_(defn do-and-refresh [todo]
-    (go (let [response (<! (delete-file type file-name session))]
-          (reset! file-list (-> response
-                                :body
-                                :data)))))
-
 (defn delete-file [global type file-name list-key]
   (go (let [response (<! (http/delete (str "http://api.festival-jups.ch/" type "/" file-name)
                                       {:with-credentials? false
                                        :json-params       {:session (:session @global)}}))]
         (if (success? global response)
           (swap! global #(assoc % list-key (-> response :body :data)))))))
-
-#_(defn upload-file [global type file file-list]
-    (go (let [response (<! (http/post (str "http://api.festival-jups.ch/" type)
-                                      {:multipart-params  [["session" (:session @global)] ["file" @file]]
-                                       :with-credentials? false}))]
-          (if (success? global response)
-            (reset! file-list (-> response :body :data))))))
 
 (defn upload-files [global type files file-list]
   (go (let [response (<! (http/post (str "http://api.festival-jups.ch/" type)

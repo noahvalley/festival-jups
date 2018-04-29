@@ -17,8 +17,8 @@
 
 (defn selected-view [global]
   (fn [global]
-    [:div
-     [:div {:style {:display "flex" :flex-direction "row"}}
+    [:div {:style {:display "flex" :flex-direction "column" }}
+     [:div {:style {:display "flex" :flex-direction "row" :justify-content "space-between"}}
       [:button {:on-click (fn [e] (swap! global #(assoc % :page :events)))} "Events"]
       [:button {:on-click (fn [e] (swap! global #(assoc % :page :pages)))} "Pages"]
       [:button {:on-click (fn [e] (swap! global #(assoc % :page :upload)))} "Upload"]]

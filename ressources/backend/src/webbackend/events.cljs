@@ -21,9 +21,6 @@
       (< (:priority a) (:priority b)) -1
       :default 0)))
 
-#_(defn logout [session]
-    (reset! session nil))
-
 (defn update-selected-values [global event property-key]
   (let [year-key (keyword (str "selected-year-" (name property-key)))
         thing-key (keyword (str "selected-" (name property-key)))]
@@ -56,7 +53,7 @@
        "neu"]
       [:button
        {:on-click (fn []
-                    #_(swap! event #(assoc % :text (get-html-string)))
+                    (swap! event #(assoc % :text (get-html-string)))
                     (swap! event #(dissoc % :id))
                     (new-event global event session)
                     (get-list global "events" events))}

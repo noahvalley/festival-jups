@@ -34,18 +34,6 @@
       ^{:key s}
       [:option {:value s} s])]])
 
-#_(defn dropdown-image [selects key name data]
-    [:div {:style {:display        "flex"
-                   :flex-direction "column"}}
-     [dropdown selects key name data]
-     (if (not (or
-                (nil? (key @data))
-                (= "" (key @data))))
-       [:img {:src   (str "http://api.festival-jups.ch/images/" (key @data))
-              :style {:align-self "center"
-                      :max-width  "20%"
-                      :object-fit "contain"}}])])
-
 (defn year-url [global property-key year-key thing-key event-property?]
   (let [year (year-key @global)
         thing (thing-key @global)]
@@ -117,17 +105,6 @@
                                          key
                                          (if (-> e .-target .-checked) true false))))}]])
 
-#_(defn delete-field-old [global name type file-list]
-    (let [key :filename
-          data (r/atom {:filename nil})]
-      [:div {:style {:display "flex"
-                     :flex-direction "row"
-                     :justify-content "flex-start"
-                     :max-width "90%"}}
-       [dropdown @file-list key name data]
-       [:button {:on-click #(delete-file global type (:filename @data) file-list)}
-        "löschen"]]))
-
 (defn delete-field [global type property-key list-key description event-property?]
   [:div {:style {:border-style "solid"
                  :border-color "black"
@@ -138,31 +115,7 @@
              :on-click #(delete-file global type (property-key @global) list-key)}
     "löschen"]])
 
-#_(defn upload-field [global description type file file-list]
-    [:div {:style {:border-style "solid"
-                   :border-color "black"
-                   :display         "flex"
-                   :flex-direction  "row"
-                   :justify-content "flex-start"
-                   :max-width       "90%"}}
-     [:label {:for   type
-              :style {:width "30%"}}
-      (str description ": ")]
-     [:input {:style     {:display        "flex"
-                          :flex-direction "row"}
-              :name      type
-              :type      "file"
-              :on-change (fn [e]
-                           (reset! file
-                                   (.item (-> e
-                                              .-target
-                                              .-files)
-                                          0)))}]
-     [:button
-      {:on-click #(upload-file global type file file-list)}
-      "upload"]])
-
-(defn multi-upload-field [global description type files file-list]
+(defn upload-field [global description type files file-list]
   [:div {:style {:border-style "solid"
                  :border-color "black"
                  :display         "flex"
