@@ -2,35 +2,44 @@
   (:require
     [reagent.core :as r]
     [webbackend.fields :refer [field]]
-    [webbackend.requests :refer [get-page update-page]]))
+    [webbackend.requests :refer [get-page update-page]]
+    [webbackend.codemirror :refer [codemirror-area get-codemirror-content]]))
 
 
 (defn pages-list [global]
-  (let [session (r/cursor global [:session])]
-    [:div
-     [:button {:on-click (fn []
-                           (update-page (name (:selected-page @global))
-                                        (r/cursor global [:pages (:selected-page @global)])
-                                        session))}
-      "speichern"]
-     [:ul (for [page (keys (:pages @global))]
-            ^{:key page}
-            [:li
-             [:a {:style    {:cursor "pointer"}
-                  :on-click (fn [e]
-                              (swap! global #(assoc % :selected-page page)))}
-              (name page)]])]]))
+  [:div
+   {:style {:display "flex" :flex-direction "column" :width "100%"}}
+   [:div
+    {:style {:display "flex" :flex-direction "row" :justify-content "space-between" :width "100%"}}
+    (for [page (keys (:pages @global))]
+      ^{:key page}
+      [:p
+       [:a {:style    {:cursor "pointer"}
+            :on-click (fn [e]
+                        (swap! global #(assoc % :selected-page page)))}
+        (name page)]])]])
 
 (defn pages-form [global]
-  [:div {:style {:display        "flex"
-                 :flex-direction "column"
-                 :width          "100%"}}
-   [field "textarea" (or (:selected-page @global) :home) "HTML" (r/cursor global [:pages])]
-   ])
+  (let [session (r/cursor global [:session])]
+    [:div {:style {:display        "flex"
+                   :flex-direction "column"
+                   :width          "100%"}}
+     [:button
+      {:on-click
+       (fn []
+         (update-page (name (:selected-page @global))
+                      (get-codemirror-content)
+                      session))}
+      "speichern"]
+     [codemirror-area
+      (-> @global
+          :pages
+          ((or (:selected-page @global) :home)))]]))
 
 (defn pages [global]
   (dorun (for [page (keys (:pages @global))]
-     (get-page global (name page) (r/cursor global [:pages page]))))
-  [:div
-   [pages-list global]
-   [pages-form global]])
+           (get-page global (name page) (r/cursor global [:pages page]))))
+  (fn [global]
+    [:div
+     [pages-list global]
+     [pages-form global]]))

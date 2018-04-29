@@ -44,7 +44,7 @@
 (defn update-page [type content session]
   (http/put (str "http://api.festival-jups.ch/pages/" type)
             {:json-params       {:session @session
-                                 :data @content}
+                                 :data content}
              :with-credentials? false}))
 
 #_(defn login-check [session]
@@ -66,11 +66,11 @@
           (swap! global #(assoc % list-key (-> response :body :data)))))))
 
 #_(defn upload-file [global type file file-list]
-  (go (let [response (<! (http/post (str "http://api.festival-jups.ch/" type)
-                                    {:multipart-params  [["session" (:session @global)] ["file" @file]]
-                                     :with-credentials? false}))]
-        (if (success? global response)
-          (reset! file-list (-> response :body :data))))))
+    (go (let [response (<! (http/post (str "http://api.festival-jups.ch/" type)
+                                      {:multipart-params  [["session" (:session @global)] ["file" @file]]
+                                       :with-credentials? false}))]
+          (if (success? global response)
+            (reset! file-list (-> response :body :data))))))
 
 (defn upload-files [global type files file-list]
   (go (let [response (<! (http/post (str "http://api.festival-jups.ch/" type)

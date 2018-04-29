@@ -1,7 +1,7 @@
 (ns webbackend.upload
   (:require
     [reagent.core :as r]
-    [webbackend.fields :refer [delete-field multi-upload-field]]))
+    [webbackend.fields :refer [multi-upload-field delete-field]]))
 
 (defn upload [global]
   (let [image-list (r/cursor global [:images])
