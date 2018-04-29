@@ -6,7 +6,7 @@
             [prosemirror-schema-list :refer [addListNodes]]
             [prosemirror-example-setup :refer [exampleSetup]]))
 
-(def mySchema
+(defonce mySchema
   (Schema.
     #js {"nodes" (addListNodes (-> prosemirror-schema-basic/schema .-spec .-nodes) "paragraph block*" "block")
          "marks" (-> prosemirror-schema-basic/schema .-spec .-marks)}))
@@ -17,7 +17,7 @@
       (.parse (doto (js/document.createElement "div")
                 (#(set! (.-innerHTML %) (key event)))))))
 
-(def current-view (atom {}))
+(defonce current-view (atom {}))
 
 (defn view [key event]
   (let [prosemirror-dom-node (doto

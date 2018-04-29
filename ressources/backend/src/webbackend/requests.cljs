@@ -22,8 +22,8 @@
 (defn login-request [global]
   (go (let [response (<! (http/post "http://api.festival-jups.ch/login"
                                     {:json-params       {:session ""
-                                                         :data    {:username (:username global)
-                                                                   :password (:password global)}}
+                                                         :data    {:username (:username @global)
+                                                                   :password (:password @global)}}
                                      :with-credentials? false}))]
         (if (success? global response)
           (swap! global

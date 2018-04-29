@@ -109,8 +109,6 @@
      [:p (:error global)]
      [:div {:style {:display         "flex"
                     :flex-direction  "row"
-                    :justify-content "space-between"
-                    :width           "100%"
-                    :height          "100%"}}
+                    :justify-content "space-between"}}
       [event-list global]
       [event-form global]]]))

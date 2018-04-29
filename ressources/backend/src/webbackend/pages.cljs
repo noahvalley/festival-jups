@@ -3,7 +3,7 @@
     [reagent.core :as r]
     [webbackend.fields :refer [field]]
     [webbackend.requests :refer [get-page update-page]]
-    [webbackend.codemirror :refer [codemirror-area get-codemirror-content]]))
+    [webbackend.codemirror :refer [codemirror get-codemirror-content]]))
 
 
 (defn pages-list [global]
@@ -11,8 +11,7 @@
    {:style
     {:display         "flex"
      :flex-direction  "row"
-     :justify-content "space-between"
-     :width           "100%"}}
+     :justify-content "space-between"}}
    (for [page (keys (:pages @global))]
      ^{:key page}
      [:p
@@ -32,7 +31,7 @@
                       (get-codemirror-content)
                       session))}
       "speichern"]
-     [codemirror-area
+     [codemirror
       (-> @global
           :pages
           ((or (:selected-page @global) :home)))]]))
@@ -42,8 +41,6 @@
            (get-page global (name page) (r/cursor global [:pages page]))))
   (fn [global]
     [:div {:style {:display "flex"
-                   :flex-direction "column"
-                   :width          "100%"
-                   :height "100%"}}
+                   :flex-direction "column"}}
      [pages-list global]
      [pages-form global]]))

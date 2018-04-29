@@ -1,6 +1,5 @@
 (ns webbackend.fields
-  (:require [reagent.core :as r]
-            [webbackend.requests :refer [upload-files delete-file]]))
+  (:require [webbackend.requests :refer [upload-files delete-file]]))
 
 (def label-style {:width "10%"})
 (def input-style {:width "90%"})
@@ -51,31 +50,26 @@
         thing-key (keyword (str "selected-" (name property-key)))]
     [:div {:style {:display        "flex"
                    :flex-direction "row"}}
-     [:label {:for   (str year-key)
-              :style label-style}
-      (str description ": ")]
-     [:div {:style input-style}
-      [:select {:name      (str year-key)
-                :value     (or (year-key @global) "")
-                :on-change (fn [e]
-                             (let [update-year (update-data year-key global)]
-                               (swap! global #(assoc % thing-key ""))
-                               (update-year e)
-                               (year-url global property-key year-key thing-key event-property?)))}
-       (for [s (cons "" years)]
-         ^{:key s}
-         [:option {:value s} s])]
-      [:select
-       {:value     (or (thing-key @global) "")
-        :on-change (fn [e]
-                     (let [update-thing (update-data thing-key global)]
-                       (update-thing e)
-                       (year-url global property-key year-key thing-key event-property?)))}
-       (if (not (or (= "" (year-key @global))
-                    (nil? (year-key @global))))
-         (for [s (cons "" ((keyword (year-key @global)) (list-key @global)))]
-           ^{:key s}
-           [:option {:value s} s]))]]]))
+     [:p (str description ": ")]
+     [:select {:value     (or (year-key @global) "")
+               :on-change (fn [e]
+                            (let [update-year (update-data year-key global)]
+                              (swap! global #(assoc % thing-key ""))
+                              (update-year e)
+                              (year-url global property-key year-key thing-key event-property?)))}
+      (for [s (cons "" years)]
+        ^{:key s}
+        [:option {:value s} s])]
+     [:select {:value     (or (thing-key @global) "")
+               :on-change (fn [e]
+                            (let [update-thing (update-data thing-key global)]
+                              (update-thing e)
+                              (year-url global property-key year-key thing-key event-property?)))}
+      (if (not (or (= "" (year-key @global))
+                   (nil? (year-key @global))))
+        (for [s (cons "" ((keyword (year-key @global)) (list-key @global)))]
+          ^{:key s}
+          [:option {:value s} s]))]]))
 
 (defn double-dropdown-image [global property-key list-key description]
   [:div {:style {:display        "flex"
@@ -109,7 +103,7 @@
   [:div {:style {:border-style "solid"
                  :border-color "black"
                  :display "flex"
-                 :flex-direction "column"}}
+                 :flex-direction "row"}}
    [double-dropdown global property-key list-key description event-property?]
    [:button {:style {:max-width "100px"}
              :on-click #(delete-file global type (property-key @global) list-key)}
@@ -119,14 +113,11 @@
   [:div {:style {:border-style "solid"
                  :border-color "black"
                  :display         "flex"
-                 :flex-direction  "row"
-                 :justify-content "flex-start"
-                 :max-width       "90%"}}
+                 :flex-direction  "row"}}
    [:label {:for   type
             :style {:width "30%"}}
     (str description ": ")]
-   [:input {:style     {:display        "flex"
-                        :flex-direction "row"}
+   [:input {
             :multiple  true
             :name      type
             :type      "file"
