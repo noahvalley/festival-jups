@@ -22,7 +22,7 @@ export const fetchEvents = () => (dispatch) => {
 
 
 export const setPages = (pages) => ({
-  type: 'setHome',
+  type: 'setPages',
   payload: pages
 });
 
