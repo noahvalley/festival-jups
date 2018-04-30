@@ -41,8 +41,8 @@ class Event extends Component {
       ausverkauftText,
       sponsorImg,
     } = this.props;
-    const bildURL = API_BASE_URL + '/images/' + bild;
-    const sponsorImgURL = API_BASE_URL + '/images/' + sponsorImg;
+    const bildURL = API_BASE_URL + '/images/W600/' + bild;
+    const sponsorImgURL = API_BASE_URL + '/images/H60/' + sponsorImg;
 
     return (
       <li className={ typ }>

@@ -43,6 +43,10 @@ class Programm extends Component {
         <div className="main">
           <div className="content programm">
 
+            { this.props.text &&
+              <div dangerouslySetInnerHTML={{__html: this.props.text}} />
+            }
+
             {
               !this.props.error &&
               (
@@ -134,6 +138,17 @@ class Programm extends Component {
 }
 
 const mapStateToProps = (state) => {
+
+  if ( !state.fetchState.pages) return { error: 'loading' }
+
+  const { content, showText, showProgramm } = state.pages.programm;
+  let text = '';
+  if ( showText ) text = content;
+
+  if ( !showProgramm ) return { error: 'Programm noch nicht zugänglich', text }
+
+  const reservationOffen = state.pages.tickets.showForm;
+
   const events = state.events.map( event => {
     const { zeitVon, zeitBis, ...rest } = event;
     const datumVon = new Date(zeitVon);
@@ -145,7 +160,7 @@ const mapStateToProps = (state) => {
     const monat = datumVon.getMonth()+1;
     const tage = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
 
-    const reservierbar = /* reservation offen && */ event.typ !== 'offenesangebot' && new Date() < datumVon;
+    const reservierbar = reservationOffen && event.typ !== 'offenesangebot' && new Date() < datumVon;
 
     return { ...rest,
       reservierbar,
@@ -168,7 +183,7 @@ const mapStateToProps = (state) => {
   })
 
   const tage =  Object.keys(eventsJeTag);
-  if ( tage.length > 0 ) return { events: eventsJeTag, tage };
+  if ( tage.length > 0 ) return { events: eventsJeTag, tage, text };
   return { error: 'No events' };
 }
 
