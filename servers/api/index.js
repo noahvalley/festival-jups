@@ -28,23 +28,6 @@ database.init((err)=>{
 
 var app = connect();
 
-var pahtimg = path.join(__dirname, '../../ressources/upload/images/2018/');
-var folder = fs.readdirSync(pahtimg);
-folder.forEach((file) => {
-  var stats = fs.statSync(path.join(pahtimg, file));
-  if (stats.isDirectory()){}else{
-   images.resize(file, new Date().getFullYear().toString(), (err) => {
-     if (err){
-       console.log(err);
-     }else{
-       console.log('allgood');
-     }
-   }); 
-  }
-});
-
-
-
 /*var corsWhitelist = ['http://festival-jups.ch', 'http://admin.festival-jups.ch','https://festival-jups.ch', 'https://admin.festival-jups.ch'];
 var corsOptionsDelegate = (req, callback) => {
   var corsOptions;
