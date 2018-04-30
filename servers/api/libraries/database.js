@@ -56,7 +56,6 @@ var database = {
   },
   getEventById : (id, callback) => {
     var event = global.jupsstate.events.find(event => event.id == id);
-    console.log(global.jupsstate.events);
     if (event === undefined){
       callback(event, error.eventIdNotFound());
     }else{
@@ -85,7 +84,6 @@ var database = {
     if (eventIndex === -1){
       next(error.eventIdNotFound());
     }else{
-      console.log(eventIndex);
       global.jupsstate.events[eventIndex] = event;
       database.dumpDB((err)=>{
         if (err){
@@ -115,7 +113,23 @@ var database = {
     }else{
       callback(error.eventIdNotFound());
     }
-  }
+  },
+  getPages : (callback) => {
+    callback(global.jupsstate.pages);
+  },
+  getPageByName : (name, callback) => {
+    callback(global.jupsstate.pages[name]);
+  },
+  updatePageByName : (name, page, callback) => {
+    global.jupsstate.pages[name] = page;
+    database.dumpDB((err)=>{
+      if (err){
+        callback(global.jupsstate.pages[name], err);
+      }else{
+        callback(global.jupsstate.pages[name]);
+      }
+    });
+  } 
 }
 
 module.exports = database;

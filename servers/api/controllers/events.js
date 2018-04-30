@@ -9,7 +9,7 @@ var events = {
     logger('events.getAll');
     database.getEvents((events,err) => {
       if (err){
-        logger('DataBaseReadEventsError: ' + err);
+        next(err);
       }else{
         req.jupssenddata = events;
         next();
@@ -19,7 +19,6 @@ var events = {
   get : (req, res, next) => {
     logger('events.get '+req.params.id);
     database.getEventById(req.params.id, (event,err) => {
-      logger(event);
       if (err){
         next(err);
       }else{

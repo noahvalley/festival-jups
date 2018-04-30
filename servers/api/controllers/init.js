@@ -44,6 +44,10 @@ var reset = {
     }
       res.setHeader('Content-Type', 'application/json');
     res.send(response);
+  },
+  noResponse : (req, res, next) => {
+    logger('404');
+    res.sendStatus(404);
   }
 }
 

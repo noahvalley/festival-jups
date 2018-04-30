@@ -17,6 +17,11 @@ var errors = {
     return {error: true, number: 2000, message: 'id in data does not match id of REST connection', subinfo: subinfo};
   },
 
+  //Pages Errors
+  pageNotExisting : (subinfo) => {
+    return {error: true, number: 3000, message: 'page does not exist', subinfo: subinfo};
+  },
+  
   //Files Errors
   formidableFail : (subinfo) => {
     return {error: true, number: 4000, message: 'something wrong with form Data', subinfo: subinfo}
@@ -26,6 +31,9 @@ var errors = {
   },
   deletingFileFail : (subinfo) => {
     return {error: true, number: 4002, message: 'something wrong with deleting Files', subinfo: subinfo}
+  },
+  resizeError : (subinfo) => {
+    return {error: true, number: 4003, message: 'something wrong with resizing Images', subinfo: subinfo}
   },
   
   //Mail Errors

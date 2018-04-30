@@ -3,6 +3,7 @@
 var path = require('path');
 var fs = require('fs');
 var formidable = require('formidable');
+var images = require('../libraries/images.js');
 var error = require('../libraries/error.js');
 
 var file = {
@@ -62,11 +63,13 @@ var file = {
           next(error.coockieTooOld());
         }else{
           global.jupsstate.sessions[sessionID] = new Date();
+          req.jupsFiles = [];
           for (var file in form.jupsTmpFiles){
             fs.rename(form.jupsTmpFiles[file].path, path.join(form.uploadDirDef, form.jupsTmpFiles[file].name), err => {
               if (err){
                 next(error.renameingFail(err));
               }
+              req.jupsUploadedFiles.push(form.jupsTmpFiles[file].name);
             });
           }
           next();
@@ -76,6 +79,19 @@ var file = {
       }
     });
     form.parse(req);
+  },
+  resizeImg : (req, res, next) => {
+    try {
+      for (var file in req.jupsUploadedFiles){
+        filename, subfolder, callback
+        images.resize(file, new Date().getFullYear().toString(), () =>{
+        
+        });
+      }
+    }
+    catch(err) {
+      next(error.resizeError(err));
+    }
   },
   delete : (req, res, next) => {
     fs.unlink(path.join(path.join(req.jupsfilepath, req.params.fileyear), req.params.filename), (err) => {

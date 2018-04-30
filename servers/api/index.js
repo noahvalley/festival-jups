@@ -8,6 +8,7 @@ var connectRoute = require('connect-route');
 var bodyParser = require('body-parser');
 var cors = require('cors')
 var path = require('path');
+var fs = require('fs')
 
 var init = require('./controllers/init.js');
 var events = require('./controllers/events.js');
@@ -16,6 +17,7 @@ var file = require('./controllers/files.js');
 var auth = require('./controllers/auth.js');
 var mailer = require('./controllers/mailer.js');
 var database = require('./libraries/database.js');
+var images = require('./libraries/images.js');
 
 init.init();
 database.init((err)=>{
@@ -25,6 +27,23 @@ database.init((err)=>{
 });
 
 var app = connect();
+
+var pahtimg = path.join(__dirname, '../../ressources/upload/images/2018/');
+var folder = fs.readdirSync(pahtimg);
+folder.forEach((file) => {
+  var stats = fs.statSync(path.join(pahtimg, file));
+  if (stats.isDirectory()){}else{
+   images.resize(file, new Date().getFullYear().toString(), (err) => {
+     if (err){
+       console.log(err);
+     }else{
+       console.log('allgood');
+     }
+   }); 
+  }
+});
+
+
 
 /*var corsWhitelist = ['http://festival-jups.ch', 'http://admin.festival-jups.ch','https://festival-jups.ch', 'https://admin.festival-jups.ch'];
 var corsOptionsDelegate = (req, callback) => {
@@ -82,69 +101,18 @@ app.use(connectRoute((router) => {
     .use(init.sendData)
     .use(init.sendError)
   );
-  router.get('/pages/home', 
+  router.get('/pages/:pageName', 
     connect()
-    .use(pages.home.get)
+    .use(pages.checkPage)
+    .use(pages.getOne)
     .use(init.sendData)
     .use(init.sendError)
   );
-  router.get('/pages/orte', 
-    connect()
-    .use(pages.orte.get)
-    .use(init.sendData)
-    .use(init.sendError)
-  );
-  router.get('/pages/kontakt', 
-    connect()
-    .use(pages.kontakt.get)
-    .use(init.sendData)
-    .use(init.sendError)
-  );
-  router.get('/pages/archiv', 
-    connect()
-    .use(pages.archiv.get)
-    .use(init.sendData)
-    .use(init.sendError)
-  );
-  router.get('/pages/downloads', 
-    connect()
-    .use(pages.downloads.get)
-    .use(init.sendData)
-    .use(init.sendError)
-  );
-
-  router.put('/pages/home',
+  router.put('/pages/:pageName',
     connect()
     .use(auth.check)
-    .use(pages.home.update)
-    .use(init.sendData)
-    .use(init.sendError)
-  );
-  router.put('/pages/orte',
-    connect()
-    .use(auth.check)
-    .use(pages.orte.update)
-    .use(init.sendData)
-    .use(init.sendError)
-  );
-  router.put('/pages/kontakt',
-    connect()
-    .use(auth.check)
-    .use(pages.kontakt.update)
-    .use(init.sendData)
-    .use(init.sendError)
-  );
-  router.put('/pages/archiv',
-    connect()
-    .use(auth.check)
-    .use(pages.archiv.update)
-    .use(init.sendData)
-    .use(init.sendError)
-  );
-  router.put('/pages/downloads',
-    connect()
-    .use(auth.check)
-    .use(pages.downloads.update)
+    .use(pages.checkPage)
+    .use(pages.updateOne)
     .use(init.sendData)
     .use(init.sendError)
   );
@@ -185,6 +153,7 @@ app.use(connectRoute((router) => {
     connect()
     .use(file.setPathImages)
     .use(file.upload)
+    .use(file.resizeImg)
     .use(file.getFileList)
     .use(init.sendData)
     .use(init.sendError)
@@ -220,9 +189,12 @@ app.use(connectRoute((router) => {
     .use(init.sendData)
     .use(init.sendError)
   );
+
 }));
 
 app.use('/images', serveStatic(path.join(__dirname,'../../ressources/upload/images')));
 app.use('/files', serveStatic(path.join(__dirname,'../../ressources/upload/files')));
+app.use(init.noResponse);
+
 
 module.exports = app;
