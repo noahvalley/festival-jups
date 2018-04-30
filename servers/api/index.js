@@ -1,6 +1,5 @@
 'use strict';
 
-var res = require('dotenv').config({path: __dirname+'/data.env'});  
 
 var connect = require('connect');
 var serveStatic = require('serve-static');
@@ -8,7 +7,7 @@ var connectRoute = require('connect-route');
 var bodyParser = require('body-parser');
 var cors = require('cors')
 var path = require('path');
-var fs = require('fs')
+var res = require('dotenv').config({path: __dirname+'/data.env'});  
 
 var init = require('./controllers/init.js');
 var events = require('./controllers/events.js');
@@ -17,7 +16,6 @@ var file = require('./controllers/files.js');
 var auth = require('./controllers/auth.js');
 var mailer = require('./controllers/mailer.js');
 var database = require('./libraries/database.js');
-var images = require('./libraries/images.js');
 
 init.init();
 database.init((err)=>{

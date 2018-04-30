@@ -26,13 +26,19 @@ var images = {
     }
 
     jimp.read(path.join(imageRawPath, filename), function (err, data) {
-      logger('resizeing: ' + filename);
+      logger('resizing: ' + filename);
       if (err){
         callback(err);
       }else{
-        callback();
+        jimp.read(path.join(imageRawPath, filename), function (err, data) {
+          if (err){
+            callback(err);
+          }else{
+            callback();
+            data.resize(jimp.AUTO, 60).write(path.join(imageH60Path, filename));
+          }
+        });
       }
-      data.resize(jimp.AUTO, 60).write(path.join(imageH60Path, filename));
       data.resize(600, jimp.AUTO).write(path.join(imageW600Path, filename));
     });
   }
