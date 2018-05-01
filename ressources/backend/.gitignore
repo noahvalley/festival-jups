@@ -10,7 +10,8 @@ pom.xml.asc
 /.lein-*
 /.nrepl-port
 /resources/public/js
-/public/js
+/public/js/**/*
+!/public/js/codemirror-5.37.0/**/*
 /out
 /.repl
 *.log
