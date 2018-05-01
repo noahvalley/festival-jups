@@ -50,7 +50,7 @@
                                       {:on-jsload "webbackend.core/mount-root"
                                        :open-urls ["http://localhost:3449/index.html"]}}
                        :release
-                       {:source-paths ["src" "env/prod/cljs"]
+                       {:source-paths ["src" "env/prod/cljs" "node_modules"]
                         :compiler
                                       {:output-to "public/js/app.js"
                                        :output-dir "public/js/release"

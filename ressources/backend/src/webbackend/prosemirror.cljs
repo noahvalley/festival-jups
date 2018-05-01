@@ -4,7 +4,8 @@
             [prosemirror-model :refer [Schema DOMParser DOMSerializer]]
             [prosemirror-schema-basic :refer [schema]]
             [prosemirror-schema-list :refer [addListNodes]]
-            [prosemirror-example-setup :refer [exampleSetup]]))
+            [prosemirror-example-setup :refer [exampleSetup]]
+            [reagent.core :as r]))
 
 (defonce mySchema
   (Schema.
@@ -51,11 +52,11 @@
       .-innerHTML))
 
 (defn prosemirror [key event]
-  (reagent.core/create-class
+  (r/create-class
     {:display-name         "prosemirror"
      :reagent-render       (fn [] [:div.ProseMirror])
-     :component-did-mount  #(.appendChild (reagent.core/dom-node %) (view key event))
+     :component-did-mount  #(.appendChild (r/dom-node %) (view key event))
      :component-will-update #(.replaceChild
-                               (reagent.core/dom-node %)
+                               (r/dom-node %)
                                (view (second %2) (get %2 2))
                                (js/document.getElementById "prosemirror"))}))
