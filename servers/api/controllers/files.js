@@ -83,7 +83,6 @@ var file = {
   resizeImg : (req, res, next) => {
     try {
       for (var file in req.jupsUploadedFiles){
-        filename, subfolder, callback
         images.resize(file, new Date().getFullYear().toString(), () =>{
         
         });
@@ -96,6 +95,18 @@ var file = {
   delete : (req, res, next) => {
     fs.unlink(path.join(path.join(req.jupsfilepath, req.params.fileyear), req.params.filename), (err) => {
       if (err) next(error.deletingFileFail(err));
+      var W600Path = path.join(path.join(path.join(req.jupsfilepath, 'W600/'), req.params.fileyear), req.params.filename);
+      if (fs.existsSync(W600Path)){
+        fs.unlink(W600Path), (err) => {
+          if (err) next(error.deletingFileFail(err));
+        }
+      }
+      var H60 = path.join(path.join(path.join(req.jupsfilepath, 'H60/'), req.params.fileyear), req.params.filename);
+      if (fs.existsSync(H60)){
+        fs.unlink(H60), (err) => {
+          if (err) next(error.deletingFileFail(err));
+        }
+      }
       next();
     });
   }
