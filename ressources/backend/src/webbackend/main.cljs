@@ -7,11 +7,8 @@
     [webbackend.upload :refer [upload]]))
 
 (defonce global (r/atom {:page    :events
-                         :pages   {:home      nil
-                                   :orte      nil
-                                   :kontakt   nil
-                                   :downloads nil
-                                   :archiv nil}
+                         :pages   {}
+                         :selected-page :home
                          :session nil
                          :event   {:ausverkauft false}}))
 

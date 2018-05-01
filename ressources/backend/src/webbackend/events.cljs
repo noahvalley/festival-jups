@@ -100,10 +100,12 @@
 (defn events-form [global]
   (let [events (r/cursor global [:events])
         images (r/cursor global [:images])
-        files (r/cursor global [:files])]
+        files (r/cursor global [:files])
+        pages (r/cursor global [:pages])]
     (get-list global "events" events)
     (get-list global "files" files)
     (get-list global "images" images)
+    (get-list global "pages" pages)
     [:div {:style {:display         "flex"
                    :flex-direction  "column"}}
      [:p (:error global)]
