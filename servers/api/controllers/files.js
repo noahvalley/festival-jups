@@ -5,6 +5,7 @@ var fs = require('fs');
 var formidable = require('formidable');
 var images = require('../libraries/images.js');
 var error = require('../libraries/error.js');
+var logger = require('../libraries/logger.js');
 
 var file = {
   setPathFiles : (req, res, next) => {
@@ -73,8 +74,8 @@ var file = {
               if (err){
                 next(error.renameingFail(err));
               }
-              req.jupsUploadedFiles.push(form.jupsTmpFiles[file].name);
             });
+            req.jupsUploadedFiles.push(form.jupsTmpFiles[file].name);
           }
           next();
         }
@@ -89,7 +90,7 @@ var file = {
     logger(req.jupsUploadedFiles);
     try {
       for (var file in req.jupsUploadedFiles){
-        images.resize(file, new Date().getFullYear().toString(), () =>{
+        images.resize(req.jupsUploadedFiles[file], new Date().getFullYear().toString(), () =>{
         });
       }
       next();
