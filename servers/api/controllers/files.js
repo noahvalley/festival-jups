@@ -84,9 +84,9 @@ var file = {
     try {
       for (var file in req.jupsUploadedFiles){
         images.resize(file, new Date().getFullYear().toString(), () =>{
-        
         });
       }
+      next();
     }
     catch(err) {
       next(error.resizeError(err));
