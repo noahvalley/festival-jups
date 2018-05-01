@@ -28,10 +28,10 @@
      [:button
       {:on-click
        (fn []
-         (update-page page
+         (update-page global page
                       (assoc (-> @global :pages ((:selected-page @global)))
                         :content (get-codemirror-content))
-                      session))}
+                      (r/cursor global [:pages (:selected-page @global)])))}
       "speichern"]
      (cond (#{"home" "orte" "kontakt" "archiv" "downloads"} [page]) nil
            (= "tickets" page) (let [tickets (r/cursor global [:pages :tickets])]
