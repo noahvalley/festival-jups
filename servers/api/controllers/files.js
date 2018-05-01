@@ -22,7 +22,7 @@ var file = {
     var folders = fs.readdirSync(req.jupsfilepath);
     folders.forEach((folder) => {
       var stats = fs.statSync(path.join(req.jupsfilepath, folder));
-      if (stats.isDirectory()){
+      if (stats.isDirectory() && !isNaN(parseInt(abc))){
         fileList[folder] = [];
         var files = fs.readdirSync(path.join(req.jupsfilepath,folder));
         files.forEach((file) => {

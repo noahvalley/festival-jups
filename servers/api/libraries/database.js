@@ -27,21 +27,20 @@ var database = {
         global.jupsstate.events = JSON.parse(data);
         fs.readFile(pagesPath, (err, data) => {
           if (err){
-    		      callback(error.DBReadFile(err));
+    		    callback(error.DBReadFile(err));
           }else{
             global.jupsstate.pages = JSON.parse(data);
-            callback();
           }
         });
       }
     });
   },
   dumpDB : (callback) => {
-		fs.writeFile(evntsPath, JSON.stringify(global.jupsstate.events), function(err) {
+		fs.writeFile(evntsPath, JSON.stringify(global.jupsstate.events, null, '  '), function(err) {
 		    if(err) {
 		      callback(error.DBWriteFile(err));
 		    }else{
-      		fs.writeFile(pagesPath, JSON.stringify(global.jupsstate.pages), function(err) {
+      		fs.writeFile(pagesPath, JSON.stringify(global.jupsstate.pages, null, '  '), function(err) {
       		    if(err) {
       		      callback(error.DBWriteFile(err));
       		    }else{
