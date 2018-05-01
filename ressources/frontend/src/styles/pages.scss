@@ -100,9 +100,10 @@
 
 
 
-/* DOWNLOADS */
+/* DOWNLOADS + ARCHIV */
 
-.content.downloads {
+.content.downloads,
+.content.archiv {
   overflow: auto; // spannt sich um float
   margin-right: 10px;
   line-height: 1.3em;
@@ -111,24 +112,19 @@
     float: left;
     margin: 0 20px 20px 0;
   }
+  h1 {
+    margin-bottom: 30px;
+  }
+  h1:first-child {
+    margin-top: 1px;
+  }
 }
 
 @media only screen and (max-width: 850px) {
-  .content.downloads { margin-right: 0px; }
+  .content.downloads,
+  .content.archiv { margin-right: 0px; }
 }
 
-
-
-/* ARCHIV */
-
-.content.archiv {
-  h1 { margin-bottom: 30px;}
-  a {
-    border-bottom: none;
-    float: left;
-    margin: 0 20px 20px 0;
-  }
-}
 
 
 
