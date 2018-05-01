@@ -3,6 +3,16 @@ const events = (state = [], action) => {
 
     case 'setEvents':
       const events = [];
+
+      // workaround because interpretation of Date() varies from browser to browser
+      let offset = 0
+      if ( action.payload.length > 0 ) {
+        const beispiel = action.payload[0].zeitVon;
+        const stundenBrowser = new Date(beispiel).getHours();
+        const stundenRichtig = beispiel.slice(11,13);
+        offset = 3600000 * (stundenRichtig - stundenBrowser);
+      }
+
       action.payload.forEach( event => {
         const {
           id,
@@ -33,8 +43,8 @@ const events = (state = [], action) => {
           titel,
           untertitel,
           ort,
-          zeitVon,
-          zeitBis,
+          zeitVon: new Date( Date.parse(zeitVon) + offset ),
+          zeitBis: new Date( Date.parse(zeitBis) + offset ),
           bild,
           sponsorImg,
           beschreibung,
