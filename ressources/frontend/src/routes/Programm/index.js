@@ -151,24 +151,22 @@ const mapStateToProps = (state) => {
 
   const events = state.events.map( event => {
     const { zeitVon, zeitBis, ...rest } = event;
-    const datumVon = new Date(zeitVon);
-    const datumBis = new Date(zeitBis);
-    let zeitVonMin = datumVon.getMinutes();
-    let zeitBisMin = datumBis.getMinutes();
+    let zeitVonMin = zeitVon.getMinutes();
+    let zeitBisMin = zeitBis.getMinutes();
     if (zeitVonMin<10) zeitVonMin = '0' + zeitVonMin;
     if (zeitBisMin<10) zeitBisMin = '0' + zeitBisMin;
-    const monat = datumVon.getMonth()+1;
+    const monat = zeitVon.getMonth()+1;
     const tage = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
 
-    const reservierbar = reservationOffen && event.typ !== 'offenesangebot' && new Date() < datumVon;
+    const reservierbar = reservationOffen && event.typ !== 'offenesangebot' && new Date() < zeitVon;
 
     return { ...rest,
       reservierbar,
-      zeitVonStd: datumVon.getHours(),
+      zeitVonStd: zeitVon.getHours(),
       zeitVonMin,
-      zeitBisStd: datumBis.getHours(),
+      zeitBisStd: zeitBis.getHours(),
       zeitBisMin,
-      tag: tage[datumVon.getDay()] + ', ' + datumVon.getDate() + '.' + monat + '.' + datumVon.getFullYear()
+      tag: tage[zeitVon.getDay()] + ', ' + zeitVon.getDate() + '.' + monat + '.' + zeitVon.getFullYear()
     }
   })
 

@@ -95,12 +95,14 @@ class Tickets extends Component {
         return;
       }
 
+      this.setState({ statusMessage: 'Senden...' });
+
+      console.log(data);
       // mail versenden
       sendMail(data)
         .then( response => {
-          console.log(response);
           if ( response && response.error && response.error.error === false) this.setState({ istVersendet: true });
-          else this.setState({ statusMessage: 'Senden ist fehlgeschlagen.' });
+          else this.setState({ statusMessage: 'Senden fehlgeschlagen. Bitte nochmals versuchen.' });
         })
     }
   }
@@ -122,7 +124,7 @@ class Tickets extends Component {
           <div className="reservation-wrapper">
             { this.props.error
               ? this.props.error === 'loading'
-                ? 'Veranstaltungen laden... ' /* error: loading */
+                ? 'laden... ' /* error: loading */
                 : this.props.text
                   ? ''
                   : 'Momentan gibt es keine Veranstaltungen mit offener Reservation.' /* events da, aber keine reservierbar */
@@ -133,7 +135,10 @@ class Tickets extends Component {
                     <p><strong>Reservationen sind verbindlich.</strong></p>
                     { this.state.istVersendet /* nach dem versenden wird formular nicht mehr angezeigt */
                       ? <div className="status">
-                          Die Anfrage wurde versendet. Wir werden uns bei Ihnen melden.
+                          { this.props.content_form_sent
+                            ? this.props.content_form_sent
+                            : 'Die Anfrage wurde versendet.'
+                          }
                         </div>
                       : <form onSubmit={ this.handleSend }>
                           <div className="erklaerung" style={{ width: 60 + 'px', display: 'inline-box', float: 'left', paddingLeft: 30 + 'px' }}>
@@ -254,7 +259,7 @@ class Tickets extends Component {
 const mapStateToProps = (state) => {
   if ( !state.fetchState.events || !state.fetchState.pages ) return { error: 'loading' }
 
-  const { content, showText, showForm } = state.pages.tickets;
+  const { content, showText, showForm, content_form_sent } = state.pages.tickets;
   let text = '';
   if ( showText ) text = content;
 
@@ -262,28 +267,26 @@ const mapStateToProps = (state) => {
 
   const events = state.events.map( event => {
     const { zeitVon, zeitBis, titel, position, ausverkauft, id, typ } = event;
-    const datumVon = new Date(zeitVon);
-    const datumBis = new Date(zeitBis);
-    let zeitVonMin = datumVon.getMinutes();
-    let zeitBisMin = datumBis.getMinutes();
+    let zeitVonMin = zeitVon.getMinutes();
+    let zeitBisMin = zeitBis.getMinutes();
     if (zeitVonMin<10) zeitVonMin = '0' + zeitVonMin;
     if (zeitBisMin<10) zeitBisMin = '0' + zeitBisMin;
-    const monat = datumVon.getMonth()+1;
+    const monat = zeitVon.getMonth()+1;
     const tage = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
-    const tag = tage[datumVon.getDay()] + ' ' + datumVon.getDate() + '.' + monat + '.' + datumVon.getFullYear();
+    const tag = tage[zeitVon.getDay()] + ' ' + zeitVon.getDate() + '.' + monat + '.' + zeitVon.getFullYear();
 
-    return { titel, position, datumVon, ausverkauft, id, typ,
-      text: tag + ', ' + datumVon.getHours() + ':' + zeitVonMin + '–' + datumBis.getHours() + ':' + zeitBisMin + ': ' + titel
+    return { titel, position, zeitVon, ausverkauft, id, typ,
+      text: tag + ', ' + zeitVon.getHours() + ':' + zeitVonMin + '–' + zeitBis.getHours() + ':' + zeitBisMin + ': ' + titel
     }
   }).filter( event => { // offene angebote weg
     return event.typ !== 'offenesangebot';
   }).filter( event => { // unreservierbare events weg
     return !event.ausverkauft;
   }).filter( event => { // schon vergangene events weg
-    return event.datumVon > new Date();
+    return event.zeitVon > new Date();
   }).sort( (a, b) => a.position - b.position )
 
-  if ( events.length > 0 ) return { events, text, showForm };
+  if ( events.length > 0 ) return { events, text, showForm, content_form_sent };
 
   return { error: 'keine Veranstaltungen mit offener Reservation', text, showForm };
 }
