@@ -1,0 +1,39 @@
+Festival Jups
+
+- exports a connect()-middleware-stack
+  meant to be used with vhost like this:
+    var api = require('../festival-jups/servers/api');
+    var server = express();
+    server.use(vhost('api.festival-jups.ch', api));
+
+
+- after git pull, you need to add the fil servers/api/data.env
+  jupsUser=user
+  jupsPass=password
+  mailerUser=foo@festival-jups.ch
+  mailerPass=SMTPpassword
+  mailerRecipient=bar@festival-jups.ch
+  mailerServer=smtp-server
+  mailerApiKey=API-Key
+
+
+- Servers: npm install in
+  servers/backend
+  servers/frontend
+  servers/api
+
+
+- Frontend/
+  src/contstants/apikey.js erzeugen: export const apikey = 'apikey'
+  npm install
+  npm run build
+  serve-static build/
+  all requests should be answered with index.js
+    
+- Backend/
+  Npm install cha au nid schade
+  Lein deps installiert dependencies
+  lein cljsbuild once release
+  serve-static public/
+  
+  

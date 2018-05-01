@@ -1,0 +1,244 @@
+@import "./farben.scss";
+
+.zweispaltig {
+  width: 100%;
+}
+
+/* HOME */
+
+// zwei spalten (ab 500px)
+.home {
+  .video-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56%;
+  }
+  .video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .spalte-rechts.sponsoren a {
+    border-bottom: none;
+  }
+}
+
+@media only screen and (min-width: 320px + 180px + 2 * 20px) {
+  .home .spalte-links {
+    width: 320px;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .content.home .spalte-rechts {
+    width: calc(100% - 320px);
+    display: inline-block;
+    vertical-align: top;
+    text-align: right;
+  }
+}
+
+
+
+/* ORTE */
+
+#map {
+ height: 550px;
+ width: 100%; // min. 300px
+}
+
+.content.orte ul {
+  margin-top: 0;
+}
+
+.orte ul li {
+  list-style: none;
+  font-size: 90%;
+}
+
+.orte li {
+  margin-bottom: 20px;
+}
+
+@media only screen and (min-width: 650px) {
+  .orte .spielorte {
+    width: 290px;
+    margin-right: 20px;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .orte .karte {
+    width: calc(100% - 310px);
+    display: inline-block;
+    vertical-align: top;
+  }
+}
+
+.orte .buchstabe {
+  float: left;
+  width: 30px;
+  height: 70px;
+  font-size: 150%;
+  padding-top: 3px;
+}
+
+.orte .karte a {
+  border-bottom: none;
+}
+
+
+
+/* KONTAKT */
+
+.kontakt h2 {
+  margin: 30px 0 8px;
+}
+
+
+
+/* DOWNLOADS */
+
+.content.downloads {
+  overflow: auto; // spannt sich um float
+  margin-right: 10px;
+  line-height: 1.3em;
+  a {
+    border-bottom: none;
+    float: left;
+    margin: 0 20px 20px 0;
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  .content.downloads { margin-right: 0px; }
+}
+
+
+
+/* ARCHIV */
+
+.content.archiv {
+  h1 { margin-bottom: 30px;}
+  a {
+    border-bottom: none;
+    float: left;
+    margin: 0 20px 20px 0;
+  }
+}
+
+
+
+/* TICKETS */
+
+.tickets {
+  h1 {
+    margin: 30px 0 10px;
+  }
+
+  .reservation {
+
+    .selectgroup {
+      max-width: 100%;
+    }
+
+    select {
+      padding: 1px;
+      font-size: 90%;
+
+      &.anzahl {
+        width: 50px;
+        margin: 0 10px;
+      }
+
+      &.events {
+        width: 600px;
+        max-width: calc(100% - 100px);
+      }
+    }
+
+    button.weitere-res {
+      font-size: 90%;
+      padding: 6px 0 12px;
+
+      img {
+        margin-right: 6px;
+        height: 24px;
+        position: relative;
+        top: 8px;
+      }
+    }
+
+    label {
+      display: block;
+      margin-bottom: 4px;
+    }
+    input, textarea {
+      font-size: 100%;
+      color: #333;
+      width: 250px;
+      max-width: calc(100% - 10px);
+      border-radius: 0;
+      -webkit-appearance: none;
+      padding: 3px;
+    }
+
+    textarea {
+      height: 120px;
+      width: 2 * 254px + 20px;
+    }
+
+    .formularfeld {
+      float: left;
+      margin-right: 20px;
+      margin-bottom: 15px;
+      max-width: 100%;
+    }
+
+    .erklaerung {
+      font-size: 80%;
+      color: #777;
+    }
+
+    input, textarea, select {
+      border: 1px solid #999;
+
+      &:focus {
+        outline-color: $farbe1-nochheller;
+      }
+    }
+
+    select, input, textarea, button {
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    button.send {
+      font-size: 100%;
+      background-color: $farbe1-schwach;
+      padding: 5px 8px;
+      border: 1px solid $farbe1-dunkler;
+      border-radius: 5px;
+      margin: 20px 15px 10px 0;
+    }
+
+    div.status {
+      display: inline;
+      color: #b70018;
+    }
+  }
+}
+
+@media only screen and (max-width: 620px) {
+  .tickets div.status {
+    display: block;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .tickets .reservation input {
+    width: 350px;
+  }
+}

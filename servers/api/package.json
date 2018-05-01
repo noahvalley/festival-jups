@@ -1,0 +1,26 @@
+{
+  "name": "jups-api",
+  "version": "1.0.0",
+  "description": "festival jups api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Noah Valley",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "connect": "^3.6.5",
+    "connect-route": "^0.1.5",
+    "cors": "^2.8.4",
+    "dotenv": "^5.0.1",
+    "file-system": "^2.2.2",
+    "formidable": "^1.2.1",
+    "jimp": "^0.2.28",
+    "nodemailer": "^4.6.4",
+    "npm": "^5.8.0",
+    "path": "^0.12.7",
+    "serve-static": "^1.13.2",
+    "sha256": "^0.2.0"
+  }
+}
