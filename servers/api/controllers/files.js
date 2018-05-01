@@ -8,16 +8,19 @@ var error = require('../libraries/error.js');
 
 var file = {
   setPathFiles : (req, res, next) => {
+    logger('setPathFiles');
     req.jupsfilepath = path.join(__dirname, '../../../ressources/upload/files');
     req.jupsfilepathtmp = path.join(__dirname, '../../../ressources/upload/tmp');
     next();
   },
   setPathImages : (req, res, next) => {
+    logger('setPathImages');
     req.jupsfilepath = path.join(__dirname, '../../../ressources/upload/images');
     req.jupsfilepathtmp = path.join(__dirname, '../../../ressources/upload/tmp');
     next();
   },
   getFileList : (req, res, next) => {
+    logger('getFileList');
     var fileList = {};
     var folders = fs.readdirSync(req.jupsfilepath);
     folders.forEach((folder) => {
@@ -34,6 +37,7 @@ var file = {
     next();
   },
   upload : (req, res, next) => {
+    logger('upload');
     var form = new formidable.IncomingForm();
     form.jupsTmpFiles = [];
     form.jupsSession = '';
@@ -81,6 +85,8 @@ var file = {
     form.parse(req);
   },
   resizeImg : (req, res, next) => {
+    logger('resizeImg');
+    logger(req.jupsUploadedFiles);
     try {
       for (var file in req.jupsUploadedFiles){
         images.resize(file, new Date().getFullYear().toString(), () =>{
@@ -93,6 +99,7 @@ var file = {
     }
   },
   delete : (req, res, next) => {
+    logger('delete');
     fs.unlink(path.join(path.join(req.jupsfilepath, req.params.fileyear), req.params.filename), (err) => {
       if (err) next(error.deletingFileFail(err));
       var W600Path = path.join(path.join(path.join(req.jupsfilepath, 'W600/'), req.params.fileyear), req.params.filename);
