@@ -42,11 +42,13 @@
         (if (success? global response)
           (reset! content (-> response :body :data))))))
 
-(defn update-page [type content session]
-  (http/put (str "http://api.festival-jups.ch/pages/" type)
-            {:json-params       {:session @session
-                                 :data content}
-             :with-credentials? false}))
+(defn update-page [global type content page]
+  (go (let [response (<! (http/put (str "http://api.festival-jups.ch/pages/" type)
+                                   {:json-params       {:session (:session @global)
+                                                        :data    content}
+                                    :with-credentials? false}))]
+        (if (success? global response)
+          (reset! page (-> response :body :data))))))
 
 (defn delete-file [global type file-name list-key]
   (go (let [response (<! (http/delete (str "http://api.festival-jups.ch/" type "/" file-name)
