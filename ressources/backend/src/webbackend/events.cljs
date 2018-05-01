@@ -41,8 +41,7 @@
      [:div
       [:button
        {:on-click (fn []
-                    (delete-event global event session empty-event)
-                    (get-list global "events" events))}
+                    (delete-event global event session empty-event))}
        "löschen"]
       [:button
        {:on-click (fn []
@@ -55,16 +54,14 @@
        {:on-click (fn []
                     (swap! event #(assoc % :text (get-html-string)))
                     (swap! event #(dissoc % :id))
-                    (new-event global event session)
-                    (get-list global "events" events))}
+                    (new-event global event session))}
        "kopieren"]
       [:button
        {:on-click (fn []
                     (swap! event #(assoc % :text (get-html-string)))
                     (if (:id @event)
                       (update-event global event session)
-                      (new-event global event session))
-                    (get-list global "events" events))}
+                      (new-event global event session)))}
        "speichern"]]
      [:ul (for [list-event (sort compare-events @events)]
             ^{:key (:id list-event)}
@@ -100,10 +97,12 @@
 (defn events-form [global]
   (let [events (r/cursor global [:events])
         images (r/cursor global [:images])
-        files (r/cursor global [:files])]
+        files (r/cursor global [:files])
+        pages (r/cursor global [:pages])]
     (get-list global "events" events)
     (get-list global "files" files)
     (get-list global "images" images)
+    (get-list global "pages" pages)
     [:div {:style {:display         "flex"
                    :flex-direction  "column"}}
      [:p (:error global)]

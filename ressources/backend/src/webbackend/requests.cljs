@@ -1,6 +1,7 @@
 (ns webbackend.requests
   (:require [cljs-http.client :as http]
-            [cljs.core.async :refer [go <!]]))
+            [cljs.core.async :refer [go <!]]
+            [reagent.core :as r]))
 
 (defn note-error [global response]
   (let [error (-> response :body :error)]
@@ -68,7 +69,8 @@
                                                         :data    @event}
                                     :with-credentials? false}))]
         (if (success? global response)
-          (reset! event (-> response :body :data))))))
+          (reset! event (-> response :body :data)))
+        (get-list global "events" (r/cursor global [:events])))))
 
 (defn new-event [global event session]
   (go (let [response (<! (http/post "http://api.festival-jups.ch/events/"
@@ -76,11 +78,13 @@
                                                          :data    @event}
                                      :with-credentials? false}))]
         (if (success? global response)
-          (reset! event (-> response :body :data))))))
+          (reset! event (-> response :body :data)))
+        (get-list global "events" (r/cursor global [:events])))))
 
 (defn delete-event [global event session empty-event]
   (go (let [response (<! (http/delete (str "http://api.festival-jups.ch/events/" (:id @event))
                                       {:json-params       {:session @session}
                                        :with-credentials? false}))]
         (success? global response)
-        (reset! event empty-event))))
+        (reset! event empty-event)
+        (get-list global "events" (r/cursor global [:events])))))
