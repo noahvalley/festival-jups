@@ -4,14 +4,11 @@ const events = (state = [], action) => {
     case 'setEvents':
       const events = [];
 
-      // workaround because interpretation of Date() varies from browser to browser
-      let offset = 0
-      if ( action.payload.length > 0 ) {
-        const beispiel = action.payload[0].zeitVon;
-        const stundenBrowser = new Date(beispiel).getHours();
-        const stundenRichtig = beispiel.slice(11,13);
-        offset = 3600000 * (stundenRichtig - stundenBrowser);
-      }
+      // workaround because interpretation of Date() varies from browser to browser -> let's make a test drill!
+      const beispiel = '2018-09-07T12:00';
+      const stundenRichtig = 12;
+      const stundenBrowser = new Date(beispiel).getHours();
+      const offset = 3600000 * (stundenRichtig - stundenBrowser);
 
       action.payload.forEach( event => {
         const {

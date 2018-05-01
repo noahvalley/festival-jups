@@ -273,10 +273,10 @@ const mapStateToProps = (state) => {
     if (zeitBisMin<10) zeitBisMin = '0' + zeitBisMin;
     const monat = zeitVon.getMonth()+1;
     const tage = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
-    const tag = tage[zeitVon.getDay()] + ' ' + zeitVon.getDate() + '.' + monat + '.' + zeitVon.getFullYear();
+    const tag = tage[zeitVon.getDay()] + ' ' + zeitVon.getDate() + '.' + monat + '.';
 
     return { titel, position, zeitVon, ausverkauft, id, typ,
-      text: tag + ', ' + zeitVon.getHours() + ':' + zeitVonMin + '–' + zeitBis.getHours() + ':' + zeitBisMin + ': ' + titel
+      text: tag + ' ' + zeitVon.getHours() + ':' + zeitVonMin + '–' + zeitBis.getHours() + ':' + zeitBisMin + ': ' + titel
     }
   }).filter( event => { // offene angebote weg
     return event.typ !== 'offenesangebot';
