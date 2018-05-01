@@ -63,7 +63,7 @@ var file = {
           next(error.coockieTooOld());
         }else{
           global.jupsstate.sessions[sessionID] = new Date();
-          req.jupsFiles = [];
+          req.jupsUploadedFiles = [];
           for (var file in form.jupsTmpFiles){
             fs.rename(form.jupsTmpFiles[file].path, path.join(form.uploadDirDef, form.jupsTmpFiles[file].name), err => {
               if (err){
