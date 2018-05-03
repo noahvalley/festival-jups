@@ -1,18 +1,14 @@
 @import "./farben.scss";
 
-.zweispaltig {
-  width: 100%;
-}
-
 /* HOME */
 
-// zwei spalten (ab 500px)
 .home {
   .video-container {
     position: relative;
     width: 100%;
     height: 0;
     padding-bottom: 56%;
+    margin-bottom: 20px;
   }
   .video {
     position: absolute;
@@ -21,23 +17,41 @@
     width: 100%;
     height: 100%;
   }
-  .spalte-rechts.sponsoren a {
-    border-bottom: none;
+
+  .traegerschaft,
+  .hauptsponsoren {
+    font-size: 90%;
+    line-height: 1.6em;
+  }
+  .hauptsponsoren {
+    a { border-bottom: none; }
+  }
+  .sponsoren-logos {
+    ul, li {
+      display: inline;
+    }
+    img {
+      height: auto;
+    }
   }
 }
 
-@media only screen and (min-width: 320px + 180px + 2 * 20px) {
-  .home .spalte-links {
-    width: 320px;
-    display: inline-block;
-    vertical-align: top;
+@media only screen and (min-width: 601px) {
+  .home .sponsoren-logos {
+    ul { display: table-row; }
+    li { display: table-cell }
   }
+}
 
-  .content.home .spalte-rechts {
-    width: calc(100% - 320px);
-    display: inline-block;
-    vertical-align: top;
-    text-align: right;
+@media only screen and (max-width: 600px) {
+  .home .sponsoren-logos img {
+    max-width: 33%;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  .home .sponsoren-logos img {
+    max-width: 50%;
   }
 }
 
@@ -50,17 +64,33 @@
  width: 100%; // min. 300px
 }
 
-.content.orte ul {
-  margin-top: 0;
-}
+.content.orte {
+  .zweispaltig {
+    width: 100%;
+  }
 
-.orte ul li {
-  list-style: none;
-  font-size: 90%;
-}
+  ul {
+    margin-top: 0;
+  }
+  ul li {
+    list-style: none;
+    font-size: 90%;
+  }
+    li {
+    margin-bottom: 20px;
+  }
 
-.orte li {
-  margin-bottom: 20px;
+  .buchstabe {
+    float: left;
+    width: 30px;
+    height: 70px;
+    font-size: 150%;
+    padding-top: 3px;
+  }
+
+  .karte a {
+    border-bottom: none;
+  }
 }
 
 @media only screen and (min-width: 650px) {
@@ -76,18 +106,6 @@
     display: inline-block;
     vertical-align: top;
   }
-}
-
-.orte .buchstabe {
-  float: left;
-  width: 30px;
-  height: 70px;
-  font-size: 150%;
-  padding-top: 3px;
-}
-
-.orte .karte a {
-  border-bottom: none;
 }
 
 
@@ -131,10 +149,6 @@
 /* TICKETS */
 
 .tickets {
-  h1 {
-    margin: 30px 0 10px;
-  }
-
   .reservation {
 
     .selectgroup {

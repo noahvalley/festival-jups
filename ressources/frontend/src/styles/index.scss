@@ -20,18 +20,13 @@ h1, h2, h3 {
   margin-top: 30px;
   color: #333;
 }
-.tickets, .kontakt, .archiv {
-  h1, h2, h3 {
-    color: $farbe2;
-  }
-}
 
 a {
   text-decoration: none;
 }
 
 hr {
-  margin: 50px 0 20px;
+  margin: 15px 0;
   border: 0;
   border-bottom: 1px dashed #666;
 }
@@ -39,10 +34,15 @@ hr {
 .content {
   min-height: 500px;
   color: #333;
+  line-height: 1.6em;
 
   p {
-    line-height: 1.6em;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
+  }
+
+  h1, h2, h3 {
+    color: $farbe2;
+    margin-bottom: 10px;
   }
 
   strong, b {

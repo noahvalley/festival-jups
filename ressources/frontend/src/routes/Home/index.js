@@ -26,32 +26,27 @@ class Home extends Component {
               <iframe src="https://www.youtube.com/embed/2C5qwYhb4NU" className="video" frameBorder="0" allowFullScreen="allowfullscreen" title="JUPS 2017 Codomotion Film" />
             </div>
 
+            <br/>
             <hr/>
-            <div className="zweispaltig kleiner">
 
-              <div className="spalte-links">
-                <h2>Trägerschaft</h2>
-                <ul>
-                  <li>Schauwerk Das andere Theater</li>
-                  <li>KiK Kultur im Kammgarn</li>
-                  <li>Vebikus Kunsthalle Schaffhausen</li>
-                  <li>Musikschule MKS</li>
-                  <li>KJM Ostschweiz</li>
-                  <li>Theater Sgaramusch</li>
-                </ul>
-                <p><strong>Danke!</strong></p>
-                <br/><br/>
-              </div>
+            <p className="traegerschaft">
+              <strong>Trägerschaft:</strong> Schauwerk Das andere Theater – KiK Kultur im Kammgarn – Vebikus Kunsthalle Schaffhausen – Musikschule MKS – KJM Ostschweiz – Theater Sgaramusch
+            </p>
 
-              <div className="spalte-rechts sponsoren">
-              <h2>Hauptsponsoren</h2>
-                <a href="http://kulturraum.sh/"><img src="http://festival-jups.ch/wp-content/uploads/kulturraum_-2.png" alt="" width="175" height="70" /></a>
-                <img src="http://festival-jups.ch/wp-content/uploads/amsler_-2.png" alt="" width="175" height="70" />
-                <br/>
-                <a href="sig.biz"><img src="http://festival-jups.ch/wp-content/uploads/SIG_-1.png" alt="" width="175" height="70" /></a>
-                <a href="http://www.migros-kulturprozent.ch/de/home"><img src="http://festival-jups.ch/wp-content/uploads/migros.png" alt="" width="175" height="70" /></a>
-              </div>
-            </div>
+            <hr/>
+
+            <p className="hauptsponsoren">
+              <strong>Hauptsponsoren:</strong><br/>
+              <ul className="sponsoren-logos">
+                <li><a href="http://kulturraum.sh/"><img src="http://festival-jups.ch/wp-content/uploads/kulturraum_-2.png" alt="" width="175" height="70" /></a></li>
+                <li><a href="http://www.migros-kulturprozent.ch/de/home"><img src="http://festival-jups.ch/wp-content/uploads/migros.png" alt="" width="175" height="70" /></a></li>
+                <li><img src="http://festival-jups.ch/wp-content/uploads/amsler_-2.png" alt="" width="175" height="70" /></li>
+                <li><a href="sig.biz"><img src="http://festival-jups.ch/wp-content/uploads/SIG_-1.png" alt="" width="175" height="70" /></a></li>
+                <li><a href="http://www.migros-kulturprozent.ch/de/home"><img src="http://festival-jups.ch/wp-content/uploads/migros.png" alt="" width="175" height="70" /></a></li>
+                <li><a href="sig.biz"><img src="http://festival-jups.ch/wp-content/uploads/SIG_-1.png" alt="" width="175" height="70" /></a></li>
+              </ul>
+            </p>
+
           </div>
 
           <footer>
