@@ -113,7 +113,7 @@ app.use(connectRoute((router) => {
     .use(init.sendData)
     .use(init.sendError)
   );
-  router.delete('/files/:filename',
+  router.delete('/files/:fileyear/:filename',
     connect()
     .use(auth.check)
     .use(file.setPathFiles)
