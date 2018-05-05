@@ -35,19 +35,22 @@ var database = {
       }
     });
   },
-  dumpDB : (callback) => {
+  dumpEvents : (callback) => {
 		fs.writeFile(evntsPath, JSON.stringify(global.jupsstate.events, null, '  '), function(err) {
 		    if(err) {
 		      callback(error.DBWriteFile(err));
 		    }else{
-      		fs.writeFile(pagesPath, JSON.stringify(global.jupsstate.pages, null, '  '), function(err) {
-      		    if(err) {
-      		      callback(error.DBWriteFile(err));
-      		    }else{
-        		    callback();
-      		    }
-      		});
+          callback();
     		}
+		});
+  },
+  dumpPages : (callback) => {
+		fs.writeFile(pagesPath, JSON.stringify(global.jupsstate.pages, null, '  '), function(err) {
+		    if(err) {
+		      callback(error.DBWriteFile(err));
+		    }else{
+  		    callback();
+		    }
 		});
   },
   getEvents : (callback) => {
@@ -70,7 +73,7 @@ var database = {
     }
     event.id = nextid;
     global.jupsstate.events.push(event);
-    database.dumpDB((err)=>{
+    database.dumpEvents((err)=>{
       if (err){
         callback(event, err);
       }else{
@@ -84,7 +87,7 @@ var database = {
       next(error.eventIdNotFound());
     }else{
       global.jupsstate.events[eventIndex] = event;
-      database.dumpDB((err)=>{
+      database.dumpEvents((err)=>{
         if (err){
           callback(event, err);
         }else{
@@ -102,7 +105,7 @@ var database = {
       }
     }
     if (found){
-      database.dumpDB((err)=>{
+      database.dumpEvents((err)=>{
         if (err){
           callback(err);
         }else{
@@ -121,7 +124,7 @@ var database = {
   },
   updatePageByName : (name, page, callback) => {
     global.jupsstate.pages[name] = page;
-    database.dumpDB((err)=>{
+    database.dumpPages((err)=>{
       if (err){
         callback(global.jupsstate.pages[name], err);
       }else{

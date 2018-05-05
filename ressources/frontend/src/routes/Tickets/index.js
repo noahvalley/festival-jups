@@ -272,7 +272,7 @@ const mapStateToProps = (state) => {
     if (zeitVonMin<10) zeitVonMin = '0' + zeitVonMin;
     if (zeitBisMin<10) zeitBisMin = '0' + zeitBisMin;
     const monat = zeitVon.getMonth()+1;
-    const tage = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
+    const tage = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
     const tag = tage[zeitVon.getDay()] + ' ' + zeitVon.getDate() + '.' + monat + '.';
 
     return { titel, position, zeitVon, ausverkauft, id, typ,
