@@ -156,7 +156,7 @@ const mapStateToProps = (state) => {
     if (zeitVonMin<10) zeitVonMin = '0' + zeitVonMin;
     if (zeitBisMin<10) zeitBisMin = '0' + zeitBisMin;
     const monat = zeitVon.getMonth()+1;
-    const tage = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
+    const tage = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
 
     const reservierbar = reservationOffen && event.typ !== 'offenesangebot' && new Date() < zeitVon;
 
