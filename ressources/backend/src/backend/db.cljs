@@ -8,6 +8,8 @@
    :session nil
    :pages {}
    :events []
+   :images {}
+   :files {}
    :changed-events []
    :active-event nil})
 
@@ -24,4 +26,5 @@
    :zeitBis     "2000-12-31T23:42"
    :zeitVon     "2000-12-31T23:42"
    :bild        nil
-   :text ""})
+   :logo        nil
+   :text        ""})

@@ -40,9 +40,9 @@
   (fn [{:keys [db]} [_ {:keys [:error :data]}]]
     {:navigate "#/events"
      :dispatch-n [[:jups.backend.events/->events]
-                [:jups.backend.events/->pages]
-                [:jups.backend.events/images]
-                [:jups.backend.events/files]]
+                  [:jups.backend.events/->pages]
+                  [:jups.backend.events/->images]
+                  [:jups.backend.events/->files]]
      :db       (cond-> db
                        true (assoc :error error)
                        (not (:error error)) (-> (assoc :session (:session data))
@@ -88,7 +88,7 @@
                   :timeout         8000
                   :format          (ajax/json-request-format)
                   :params          {:session (:session db)
-                                    :data    (-> db :changed-events event-id)}
+                                    :data    (get-in db [:changed-events (utils/changed-event-index db event-id)])}
                   :response-format (ajax/json-response-format {:keywords? true})
                   :on-success      [:jups.backend.events/events event-id]
                   :on-failure      [:jups.backend.events/request-error]}}))
@@ -272,3 +272,15 @@
     (let [previous-value (kw (utils/active-event db))
           new-value (utils/new-time previous-value goog-time)]
       (assoc-in db [:changed-events (utils/active-event-index db) kw] new-value))))
+
+(rf/reg-event-db
+  :jups.backend.events/select-years-dropdown
+  (fn [db [_ kw year-kw]]
+    (if (= :none year-kw)
+      (assoc-in db [:changed-events (utils/active-event-index db) kw] nil)
+      (assoc-in db [:changed-events (utils/active-event-index db) kw] (str (name year-kw) "/")))))
+
+(rf/reg-event-db
+  :jups.backend.events/select-files-dropdown
+  (fn [db [_ kw file-name]]
+    (update-in db [:changed-events (utils/active-event-index db) kw] #(str (first (clojure.string/split % "/")) "/" file-name))))

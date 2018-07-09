@@ -10,6 +10,9 @@
 (defn active-event-index [db]
   (first (positions #(= (:active-event db) (:id %)) (:changed-events db))))
 
+(defn changed-event-index [db id]
+  (first (positions #(= id (:id %)) (:changed-events db))))
+
 (defn active-event [db]
   (get-in db [:changed-events (active-event-index db)]))
 

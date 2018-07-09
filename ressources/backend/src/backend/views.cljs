@@ -4,7 +4,8 @@
     [re-com.core :as rc]
     [breaking-point.core :as bp]
     [goog.date.UtcDateTime :as time]
-    [backend.subs]))
+    [backend.subs]
+    [mranderson048.reagent.v0v7v0.reagent.core :as r]))
 
 (def sizes {:sidebar-width "256px"
             :input-label-width "256px"
@@ -60,7 +61,7 @@
                           [rc/gap :size (:input-label-gap sizes)]]
                :width (:input-label-width sizes)
                :style {:justify-content "flex-end"}]
-               input-field]])
+              input-field]])
 
 (defn field [type kw label]
   [input
@@ -70,7 +71,7 @@
     :on-change #(rf/dispatch [:jups.backend.events/change-event kw %])
     :width (:input-field-width sizes)]])
 
-(defn dropdown [choices kw label]
+(defn dropdown [kw label choices]
   [input
    label
    [rc/single-dropdown
@@ -123,24 +124,48 @@
     :model @(rf/subscribe [:jups.backend.subs/active-event-field kw])
     :on-change #(rf/dispatch [:jups.backend.events/change-event kw %])]])
 
-(defn double-dropdown []
-  [])
+(defn image-from-url [url]
+  [rc/h-box
+   :align-self :center
+   :max-width "200px"
+   :max-height "200px"
+   :children [[:img
+               {:src url}]]])
+
+(defn double-dropdown-image [kw label]
+  [input
+   label
+   [rc/v-box
+    :width (:input-field-width sizes)
+    :children [[rc/h-box
+                :width (:input-field-width sizes)
+                :children [[rc/single-dropdown
+                            :choices @(rf/subscribe [:jups.backend.subs/years-dropdown :images])
+                            :model @(rf/subscribe [:jups.backend.subs/event-image-year kw])
+                            :on-change #(rf/dispatch [:jups.backend.events/select-years-dropdown kw %])]
+                           [rc/single-dropdown
+                            :choices @(rf/subscribe [:jups.backend.subs/files-dropdown :images kw])
+                            :model @(rf/subscribe [:jups.backend.subs/event-image-file kw])
+                            :on-change #(rf/dispatch [:jups.backend.events/select-files-dropdown kw %])]]]
+               (if @(rf/subscribe [:jups.backend.subs/active-event-field kw])
+                 [image-from-url (str "http://api.festival-jups.ch/images/" @(rf/subscribe [:jups.backend.subs/active-event-field kw]))])]]])
 
 (defn event-form []
   [rc/v-box
    :children [[field rc/input-text :titel "Titel"]
               [field rc/input-text :untertitel "Untertitel"]
-              [dropdown [{:id "workshop" :label "Workshop"}
-                         {:id "veranstaltung" :label "Veranstaltung"}
-                         {:id "offenesangebot" :label "Offenes Angebot"}]
+              [dropdown
                :type
-               "Typ"]
+               "Typ"
+               [{:id "workshop" :label "Workshop"}
+                {:id "veranstaltung" :label "Veranstaltung"}
+                {:id "offenesangebot" :label "Offenes Angebot"}]]
               [field rc/input-text :ort "Ort"]
               [date :zeitVon "Beginn"]
               [date :zeitBis "Ende"]
               [number-field :priority "Priorität"]
-              ;[double-dropdown-image global :bild :images "Bild"]
-              ;[double-dropdown-image global :logo :images "Logo"]
+              [double-dropdown-image :bild "Bild"]
+              [double-dropdown-image :logo "Logo"]
               ;[prosemirror :text @event]
               [checkbox :ausverkauft "Ausverkauft"]
               [field rc/input-text :ausverkauftText "Ausverkauft"]
