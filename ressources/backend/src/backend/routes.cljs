@@ -11,7 +11,7 @@
 (rf/reg-fx
   :navigate
   (fn [url]
-    (secretary/dispatch! url)))
+    (set! (.-hash js/window.location) url)))
 
 (defn hook-browser-navigation! []
   (doto (History.)
@@ -28,9 +28,14 @@
   (defroute "/" []
             (rf/dispatch [:jups.backend/set-active-panel :home-panel]))
 
-  (defroute "/about" []
-    (rf/dispatch [:jups.backend/set-active-panel :about-panel]))
+  (defroute "/events" []
+    (rf/dispatch [:jups.backend/set-active-panel :events-panel]))
 
+  (defroute "/pages" []
+            (rf/dispatch [:jups.backend/set-active-panel :pages-panel]))
+
+  (defroute "/files" []
+            (rf/dispatch [:jups.backend/set-active-panel :files-panel]))
 
   ;; --------------------
   (hook-browser-navigation!))

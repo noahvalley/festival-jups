@@ -1,7 +1,8 @@
 (ns backend.db)
 
 (def default-db
-  {:error {:error false
+  {:active-panel nil
+   :error {:error false
            :message ""}
    :username ""
    :password ""

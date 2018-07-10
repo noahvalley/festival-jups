@@ -2,220 +2,55 @@
   (:require
     [re-frame.core :as rf]
     [re-com.core :as rc]
-    [breaking-point.core :as bp]
-    [goog.date.UtcDateTime :as time]
-    [backend.subs]
-    [mranderson048.reagent.v0v7v0.reagent.core :as r]))
-
-(def sizes {:sidebar-width "256px"
-            :input-label-width "256px"
-            :input-label-gap "20px"
-            :input-field-gap "20px"
-            :input-field-width "512px"})
-
-;; home
-
-(defn login-panel []
-  [rc/v-box
-   :align :center
-   :children [[rc/title
-               :label "jups backend login"
-               :level :level1]
-              [rc/input-text
-               :model ""
-               :on-change #(rf/dispatch [:jups.backend.events/change-username %])
-               :placeholder "Benutzername"]
-              [rc/input-password
-               :model ""
-               :on-change #(rf/dispatch [:jups.backend.events/change-password %])
-               :placeholder "Passwort"]
-              [rc/button
-               :label "login"
-               :on-click #(rf/dispatch [:jups.backend.events/->login])]]])
-
-(defn compare-events [a b]
-  (let [dateA (or (first (clojure.string/split (:zeitVon a) "T")) "0")
-        dateB (or (first (clojure.string/split (:zeitVon b) "T")) "0")]
-    (cond
-      (< dateA dateB) -1
-      (> dateA dateB) 1
-      (> (:priority a) (:priority b)) 1
-      (< (:priority a) (:priority b)) -1
-      :default 0)))
-
-(defn events-sidebar []
-  (let [events @(rf/subscribe [:jups.backend.subs/events])]
-    [:ul (for [list-event (sort compare-events events)]
-           ^{:key (:id list-event)}
-           [:li
-            [rc/hyperlink
-             :label (or (:titel list-event) "OHNE TITEL")
-             :on-click #(rf/dispatch [:jups.backend.events/active-event (:id list-event)])]])]))
-
-(defn input [label input-field]
-  [rc/h-box
-   :children [[rc/h-box
-               :children [[rc/label
-                           :label label
-                           :style {:align-self "center"}]
-                          [rc/gap :size (:input-label-gap sizes)]]
-               :width (:input-label-width sizes)
-               :style {:justify-content "flex-end"}]
-              input-field]])
-
-(defn field [type kw label]
-  [input
-   label
-   [type
-    :model (or @(rf/subscribe [:jups.backend.subs/active-event-field kw]) "")
-    :on-change #(rf/dispatch [:jups.backend.events/change-event kw %])
-    :width (:input-field-width sizes)]])
-
-(defn dropdown [kw label choices]
-  [input
-   label
-   [rc/single-dropdown
-    :choices choices
-    :model @(rf/subscribe [:jups.backend.subs/active-event-field kw])
-    :on-change #(rf/dispatch [:jups.backend.events/change-event kw %])
-    :width (:input-field-width sizes)]])
-
-(defn checkbox [kw label]
-  [input
-   label
-   [rc/checkbox
-    :model @(rf/subscribe [:jups.backend.subs/active-event-field kw])
-    :on-change #(rf/dispatch [:jups.backend.events/change-event kw %])]])
-
-(defn date [kw label]
-  [input
-   label
-   [rc/h-box
-    :children [[rc/datepicker-dropdown
-                :model (let [iso-date @(rf/subscribe [:jups.backend.subs/active-event-field kw])]
-                         (if iso-date (time/fromIsoString iso-date)))
-                :on-change #(rf/dispatch [:jups.backend.events/change-event-date kw (str
-                                                                                      (.getFullYear %)
-                                                                                      "-"
-                                                                                      (let [month (+ 1 (.getMonth %))]
-                                                                                        (if (< month 10)
-                                                                                          (str "0" month)
-                                                                                          month))
-                                                                                      "-"
-                                                                                      (let [day-of-month (.getDate %)]
-                                                                                        (if (< day-of-month 10)
-                                                                                          (str "0" day-of-month)
-                                                                                          day-of-month)))])]
-               [rc/gap :size (:input-field-gap sizes)]
-               [rc/input-time
-                :model (or @(rf/subscribe [:jups.backend.subs/active-event-time kw]) 0)
-                :on-change #(rf/dispatch [:jups.backend.events/change-event-time kw %])
-                :show-icon? true]]]])
-
-(defn number-field [kw label]
-  [input
-   label
-   [:input {:class "form-control"
-            :type      "number"
-            :name      (str kw)
-            :value     @(rf/subscribe [:jups.backend.subs/active-event-field kw])
-            :on-change #(rf/dispatch [:jups.backend.events/change-event kw (-> % .-target .-value)])}]
-   [rc/checkbox
-    :model @(rf/subscribe [:jups.backend.subs/active-event-field kw])
-    :on-change #(rf/dispatch [:jups.backend.events/change-event kw %])]])
-
-(defn image-from-url [url]
-  [rc/h-box
-   :align-self :center
-   :max-width "200px"
-   :max-height "200px"
-   :children [[:img
-               {:src url}]]])
-
-(defn double-dropdown-image [kw label]
-  [input
-   label
-   [rc/v-box
-    :width (:input-field-width sizes)
-    :children [[rc/h-box
-                :width (:input-field-width sizes)
-                :children [[rc/single-dropdown
-                            :choices @(rf/subscribe [:jups.backend.subs/years-dropdown :images])
-                            :model @(rf/subscribe [:jups.backend.subs/event-image-year kw])
-                            :on-change #(rf/dispatch [:jups.backend.events/select-years-dropdown kw %])]
-                           [rc/single-dropdown
-                            :choices @(rf/subscribe [:jups.backend.subs/files-dropdown :images kw])
-                            :model @(rf/subscribe [:jups.backend.subs/event-image-file kw])
-                            :on-change #(rf/dispatch [:jups.backend.events/select-files-dropdown kw %])]]]
-               (if @(rf/subscribe [:jups.backend.subs/active-event-field kw])
-                 [image-from-url (str "http://api.festival-jups.ch/images/" @(rf/subscribe [:jups.backend.subs/active-event-field kw]))])]]])
-
-(defn event-form []
-  [rc/v-box
-   :children [[field rc/input-text :titel "Titel"]
-              [field rc/input-text :untertitel "Untertitel"]
-              [dropdown
-               :type
-               "Typ"
-               [{:id "workshop" :label "Workshop"}
-                {:id "veranstaltung" :label "Veranstaltung"}
-                {:id "offenesangebot" :label "Offenes Angebot"}]]
-              [field rc/input-text :ort "Ort"]
-              [date :zeitVon "Beginn"]
-              [date :zeitBis "Ende"]
-              [number-field :priority "Priorität"]
-              [double-dropdown-image :bild "Bild"]
-              [double-dropdown-image :logo "Logo"]
-              ;[prosemirror :text @event]
-              [checkbox :ausverkauft "Ausverkauft"]
-              [field rc/input-text :ausverkauftText "Ausverkauft"]
-              [field rc/input-text :abAlter "Mindestalter"]
-              [field rc/input-text :tuerOeffnung "Türöffnung"]
-              [field rc/input-text :preis "Preis"]]])
-
-(defn events-panel []
-  [rc/v-box
-   :children [[rc/box
-               :align-self :center
-               :child [rc/title
-                       :label "EVENTS"
-                       :level :level1]]
-              [rc/h-box
-               :children [[rc/box :size "256px" :child [events-sidebar]]
-                          [rc/box :size "1" :child [event-form]]]]
-              [rc/box :child [rc/label
-                              :label "Footer"]]]])
-
-(defn home-panel []
-  (let [session @(rf/subscribe [:jups.backend.subs/session])]
-    (if session
-      [events-panel]
-      [login-panel])))
-
-;; about
-
-(defn about-panel []
-  [:div
-   [:h1 "This is the About Page."]
-
-   [:div
-    [:a {:href "#/"}
-     "go to Home Page"]]])
-
+    [backend.events.views :refer [events-panel]]
+    [backend.files.views :refer [files-panel]]
+    [backend.login.views :refer [login-panel]]
+    [backend.pages.views :refer [pages-panel]]
+    [backend.style :as style]))
 
 ;; main
 
+(defn header []
+  (let [active-panel @(rf/subscribe [:jups.backend.subs/active-panel])]
+    [rc/h-box
+     :justify :center
+     :children (interpose
+                 [rc/gap :size (:input-label-gap style/sizes)]
+                 [[rc/hyperlink
+                  :label [rc/title
+                          :label "Events"
+                          :level :level1
+                          :underline? (= :events-panel active-panel)]
+                  :on-click #(rf/dispatch [:jups.backend/navigate "/events"])]
+                 [rc/hyperlink
+                  :label [rc/title
+                          :label "Pages"
+                          :level :level1
+                          :underline? (= :pages-panel active-panel)]
+                  :on-click #(rf/dispatch [:jups.backend/navigate "/pages"])]
+                 [rc/hyperlink
+                  :label [rc/title
+                          :label "Files"
+                          :level :level1
+                          :underline? (= :files-panel active-panel)]
+                  :on-click #(rf/dispatch [:jups.backend/navigate "/files"])]])]))
+
 (defn- panels [panel-name]
   (case panel-name
-    :login-panel [login-panel]
+    :home-panel [events-panel]
     :events-panel [events-panel]
-    :home-panel [home-panel]
-    :about-panel [about-panel]
+    :pages-panel [pages-panel]
+    :files-panel [files-panel]
     [:div]))
 
 (defn show-panel [panel-name]
   [panels panel-name])
 
 (defn main-panel []
-  (let [active-panel (rf/subscribe [:jups.backend.subs/active-panel])]
-    [show-panel @active-panel]))
+  (let [session @(rf/subscribe [:jups.backend.subs/session])
+        active-panel @(rf/subscribe [:jups.backend.subs/active-panel])]
+    (if session
+      [rc/v-box
+       :children [[header]
+                  [panels active-panel]]]
+      [login-panel])))
