@@ -111,13 +111,13 @@
                 :width (:input-field-width style/sizes)
                 :children [[rc/single-dropdown
                             :choices @(rf/subscribe [:jups.backend.subs/years-dropdown list-kw])
-                            :model @(rf/subscribe [:jups.backend.subs/event-image-year kw])
+                            :model @(rf/subscribe [:jups.backend.subs/active-event-image-year kw])
                             :on-change #(rf/dispatch [:jups.backend.events/select-years-dropdown kw %])]
                            [rc/single-dropdown
                             :choices @(rf/subscribe [:jups.backend.subs/files-dropdown
                                                      list-kw
-                                                     @(rf/subscribe [:jups.backend.subs/event-image-year kw])])
-                            :model @(rf/subscribe [:jups.backend.subs/event-image-file kw])
+                                                     @(rf/subscribe [:jups.backend.subs/active-event-image-year kw])])
+                            :model @(rf/subscribe [:jups.backend.subs/active-event-image-file kw])
                             :on-change #(rf/dispatch [:jups.backend.events/select-files-dropdown kw %])]]]
                (let [url @(rf/subscribe [:jups.backend.subs/active-event-field kw])]
                  (if (= 2 (count (clojure.string/split url "/")))
@@ -127,43 +127,99 @@
 ;; event form layout
 
 (defn events-sidebar []
-  (let [events @(rf/subscribe [:jups.backend.subs/events])]
-    [:ul (for [list-event (sort compare-events events)]
-           ^{:key (:id list-event)}
-           [:li
-            [rc/hyperlink
-             :label (or (:titel list-event) "OHNE TITEL")
-             :on-click #(rf/dispatch [:jups.backend.events/active-event (:id list-event)])]])]))
+  (let [events @(rf/subscribe [:jups.backend.subs/events])
+        changed-events @(rf/subscribe [:jups.backend.subs/changed-events])]
+    [rc/v-box
+     :children (for [list-event (sort compare-events events)]
+                 ^{:key (:id list-event)}
+                 [rc/h-box
+                  :align :center
+                  :children (interpose
+                              [rc/gap :size (:between-input-fields-gap style/sizes)]
+                              [[rc/label
+                                :style {:font-size "10px"}
+                                :label (-> (:zeitVon list-event)
+                                           (clojure.string/replace #"T..:.." "")
+                                           (clojure.string/replace #"-" "/")
+                                           (->> (drop 2)))]
+                               [rc/label
+                                :label (case (:type list-event)
+                                         "workshop" "W"
+                                         "veranstaltung" "V"
+                                         "offenesangebot" "A"
+                                         " ")]
+                               [rc/hyperlink
+                                :style (let [changed-event @(rf/subscribe [:jups.backend.subs/changed-event (:id list-event)])]
+                                         {:color (if (or (= list-event changed-event)
+                                                        (nil? changed-event))
+                                                  "black"
+                                                  "darkred")})
+                                :label (if (or (nil? (:titel list-event))
+                                               (= "" (:titel list-event)))
+                                         "OHNE TITEL"
+                                         (:titel list-event))
+                                :on-click #(rf/dispatch [:jups.backend.events/active-event (:id list-event)])]])])]))
 
 (defn event-form []
   [rc/v-box
    :children (interpose
                [rc/gap :size (:between-input-fields-gap style/sizes)]
-               [[field rc/input-text :titel "Titel"]
-               [field rc/input-text :untertitel "Untertitel"]
-               [dropdown
-                :type
-                "Typ"
-                [{:id "workshop" :label "Workshop"}
-                 {:id "veranstaltung" :label "Veranstaltung"}
-                 {:id "offenesangebot" :label "Offenes Angebot"}]]
-               [field rc/input-text :ort "Ort"]
-               [date :zeitVon "Beginn"]
-               [date :zeitBis "Ende"]
-               [number-field :priority "Priorität"]
-               [double-dropdown :bild "Bild" :images]
-               [double-dropdown :logo "Logo" :images]
-               ;[prosemirror :text @event]
-               [checkbox :ausverkauft "Ausverkauft"]
-               [field rc/input-text :ausverkauftText "Ausverkauft"]
-               [field rc/input-text :abAlter "Mindestalter"]
-               [field rc/input-text :tuerOeffnung "Türöffnung"]
-               [field rc/input-text :preis "Preis"]
-               ;[field rc/input-textarea :text "Beschreibung"]
-               ])])
+               [(if (nil? @(rf/subscribe [:jups.backend.subs/active-event-field :id]))
+                  [input ""
+                   [rc/label
+                    :style {:color "darkred"}
+                    :label "Neuer Event: nicht gespeichert"]])
+                [field rc/input-text :titel "Titel"]
+                [field rc/input-text :untertitel "Untertitel"]
+                [dropdown
+                 :type
+                 "Typ"
+                 [{:id "workshop" :label "Workshop"}
+                  {:id "veranstaltung" :label "Veranstaltung"}
+                  {:id "offenesangebot" :label "Offenes Angebot"}]]
+                [field rc/input-text :ort "Ort"]
+                [date :zeitVon "Beginn"]
+                [date :zeitBis "Ende"]
+                [number-field :priority "Priorität"]
+                [double-dropdown :bild "Bild" :images]
+                [double-dropdown :logo "Logo" :images]
+                ;[prosemirror :text @event]
+                [checkbox :ausverkauft "Ausverkauft"]
+                [field rc/input-text :ausverkauftText "Ausverkauft"]
+                [field rc/input-text :abAlter "Mindestalter"]
+                [field rc/input-text :tuerOeffnung "Türöffnung"]
+                [field rc/input-text :preis "Preis"]
+                ;[field rc/input-textarea :text "Beschreibung"]
+                ])])
+
+(defn events-buttons []
+  (let [active-event-id @(rf/subscribe [:jups.backend.subs/active-event-id])]
+    [rc/h-box
+     :justify :center
+     :children (interpose
+                 [rc/gap :size (:between-input-fields-gap style/sizes)]
+                 [[rc/button
+                   :label "Aktuellen Event speichern"
+                   :on-click #(if (nil? active-event-id)
+                                (rf/dispatch [:jups.backend.events/->create-event active-event-id])
+                                (rf/dispatch [:jups.backend.events/->update-event active-event-id]))]
+                  [rc/button
+                   :label "Änderungen verwerfen"
+                   :on-click #(rf/dispatch [:jups.backend.events/event-discard-changes active-event-id])]
+                  [rc/button
+                   :label "Aktuellen Event löschen"
+                   :on-click #(rf/dispatch [:jups.backend.events/->delete-event active-event-id])]
+                  [rc/button
+                   :label "Neuer Event"
+                   :on-click #(rf/dispatch [:jups.backend.events/new-event active-event-id])]])]))
 
 (defn events-panel []
   [rc/v-box
-   :children [[rc/h-box
-               :children [[rc/box :size "256px" :child [events-sidebar]]
-                          [rc/box :size "1" :child [event-form]]]]]])
+   :children [[rc/v-box
+               :children [[events-buttons]
+                          [rc/gap :size (:between-input-fields-gap style/sizes)]
+                          [rc/h-box
+                           :children (interleave
+                                       (repeat [rc/gap :size (:between-input-fields-gap style/sizes)])
+                                       [[rc/box :size "256px" :child [events-sidebar]]
+                                        [rc/box :size "1" :child [event-form]]])]]]]])

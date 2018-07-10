@@ -9,9 +9,19 @@
     (:events db)))
 
 (rf/reg-sub
+  :jups.backend.subs/event
+  (fn [db [_ id]]
+    (some #(= id (:id %)) (:events db))))
+
+(rf/reg-sub
   :jups.backend.subs/changed-events
   (fn [db _]
     (:changed-events db)))
+
+(rf/reg-sub
+  :jups.backend.subs/changed-event
+  (fn [db [_ id]]
+    (some #(if (= id (:id %)) %) (:changed-events db))))
 
 (rf/reg-sub
   :jups.backend.subs/active-event-id
@@ -69,7 +79,7 @@
           js/parseInt))))
 
 (rf/reg-sub
-  :jups.backend.subs/event-image-year
+  :jups.backend.subs/active-event-image-year
   (fn [[_ kw]]
     [(rf/subscribe [:jups.backend.subs/active-event-field kw])])
   (fn [[url]]
@@ -79,7 +89,7 @@
         (keyword raw)))))
 
 (rf/reg-sub
-  :jups.backend.subs/event-image-file
+  :jups.backend.subs/active-event-image-file
   (fn [[_ kw]]
     [(rf/subscribe [:jups.backend.subs/active-event-field kw])])
   (fn [[url]]

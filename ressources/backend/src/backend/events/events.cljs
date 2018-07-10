@@ -11,11 +11,17 @@
 (defn changed-event-index [db id]
   (first (utils/positions #(= id (:id %)) (:changed-events db))))
 
+(defn unchanged-event-index [db id]
+  (first (utils/positions #(= id (:id %)) (:events db))))
+
 (defn active-event-unchanged-index [db]
   (first (utils/positions #(= (:active-event db) (:id %)) (:events db))))
 
 (defn active-event-unchanged [db]
   (get-in db [:events (active-event-unchanged-index db)]))
+
+(defn event-unchanged [db id]
+  (get-in db [:events (unchanged-event-index db id)]))
 
 (defn new-date [previous-value date-string]
   (let [previous-time (clojure.string/replace previous-value #"....-..-.." "")]
@@ -63,7 +69,7 @@
                   :params          {:session (:session db)
                                     :data    (get-in db [:changed-events (changed-event-index db event-id)])}
                   :response-format (ajax/json-response-format {:keywords? true})
-                  :on-success      [:jups.backend.events/events event-id]
+                  :on-success      [:jups.backend.events/update-event event-id]
                   :on-failure      [:jups.backend.events/request-error]}}))
 
 (rf/reg-event-db
@@ -71,9 +77,7 @@
   (fn [db [_ event-id {:keys [:error :data]}]]
     (cond-> db
             true (assoc :error error)
-            (not (:error error)) (->
-                                   (assoc :events data)
-                                   (update-in [:changed-events] #(dissoc % event-id))))))
+            (not (:error error)) (assoc-in [:events (unchanged-event-index db event-id)] data))))
 
 
 
@@ -92,7 +96,7 @@
   (fn [db [_ event-id {:keys [:error :data]}]]
     (cond-> db
             true (assoc :error error)
-            (not (:error error)) (update-in [:changed-events] #(dissoc % event-id)))))
+            (not (:error error)) (update-in [:changed-events] #(dissoc % (changed-event-index db event-id))))))
 
 
 
@@ -104,7 +108,7 @@
                   :timeout         8000
                   :format          (ajax/json-request-format)
                   :params          {:session (:session db)
-                                    :data    (-> db :changed-events event-id)}
+                                    :data    (get-in db [:changed-events (changed-event-index db event-id)])}
                   :response-format (ajax/json-response-format {:keywords? true})
                   :on-success      [:jups.backend.events/create-event event-id]
                   :on-failure      [:jups.backend.events/request-error]}}))
@@ -114,9 +118,7 @@
   (fn [db [_ event-id {:keys [:error :data]}]]
     (cond-> db
             true (assoc :error error)
-            (not (:error error)) (->
-                                   (update-in [:events] #(conj % data))
-                                   (update-in [:changed-events] #(dissoc % event-id))))))
+            (not (:error error)) (update-in [:events] #(conj % data)))))
 
 ;; -----------------------------------------------------------
 ;; change event
@@ -163,3 +165,8 @@
   :jups.backend.events/select-files-dropdown
   (fn [db [_ kw file-name]]
     (update-in db [:changed-events (event-utils/active-event-index db) kw] #(str (first (clojure.string/split % "/")) "/" file-name))))
+
+(rf/reg-event-db
+  :jups.backend.events/event-discard-changes
+  (fn [db [_ event-id]]
+    (assoc-in db [:changed-events (changed-event-index db event-id)] (event-unchanged db event-id))))

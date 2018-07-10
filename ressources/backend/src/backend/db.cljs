@@ -16,16 +16,16 @@
 
 (def empty-event
   {:ausverkauft false
-   :preis       ""
-   :titel       ""
-   :abAlter     ""
-   :type        ""
-   :ort         ""
-   :untertitel  ""
+   :preis       nil
+   :titel       nil
+   :abAlter     nil
+   :type        nil
+   :ort         nil
+   :untertitel  nil
    :priority    "1"
    :id          nil
    :zeitBis     "2000-12-31T23:42"
    :zeitVon     "2000-12-31T23:42"
    :bild        nil
    :logo        nil
-   :text        ""})
+   :text        nil})
