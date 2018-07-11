@@ -88,5 +88,5 @@
                                       {:json-params       {:session @session}
                                        :with-credentials? false}))]
         (success? global response)
-        (reset! event empty-event)
+        (reset! event Fempty-event)
         (get-list global "events" (r/cursor global [:events])))))

@@ -21,15 +21,14 @@
 (rf/reg-event-fx
   :jups.backend.events/login
   (fn [{:keys [db]} [_ {:keys [:error :data]}]]
-    {:navigate "/events"
+    {:navigate   "/events"
      :dispatch-n [[:jups.backend.events/->events]
                   [:jups.backend.events/->pages]
                   [:jups.backend.events/->images]
                   [:jups.backend.events/->files]]
-     :db       (cond-> db
-                       true (assoc :error error)
-                       (not (:error error)) (-> (assoc :session (:session data))
-                                                (update-in [:changed-events] #(conj % backend.db/empty-event))))}))
+     :db         (cond-> db
+                         true (assoc :error error)
+                         (not (:error error)) (assoc :session (:session data)))}))
 
 (rf/reg-event-db
   :jups.backend.events/change-username

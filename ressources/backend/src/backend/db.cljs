@@ -1,19 +1,5 @@
 (ns backend.db)
 
-(def default-db
-  {:active-panel nil
-   :error {:error false
-           :message ""}
-   :username ""
-   :password ""
-   :session nil
-   :pages {}
-   :events []
-   :images {}
-   :files {}
-   :changed-events []
-   :active-event nil})
-
 (def empty-event
   {:ausverkauft false
    :preis       nil
@@ -29,3 +15,17 @@
    :bild        nil
    :logo        nil
    :text        nil})
+
+(def default-db
+  {:active-panel nil
+   :error {:error false
+           :message ""}
+   :username ""
+   :password ""
+   :session nil
+   :pages {}
+   :events []
+   :images {}
+   :files {}
+   :changed-events [empty-event]
+   :active-event nil})

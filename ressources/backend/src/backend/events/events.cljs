@@ -3,7 +3,8 @@
     [re-frame.core :as rf]
     [ajax.core :as ajax]
     [backend.utils :as utils]
-    [backend.events.utils :as event-utils]))
+    [backend.events.utils :as event-utils]
+    [backend.db]))
 
 ;; --------------------------------------------------------
 ;; helper functions
@@ -77,48 +78,59 @@
   (fn [db [_ event-id {:keys [:error :data]}]]
     (cond-> db
             true (assoc :error error)
-            (not (:error error)) (assoc-in [:events (unchanged-event-index db event-id)] data))))
+            (and (not (:error error))
+                 (:id data)) (assoc-in [:events (unchanged-event-index db event-id)] data))))
 
 
 
 (rf/reg-event-fx
   :jups.backend.events/->delete-event
-  (fn [_ [_ event-id]]
-    {:http-xhrio {:method          :delete
-                  :uri             (str "http://api.festival-jups.ch/events/" event-id)
-                  :timeout         8000
-                  :response-format (ajax/json-response-format {:keywords? true})
-                  :on-success      [:jups.backend.events/delete-event event-id]
-                  :on-failure      [:jups.backend.events/request-error]}}))
+  (fn [{:keys [:db]} [_ event-id]]
+    (if event-id
+      {:http-xhrio {:method          :delete
+                    :uri             (str "http://api.festival-jups.ch/events/" event-id)
+                    :timeout         8000
+                    :format          (ajax/json-request-format)
+                    :params          {:session (:session db)}
+                    :response-format (ajax/json-response-format {:keywords? true})
+                    :on-success      [:jups.backend.events/delete-event event-id]
+                    :on-failure      [:jups.backend.events/request-error]}})))
 
 (rf/reg-event-db
   :jups.backend.events/delete-event
   (fn [db [_ event-id {:keys [:error :data]}]]
     (cond-> db
             true (assoc :error error)
-            (not (:error error)) (update-in [:changed-events] #(dissoc % (changed-event-index db event-id))))))
+            (not (or (:error error)
+                     (nil? event-id))) (-> (update-in [:changed-events] (fn [events] (into [] (remove #(= event-id (:id %)) events))))
+                                           (update-in [:events] (fn [events] (into [] (remove #(= event-id (:id %)) events))))
+                                           (assoc :active-event nil)))))
 
 
 
 (rf/reg-event-fx
   :jups.backend.events/->create-event
-  (fn [{:keys [db]} [_ event-id]]
+  (fn [{:keys [db]} _]
     {:http-xhrio {:method          :post
-                  :uri             (str "http://api.festival-jups.ch/events/" event-id)
+                  :uri             (str "http://api.festival-jups.ch/events/")
                   :timeout         8000
                   :format          (ajax/json-request-format)
                   :params          {:session (:session db)
-                                    :data    (get-in db [:changed-events (changed-event-index db event-id)])}
+                                    :data    (get-in db [:changed-events (changed-event-index db nil)])}
                   :response-format (ajax/json-response-format {:keywords? true})
-                  :on-success      [:jups.backend.events/create-event event-id]
+                  :on-success      [:jups.backend.events/create-event]
                   :on-failure      [:jups.backend.events/request-error]}}))
 
-(rf/reg-event-db
+(rf/reg-event-fx
   :jups.backend.events/create-event
-  (fn [db [_ event-id {:keys [:error :data]}]]
-    (cond-> db
-            true (assoc :error error)
-            (not (:error error)) (update-in [:events] #(conj % data)))))
+  (fn [{:keys [:db]} [_ {:keys [:error :data]}]]
+    (let [new-event-index (changed-event-index db nil)]
+      {:dispatch [:jups.backend.events/active-event (:id data)]
+       :db (cond-> db
+               true (assoc :error error)
+               (not (:error error)) (->
+                                      (update-in [:events] #(conj % data))
+                                      (assoc-in [:changed-events new-event-index] backend.db/empty-event)))})))
 
 ;; -----------------------------------------------------------
 ;; change event
@@ -127,9 +139,9 @@
   :jups.backend.events/active-event
   (fn [db [_ id]]
     (letfn [(put-event-in-changed-list [db]
-              (if (event-utils/active-event-index db)
+              (if (changed-event-index db id)
                 db
-                (update-in db [:changed-events] #(conj % (active-event-unchanged db) ))))]
+                (update-in db [:changed-events] #(conj % (event-unchanged db id) ))))]
       (-> db
           (assoc :active-event id)
           put-event-in-changed-list))))
@@ -170,3 +182,12 @@
   :jups.backend.events/event-discard-changes
   (fn [db [_ event-id]]
     (assoc-in db [:changed-events (changed-event-index db event-id)] (event-unchanged db event-id))))
+
+(rf/reg-event-db
+  :jups.backend.events/new-event
+  (fn [db _]
+    (let [new-event-index (changed-event-index db nil)]
+      (if new-event-index
+        (cond-> db
+                true (assoc :active-event nil)
+                (not new-event-index) (assoc-in [:changed-events new-event-index] backend.db/empty-event))))))

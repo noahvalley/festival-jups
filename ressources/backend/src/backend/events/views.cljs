@@ -138,10 +138,11 @@
                               [rc/gap :size (:between-input-fields-gap style/sizes)]
                               [[rc/label
                                 :style {:font-size "10px"}
-                                :label (-> (:zeitVon list-event)
-                                           (clojure.string/replace #"T..:.." "")
-                                           (clojure.string/replace #"-" "/")
-                                           (->> (drop 2)))]
+                                :label (if (:zeitVon list-event)
+                                         (-> (:zeitVon list-event)
+                                            (clojure.string/replace #"T..:.." "")
+                                            (clojure.string/replace #"-" "/")
+                                            (->> (drop 2))))]
                                [rc/label
                                 :label (case (:type list-event)
                                          "workshop" "W"
@@ -199,15 +200,15 @@
      :children (interpose
                  [rc/gap :size (:between-input-fields-gap style/sizes)]
                  [[rc/button
-                   :label "Aktuellen Event speichern"
+                   :label "Event speichern"
                    :on-click #(if (nil? active-event-id)
                                 (rf/dispatch [:jups.backend.events/->create-event active-event-id])
                                 (rf/dispatch [:jups.backend.events/->update-event active-event-id]))]
                   [rc/button
-                   :label "Änderungen verwerfen"
+                   :label "Änderungen an Event verwerfen"
                    :on-click #(rf/dispatch [:jups.backend.events/event-discard-changes active-event-id])]
                   [rc/button
-                   :label "Aktuellen Event löschen"
+                   :label "Event löschen"
                    :on-click #(rf/dispatch [:jups.backend.events/->delete-event active-event-id])]
                   [rc/button
                    :label "Neuer Event"

@@ -73,10 +73,11 @@
     (rf/subscribe [:jups.backend.subs/active-event]))
   (fn [event [_ kw]]
     (let [datetime (kw event)]
-      (-> datetime
-          (clojure.string/replace #"....-..-..T" "")
-          (clojure.string/replace #":" "")
-          js/parseInt))))
+      (if datetime
+        (-> datetime
+            (clojure.string/replace #"....-..-..T" "")
+            (clojure.string/replace #":" "")
+            js/parseInt)))))
 
 (rf/reg-sub
   :jups.backend.subs/active-event-image-year
