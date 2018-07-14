@@ -26,39 +26,45 @@
     [rc/v-box
      :children (interpose
                  [rc/gap :size (:vertical-gap style/sizes)]
-                 (case active-page-name
-                   :home []
-                   :orte []
-                   :kontakt []
-                   :archiv []
-                   :downloads []
-                   :tickets ["Text anzeigen"
-                             "Formular anzeigen"
-                             "Text wenn Formular gesendet"
-                             ]
-                   [
-                    ;[field rc/input-text :titel "Titel"]
-                    ;[field rc/input-text :untertitel "Untertitel"]
-                    #_[dropdown
-                       :type
-                       "Typ"
-                       [{:id "workshop" :label "Workshop"}
-                        {:id "veranstaltung" :label "Veranstaltung"}
-                        {:id "offenesangebot" :label "Offenes Angebot"}]]
-                    ;[field rc/input-text :ort "Ort"]
-                    ;[date :zeitVon "Beginn"]
-                    ;[date :zeitBis "Ende"]
-                    ;[number-field :priority "Priorität"]
-                    ;[double-dropdown :bild "Bild" :images]
-                    ;[double-dropdown :logo "Logo" :images]
-                    ;[prosemirror :text @event]
-                    ;[checkbox :ausverkauft "Ausverkauft"]
-                    ;[field rc/input-text :ausverkauftText "Ausverkauft"]
-                    ;[field rc/input-text :abAlter "Mindestalter"]
-                    ;[field rc/input-text :tuerOeffnung "Türöffnung"]
-                    ;[field rc/input-text :preis "Preis"]
-                    ;[field rc/input-textarea :text "Beschreibung"]
-                    ]))]))
+                 (into
+                   (case active-page-name
+                    :home []
+                    :orte []
+                    :kontakt []
+                    :archiv []
+                    :downloads []
+                    :tickets [:showText "Text anzeigen"
+                              :showForm "Formular anzeigen"
+                              :contentFormSent "Text wenn Formular gesendet"
+                              ]
+                    :programm [:showText "Text anzeigen"
+                               :showProgramm "Programm anzeigen"]
+                    [
+                     ;[field rc/input-text :titel "Titel"]
+                     ;[field rc/input-text :untertitel "Untertitel"]
+                     #_[dropdown
+                        :type
+                        "Typ"
+                        [{:id "workshop" :label "Workshop"}
+                         {:id "veranstaltung" :label "Veranstaltung"}
+                         {:id "offenesangebot" :label "Offenes Angebot"}]]
+                     ;[field rc/input-text :ort "Ort"]
+                     ;[date :zeitVon "Beginn"]
+                     ;[date :zeitBis "Ende"]
+                     ;[number-field :priority "Priorität"]
+                     ;[double-dropdown :bild "Bild" :images]
+                     ;[double-dropdown :logo "Logo" :images]
+                     ;[prosemirror :text @event]
+                     ;[checkbox :ausverkauft "Ausverkauft"]
+                     ;[field rc/input-text :ausverkauftText "Ausverkauft"]
+                     ;[field rc/input-text :abAlter "Mindestalter"]
+                     ;[field rc/input-text :tuerOeffnung "Türöffnung"]
+                     ;[field rc/input-text :preis "Preis"]
+                     ;[field rc/input-textarea :text "Beschreibung"]
+                     ])
+                   [[double-dropdown :images]
+                    [double-dropdown :files]
+                    [codemirror]]))]))
 
 (defn pages-buttons []
   (let [active-page-name @(rf/subscribe [:jups.backend.subs/active-page-name])]
