@@ -1,5 +1,4 @@
-(ns webbackend.codemirror
-  (:require [webbackend.requests :refer [update-page]]))
+(ns backend.pages.codemirror)
 
 (defonce mirror (atom nil))
 

@@ -56,7 +56,8 @@
   (fn [db [_ {:keys [:error :data]}]]
     (cond-> db
             true (assoc :error error)
-            (not (:error error)) (assoc :events data))))
+            (not (:error error)) (-> (assoc :events data)
+                                     (update :changed-events #(into % data))))))
 
 
 
@@ -153,9 +154,20 @@
 
 (rf/reg-event-db
   :jups.backend.events/change-event-date
-  (fn [db [_ kw date-string]]
+  (fn [db [_ kw year month day]]
     (let [
           previous-value (kw (event-utils/active-event db))
+          date-string (str
+                        year
+                        "-"
+                        (let [month (+ 1 month)]
+                          (if (< month 10)
+                            (str "0" month)
+                            month))
+                        "-"
+                        (if (< day 10)
+                          (str "0" day)
+                          day))
           new-value (new-date previous-value date-string)]
       (assoc-in db [:changed-events (event-utils/active-event-index db) kw] new-value))))
 

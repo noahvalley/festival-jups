@@ -15,7 +15,7 @@
     [rc/h-box
      :justify :center
      :children (interpose
-                 [rc/gap :size (:input-label-gap style/sizes)]
+                 [rc/gap :size (:horizontal-gap style/sizes)]
                  [[rc/hyperlink
                   :label [rc/title
                           :label "Events"

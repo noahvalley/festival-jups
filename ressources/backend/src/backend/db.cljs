@@ -10,22 +10,33 @@
    :untertitel  nil
    :priority    "1"
    :id          nil
-   :zeitBis     "2000-12-31T23:42"
-   :zeitVon     "2000-12-31T23:42"
+   :zeitBis     (-> (js/Date.)
+                    .toISOString
+                    (#(first (re-seq #"....-..-..T..:.." %))))
+   :zeitVon     (-> (js/Date.)
+                    .toISOString
+                    (#(first (re-seq #"....-..-..T..:.." %))))
    :bild        nil
    :logo        nil
    :text        nil})
 
 (def default-db
-  {:active-panel nil
-   :error {:error false
+  {:error {:error false
            :message ""}
+
+   :active-panel nil
+
    :username ""
    :password ""
    :session nil
-   :pages {}
+
    :events []
-   :images {}
-   :files {}
    :changed-events [empty-event]
-   :active-event nil})
+   :active-event nil
+
+   :pages {}
+   :changed-pages {}
+   :active-page :home
+
+   :images {}
+   :files {}})

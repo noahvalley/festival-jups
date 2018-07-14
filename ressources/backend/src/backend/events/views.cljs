@@ -21,89 +21,99 @@
 ;; -----------------------------------------------
 ;; input elements
 
-(defn input [label input-field]
+(defn label-and-input [label input-field]
   [rc/h-box
    :children [[rc/h-box
                :children [[rc/label
                            :label label
                            :style {:align-self "center"}]
-                          [rc/gap :size (:input-label-gap style/sizes)]]
+                          [rc/gap :size (:horizontal-gap style/sizes)]]
                :width (:input-label-width style/sizes)
                :style {:justify-content "flex-end"}]
               input-field]])
 
-(defn field [type kw label]
-  [input
-   label
-   [type
-    :model (or @(rf/subscribe [:jups.backend.subs/active-event-field kw]) "")
-    :on-change #(rf/dispatch [:jups.backend.events/change-event kw %])
-    :width (:input-field-width style/sizes)]])
+(defn text-field [model-atom dispatch-fn]
+  [rc/input-text
+   :model (or @model-atom "")
+   :on-change dispatch-fn
+   :width (:input-field-width style/sizes)])
 
-(defn dropdown [kw label choices]
-  [input
+(defn event-text-field [kw label]
+  [label-and-input
    label
-   [rc/single-dropdown
-    :choices choices
-    :model @(rf/subscribe [:jups.backend.subs/active-event-field kw])
-    :on-change #(rf/dispatch [:jups.backend.events/change-event kw %])
-    :width (:input-field-width style/sizes)]])
+   [text-field
+    (rf/subscribe [:jups.backend.subs/active-event-field kw])
+    #(rf/dispatch [:jups.backend.events/change-event kw %])]])
 
-(defn checkbox [kw label]
-  [input
+(defn dropdown [choices model-atom dispatch-fn]
+  [rc/single-dropdown
+   :choices choices
+   :model @model-atom
+   :on-change dispatch-fn
+   :width (:input-field-width style/sizes)])
+
+(defn event-dropdown [kw label choices]
+  [label-and-input
    label
-   [rc/checkbox
-    :model @(rf/subscribe [:jups.backend.subs/active-event-field kw])
-    :on-change #(rf/dispatch [:jups.backend.events/change-event kw %])]])
+   [dropdown
+    choices
+    (rf/subscribe [:jups.backend.subs/active-event-field kw])
+    #(rf/dispatch [:jups.backend.events/change-event kw %])]])
+
+(defn checkbox [model-atom dispatch-fn]
+  [rc/checkbox
+   :model @model-atom
+   :on-change dispatch-fn])
+
+(defn event-checkbox [kw label]
+  [label-and-input
+   label
+   [checkbox
+    (rf/subscribe [:jups.backend.subs/active-event-field kw])
+    #(rf/dispatch [:jups.backend.events/change-event kw %])]])
 
 (defn date [kw label]
-  [input
+  [label-and-input
    label
    [rc/h-box
     :children [[rc/datepicker-dropdown
                 :model (let [iso-date @(rf/subscribe [:jups.backend.subs/active-event-field kw])]
                          (if iso-date (time/fromIsoString iso-date)))
-                :on-change #(rf/dispatch [:jups.backend.events/change-event-date kw (str
-                                                                                      (.getFullYear %)
-                                                                                      "-"
-                                                                                      (let [month (+ 1 (.getMonth %))]
-                                                                                        (if (< month 10)
-                                                                                          (str "0" month)
-                                                                                          month))
-                                                                                      "-"
-                                                                                      (let [day-of-month (.getDate %)]
-                                                                                        (if (< day-of-month 10)
-                                                                                          (str "0" day-of-month)
-                                                                                          day-of-month)))])]
-               [rc/gap :size (:input-field-gap style/sizes)]
+                :on-change #(rf/dispatch [:jups.backend.events/change-event-date
+                                          kw
+                                          (.getFullYear %)
+                                          (.getMonth %)
+                                          (.getDate %)])]
+               [rc/gap :size (:horizontal-gap style/sizes)]
                [rc/input-time
                 :model (or @(rf/subscribe [:jups.backend.subs/active-event-time kw]) 0)
                 :on-change #(rf/dispatch [:jups.backend.events/change-event-time kw %])
                 :show-icon? true]]]])
 
-(defn number-field [kw label]
-  [input
+(defn number-field [model-atom dispatch-fn]
+  [:input {:class     "form-control"
+           :type      "number"
+           :name      ""
+           :value     @model-atom
+           :on-change dispatch-fn}])
+
+(defn event-number-field [kw label]
+  [label-and-input
    label
-   [:input {:class "form-control"
-            :type      "number"
-            :name      (str kw)
-            :value     @(rf/subscribe [:jups.backend.subs/active-event-field kw])
-            :on-change #(rf/dispatch [:jups.backend.events/change-event kw (-> % .-target .-value)])}]
-   [rc/checkbox
-    :model @(rf/subscribe [:jups.backend.subs/active-event-field kw])
-    :on-change #(rf/dispatch [:jups.backend.events/change-event kw %])]])
+   [number-field
+    (rf/subscribe [:jups.backend.subs/active-event-field kw])
+    #(rf/dispatch [:jups.backend.events/change-event kw (-> % .-target .-value)])]])
 
 (defn image-from-url [url]
   [rc/v-box
    :align-self :center
-   :max-width "200px"
-   :max-height "200px"
-   :children [[rc/gap :size (:between-input-fields-gap style/sizes)]
-              [:img
-               {:src url}]]])
+   :max-width (:dropdown-picture-size style/sizes)
+   :max-height (:dropdown-picture-size style/sizes)
+   :children [[rc/gap :size (:vertical-gap style/sizes)]
+              [:img {:src url}]]])
 
 (defn double-dropdown [kw label list-kw]
-  [input
+  [label-and-input
    label
    [rc/v-box
     :width (:input-field-width style/sizes)
@@ -113,6 +123,7 @@
                             :choices @(rf/subscribe [:jups.backend.subs/years-dropdown list-kw])
                             :model @(rf/subscribe [:jups.backend.subs/active-event-image-year kw])
                             :on-change #(rf/dispatch [:jups.backend.events/select-years-dropdown kw %])]
+                           [rc/gap :size (:horizontal-gap style/sizes)]
                            [rc/single-dropdown
                             :choices @(rf/subscribe [:jups.backend.subs/files-dropdown
                                                      list-kw
@@ -130,66 +141,66 @@
   (let [events @(rf/subscribe [:jups.backend.subs/events])
         changed-events @(rf/subscribe [:jups.backend.subs/changed-events])]
     [rc/v-box
-     :children (for [list-event (sort compare-events events)]
-                 ^{:key (:id list-event)}
+     :children (for [event (sort compare-events events)]
+                 ^{:key (:id event)}
                  [rc/h-box
                   :align :center
                   :children (interpose
-                              [rc/gap :size (:between-input-fields-gap style/sizes)]
+                              [rc/gap :size (:horizontal-gap style/sizes)]
                               [[rc/label
                                 :style {:font-size "10px"}
-                                :label (if (:zeitVon list-event)
-                                         (-> (:zeitVon list-event)
-                                            (clojure.string/replace #"T..:.." "")
-                                            (clojure.string/replace #"-" "/")
-                                            (->> (drop 2))))]
+                                :label (if (:zeitVon event)
+                                         (-> (:zeitVon event)
+                                             (clojure.string/replace #"T..:.." "")
+                                             (clojure.string/replace #"-" "/")
+                                             (->> (drop 2))))]
                                [rc/label
-                                :label (case (:type list-event)
+                                :label (case (:type event)
                                          "workshop" "W"
                                          "veranstaltung" "V"
                                          "offenesangebot" "A"
                                          " ")]
                                [rc/hyperlink
-                                :style (let [changed-event @(rf/subscribe [:jups.backend.subs/changed-event (:id list-event)])]
-                                         {:color (if (or (= list-event changed-event)
-                                                        (nil? changed-event))
-                                                  "black"
-                                                  "darkred")})
-                                :label (if (or (nil? (:titel list-event))
-                                               (= "" (:titel list-event)))
+                                :style (let [changed-event @(rf/subscribe [:jups.backend.subs/changed-event (:id event)])]
+                                         {:color (if (or (= event changed-event)
+                                                         (nil? changed-event))
+                                                   "black"
+                                                   "darkred")})
+                                :label (if (or (nil? (:titel event))
+                                               (= "" (:titel event)))
                                          "OHNE TITEL"
-                                         (:titel list-event))
-                                :on-click #(rf/dispatch [:jups.backend.events/active-event (:id list-event)])]])])]))
+                                         (:titel event))
+                                :on-click #(rf/dispatch [:jups.backend.events/active-event (:id event)])]])])]))
 
 (defn event-form []
   [rc/v-box
    :children (interpose
-               [rc/gap :size (:between-input-fields-gap style/sizes)]
+               [rc/gap :size (:vertical-gap style/sizes)]
                [(if (nil? @(rf/subscribe [:jups.backend.subs/active-event-field :id]))
-                  [input ""
+                  [label-and-input ""
                    [rc/label
                     :style {:color "darkred"}
                     :label "Neuer Event: nicht gespeichert"]])
-                [field rc/input-text :titel "Titel"]
-                [field rc/input-text :untertitel "Untertitel"]
-                [dropdown
+                [event-text-field :titel "Titel"]
+                [event-text-field :untertitel "Untertitel"]
+                [event-dropdown
                  :type
                  "Typ"
                  [{:id "workshop" :label "Workshop"}
                   {:id "veranstaltung" :label "Veranstaltung"}
                   {:id "offenesangebot" :label "Offenes Angebot"}]]
-                [field rc/input-text :ort "Ort"]
+                [event-text-field :ort "Ort"]
                 [date :zeitVon "Beginn"]
                 [date :zeitBis "Ende"]
-                [number-field :priority "Priorität"]
+                [event-number-field :priority "Priorität"]
                 [double-dropdown :bild "Bild" :images]
                 [double-dropdown :logo "Logo" :images]
                 ;[prosemirror :text @event]
-                [checkbox :ausverkauft "Ausverkauft"]
-                [field rc/input-text :ausverkauftText "Ausverkauft"]
-                [field rc/input-text :abAlter "Mindestalter"]
-                [field rc/input-text :tuerOeffnung "Türöffnung"]
-                [field rc/input-text :preis "Preis"]
+                [event-checkbox :ausverkauft "Ausverkauft"]
+                [event-text-field :ausverkauftText "Ausverkauft"]
+                [event-text-field :abAlter "Mindestalter"]
+                [event-text-field :tuerOeffnung "Türöffnung"]
+                [event-text-field :preis "Preis"]
                 ;[field rc/input-textarea :text "Beschreibung"]
                 ])])
 
@@ -198,7 +209,7 @@
     [rc/h-box
      :justify :center
      :children (interpose
-                 [rc/gap :size (:between-input-fields-gap style/sizes)]
+                 [rc/gap :size (:vertical-gap style/sizes)]
                  [[rc/button
                    :label "Event speichern"
                    :on-click #(if (nil? active-event-id)
@@ -218,9 +229,9 @@
   [rc/v-box
    :children [[rc/v-box
                :children [[events-buttons]
-                          [rc/gap :size (:between-input-fields-gap style/sizes)]
+                          [rc/gap :size (:vertical-gap style/sizes)]
                           [rc/h-box
                            :children (interleave
-                                       (repeat [rc/gap :size (:between-input-fields-gap style/sizes)])
-                                       [[rc/box :size "256px" :child [events-sidebar]]
+                                       (repeat [rc/gap :size (:horizontal-gap style/sizes)])
+                                       [[rc/box :size (:sidebar-width style/sizes) :child [events-sidebar]]
                                         [rc/box :size "1" :child [event-form]]])]]]]])
