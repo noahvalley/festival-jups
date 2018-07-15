@@ -31,15 +31,16 @@
 (rf/reg-event-fx
   :jups.backend.events/upload-files
   (fn [{:keys [db]} [_ list-kw files]]
-    {:http-xhrio {:method          :post
-                  :uri             (str "http://api.festival-jups.ch/" (name list-kw))
-                  :params          (generate-form-data
-                                     (conj (map (fn [file] ["file" file]) @files) ["session" (:session db)]))
-                  :format          (assoc (ajax/text-request-format) :content-type "multipart/form-data; charset=utf-8")
-                  :timeout         8000
-                  :response-format (ajax/json-response-format {:keywords? true})
-                  :on-success      [:jups.backend.events/file-list list-kw]
-                  :on-failure      [:jups.backend.events/request-error]}}))
+    (let [multipart-params (generate-form-data
+                             (conj (map (fn [file] ["file" file]) @files) ["session" (:session db)]))]
+      {:http-xhrio {:method          :post
+                    :uri             (str "http://api.festival-jups.ch/" (name list-kw))
+                    :params          multipart-params
+                    :format          {:write identity}
+                    :timeout         8000
+                    :response-format (ajax/json-response-format {:keywords? true})
+                    :on-success      [:jups.backend.events/file-list list-kw]
+                    :on-failure      [:jups.backend.events/request-error]}})))
 
 (rf/reg-event-fx
   :jups.backend.events/->delete-file
