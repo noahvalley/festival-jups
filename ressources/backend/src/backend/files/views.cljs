@@ -2,7 +2,103 @@
   (:require
     [re-frame.core :as rf]
     [re-com.core :as rc]
-    [backend.style :as style]))
+    [backend.style :as style]
+    [backend.components :as v]))
+
+(defn upload-field [list-kw label]
+  (let [files (atom nil)]
+    [v/label-and-input
+     label
+     [rc/h-box
+      :children [[:input {:class     "form-control"
+                          :multiple  true
+                          :name      type
+                          :type      "file"
+                          :on-change (fn [e]
+                                       (.persist e)
+                                       (let [selected-files
+                                             (for [i (range (-> e
+                                                                .-target
+                                                                .-files
+                                                                .-length))]
+                                               (.item
+                                                 (-> e
+                                                     .-target
+                                                     .-files)
+                                                 i))]
+                                         (reset! files selected-files)))}]
+                 [rc/gap :size (:horizontal-gap style/sizes)]
+                 [rc/button
+                  :label "upload"
+                  :on-click #(rf/dispatch [:jups.backend.events/upload-files list-kw files])]]]]))
+
+(defn delete-field [list-kw label]
+  [v/label-and-input
+   label
+   [rc/h-box
+    :children [[v/double-dropdown
+                {:upper-choices-atom (rf/subscribe [:jups.backend.subs/years-dropdown list-kw])
+                 :upper-choice-atom  (rf/subscribe [:jups.backend.subs/files-year list-kw])
+                 :upper-dispatch-fn  #(rf/dispatch [:jups.backend.events/files-year list-kw %])
+                 :lower-choices-atom (rf/subscribe [:jups.backend.subs/files-dropdown
+                                                    list-kw
+                                                    @(rf/subscribe [:jups.backend.subs/files-year list-kw])])
+                 :lower-choice-atom (rf/subscribe [:jups.backend.subs/files-file list-kw])
+                 :lower-dispatch-fn #(rf/dispatch [:jups.backend.events/files-file list-kw %])}]
+               [rc/gap :size (:horizontal-gap style/sizes)]
+               [rc/button
+                :label "löschen"
+                :on-click #(rf/dispatch [:jups.backend.events/->delete-file list-kw])]]]])
+
+(defn images-upload []
+  [upload-field :images "Bilder hochladen"])
+
+(defn files-upload []
+  [upload-field :files "Dateien hochladen"])
+
+(defn images-delete []
+  [delete-field :images "Bild löschen"])
+
+(defn files-delete []
+  [delete-field :files "Datei löschen"])
+
+#_(defn upload-field [global description type files file-list]
+    [:div {:style {:border-style "solid"
+                   :border-color "black"
+                   :display         "flex"
+                   :flex-direction  "row"}}
+     [:label {:for   type
+              :style {:width "30%"}}
+      (str description ": ")]
+     [:input {
+              :multiple  true
+              :name      type
+              :type      "file"
+              :on-change (fn [e]
+                           (.persist e)
+                           (let [selected-files (for [i (range (-> e
+                                                                   .-target
+                                                                   .-files
+                                                                   .-length))]
+                                                  (.item
+                                                    (-> e
+                                                        .-target
+                                                        .-files)
+                                                    i))]
+                             (reset! files selected-files)))}]
+     [:button
+      {:on-click #(upload-files global type files file-list)}
+      "upload"]])
+
+#_(defn delete-field [global type property-key list-key description event-property?]
+    [:div {:style {:border-style "solid"
+                   :border-color "black"
+                   :display "flex"
+                   :flex-direction "row"}}
+     [double-dropdown global property-key list-key description event-property?]
+     [:button {:style {:max-width "100px"}
+               :on-click #(delete-file global type (property-key @global) list-key)}
+      "löschen"]])
 
 (defn files-sidebar []
   (let [pages @(rf/subscribe [:jups.backend.subs/pages])]
@@ -12,10 +108,21 @@
        :label "OHNE TITEL"]]]))
 
 (defn files-form []
-  [:div])
+  [rc/v-box
+   :children (interpose
+               [rc/gap :size (:vertical-gap style/sizes)]
+               [[images-upload]
+                [images-delete]
+                [rc/gap :size (:vertical-gap style/sizes)]
+                [files-upload]
+                [files-delete]])])
 
 (defn files-panel []
-  [rc/v-box
+  #_[rc/v-box
    :children [[rc/h-box
-               :children [[rc/box :size (:sidebar-width style/sizes) :child [files-sidebar]]
-                          [rc/box :size "1" :child [files-form]]]]]])
+               :children [[rc/gap :size (:sidebar-width style/sizes)]
+                          [rc/box :size "1" :child [files-form]]]]]]
+  [v/panel
+   {:buttons (fn [] [rc/gap :size (:vertical-gap style/sizes)])
+    :sidebar (fn [] [rc/gap :size (:sidebar-width style/sizes)])
+    :form    files-form}])

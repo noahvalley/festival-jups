@@ -24,8 +24,8 @@
     {:navigate   "/events"
      :dispatch-n [[:jups.backend.events/->events]
                   [:jups.backend.events/->pages]
-                  [:jups.backend.events/->images]
-                  [:jups.backend.events/->files]]
+                  [:jups.backend.events/->file-list :images]
+                  [:jups.backend.events/->file-list :files]]
      :db         (cond-> db
                          true (assoc :error error)
                          (not (:error error)) (assoc :session (:session data)))}))

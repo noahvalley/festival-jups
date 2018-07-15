@@ -156,8 +156,10 @@
                 [event-text-field :abAlter "Mindestalter"]
                 [event-text-field :tuerOeffnung "Türöffnung"]
                 [event-text-field :preis "Preis"]
-                ;[field rc/input-textarea :text "Beschreibung"]
-                ])])
+                [v/label-and-input "Beschreibung" [v/textarea-field
+                                                   (rf/subscribe [:jups.backend.subs/active-event-field :text])
+                                                   #(rf/dispatch [:jups.backend.events/change-event :text %])
+                                                   7]]])])
 
 (defn events-buttons []
   (let [active-event-id @(rf/subscribe [:jups.backend.subs/active-event-id])]
@@ -182,5 +184,5 @@
 
 (defn events-panel []
   [v/panel {:buttons events-buttons
-          :sidebar events-sidebar
-          :form event-form}])
+            :sidebar events-sidebar
+            :form event-form}])

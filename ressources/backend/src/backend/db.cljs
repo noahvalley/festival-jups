@@ -37,6 +37,8 @@
    :pages {}
    :changed-pages {}
    :active-page :home
+   :pages-dropdowns {}
 
    :images {}
-   :files {}})
+   :files {}
+   :files-dropdowns {}})
