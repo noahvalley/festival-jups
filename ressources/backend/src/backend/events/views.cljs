@@ -3,7 +3,7 @@
     [re-frame.core :as rf]
     [re-com.core :as rc]
     [goog.date.UtcDateTime :as time]
-    [backend.views :as v]
+    [backend.components :as v]
     [backend.style :as style]))
 
 ;; ----------------------------------------------
@@ -69,14 +69,6 @@
     (rf/subscribe [:jups.backend.subs/active-event-field kw])
     #(rf/dispatch [:jups.backend.events/change-event kw (-> % .-target .-value)])]])
 
-(defn image-from-url [url]
-  [rc/v-box
-   :align-self :center
-   :max-width (:dropdown-picture-size style/sizes)
-   :max-height (:dropdown-picture-size style/sizes)
-   :children [[rc/gap :size (:vertical-gap style/sizes)]
-              [:img {:src url}]]])
-
 (defn event-double-dropdown [kw label list-kw]
   [v/label-and-input
    label
@@ -84,18 +76,18 @@
     :width (:input-field-width style/sizes)
     :children [[v/double-dropdown
                 {:upper-choices-atom (rf/subscribe [:jups.backend.subs/years-dropdown list-kw])
-                 :upper-choice-atom (rf/subscribe [:jups.backend.subs/active-event-image-year kw])
-                 :upper-dispatch-fn #(rf/dispatch [:jups.backend.events/select-years-dropdown kw %])
+                 :upper-choice-atom  (rf/subscribe [:jups.backend.subs/active-event-image-year kw])
+                 :upper-dispatch-fn  #(rf/dispatch [:jups.backend.events/event-years-dropdown kw %])
                  :lower-choices-atom (rf/subscribe [:jups.backend.subs/files-dropdown
                                                     list-kw
                                                     @(rf/subscribe [:jups.backend.subs/active-event-image-year kw])])
-                 :lower-choice-atom (rf/subscribe [:jups.backend.subs/active-event-image-file kw])
-                 :lower-dispatch-fn #(rf/dispatch [:jups.backend.events/select-files-dropdown kw %])
+                 :lower-choice-atom  (rf/subscribe [:jups.backend.subs/active-event-image-file kw])
+                 :lower-dispatch-fn  #(rf/dispatch [:jups.backend.events/event-files-dropdown kw %])
 
                  }]
                (let [url @(rf/subscribe [:jups.backend.subs/active-event-field kw])]
                  (if (= 2 (count (clojure.string/split url "/")))
-                   [image-from-url (str "http://api.festival-jups.ch/" (name list-kw) "/" url)]))]]])
+                   [v/image-from-url (str "http://api.festival-jups.ch/" (name list-kw) "/" url)]))]]])
 
 ;; -----------------------------------------------
 ;; event form layout

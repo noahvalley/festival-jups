@@ -41,13 +41,10 @@
   (fn [db [_ page-kw {:keys [:error :data]}]]
     (cond-> db
             true (assoc :error error)
-            (not (:error error)) (->
-                                   (assoc-in [:pages page-kw] data)
-                                   (update-in [:changed-pages]
-                                              #(dissoc % page-kw))))))
+            (not (:error error)) (assoc-in [:pages page-kw] data))))
 
 (rf/reg-event-db
-  :jups.backend.subs/active-page
+  :jups.backend.events/active-page
   (fn [db [_ page-kw]]
     (assoc db :active-page page-kw)))
 
@@ -55,3 +52,20 @@
   :jups.backend.events/page-discard-changes
   (fn [db [_ page-kw]]
     (assoc-in db [:changed-pages page-kw] (-> db :pages page-kw))))
+
+(rf/reg-event-db
+  :jups.backend.events/change-page
+  (fn [db [_ kw value]]
+    (assoc-in db [:changed-pages (:active-page db) kw] value)))
+
+(rf/reg-event-db
+  :jups.backend.events/page-year
+  (fn [db [_ list-kw year-kw]]
+    (if (= :none year-kw)
+      (assoc-in db [:pages-dropdowns list-kw] nil)
+      (assoc-in db [:pages-dropdowns list-kw] (str (name year-kw) "/")))))
+
+(rf/reg-event-db
+  :jups.backend.events/page-file
+  (fn [db [_ list-kw file-name]]
+    (update-in db [:pages-dropdowns list-kw] #(str (first (clojure.string/split % "/")) "/" file-name))))

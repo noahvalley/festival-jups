@@ -179,14 +179,14 @@
       (assoc-in db [:changed-events (event-utils/active-event-index db) kw] new-value))))
 
 (rf/reg-event-db
-  :jups.backend.events/select-years-dropdown
+  :jups.backend.events/event-years-dropdown
   (fn [db [_ kw year-kw]]
     (if (= :none year-kw)
       (assoc-in db [:changed-events (event-utils/active-event-index db) kw] nil)
       (assoc-in db [:changed-events (event-utils/active-event-index db) kw] (str (name year-kw) "/")))))
 
 (rf/reg-event-db
-  :jups.backend.events/select-files-dropdown
+  :jups.backend.events/event-files-dropdown
   (fn [db [_ kw file-name]]
     (update-in db [:changed-events (event-utils/active-event-index db) kw] #(str (first (clojure.string/split % "/")) "/" file-name))))
 

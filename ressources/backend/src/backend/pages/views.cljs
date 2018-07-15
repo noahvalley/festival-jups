@@ -2,10 +2,80 @@
   (:require
     [re-frame.core :as rf]
     [re-com.core :as rc]
-    [backend.style :as style]))
+    [backend.style :as style]
+    [backend.components :as v]))
+
+;; --------------------------------------
+;; fields
+
+(defn pages-text-field [kw label]
+  [v/label-and-input
+   label
+   [v/text-field
+    (rf/subscribe [:jups.backend.subs/active-page-field kw])
+    #(rf/dispatch [:jups.backend.events/change-page kw %])]])
+
+(defn pages-textarea-field [kw label]
+  [v/label-and-input
+   label
+   [v/textarea-field
+    (rf/subscribe [:jups.backend.subs/active-page-field kw])
+    #(rf/dispatch [:jups.backend.events/change-page kw %])
+    7]])
+
+(defn pages-checkbox [kw label]
+  [v/label-and-input
+   label
+   [v/checkbox
+    (rf/subscribe [:jups.backend.subs/active-page-field kw])
+    #(rf/dispatch [:jups.backend.events/change-page kw %])]])
+
+(defn pages-double-dropdown [list-kw label]
+  [v/label-and-input
+   label
+   [rc/v-box
+    :width (:input-field-width style/sizes)
+    :children [[v/double-dropdown
+                {:upper-choices-atom (rf/subscribe [:jups.backend.subs/years-dropdown list-kw])
+                 :upper-choice-atom  (rf/subscribe [:jups.backend.subs/page-year list-kw])
+                 :upper-dispatch-fn  #(rf/dispatch [:jups.backend.events/page-year list-kw %])
+                 :lower-choices-atom (rf/subscribe [:jups.backend.subs/files-dropdown
+                                                    list-kw
+                                                    @(rf/subscribe [:jups.backend.subs/page-year list-kw])])
+                 :lower-choice-atom  (rf/subscribe [:jups.backend.subs/page-file list-kw])
+                 :lower-dispatch-fn  #(rf/dispatch [:jups.backend.events/page-file list-kw %])}]]]])
+
+(defn pages-image-from-dropdown []
+  (let [url @(rf/subscribe [:jups.backend.subs/pages-file-url :images])]
+    (if (= 2 (count (clojure.string/split url "/")))
+      [v/image-from-url (str "http://api.festival-jups.ch/images/" url)])))
+
+(defn image-link []
+  (let [url @(rf/subscribe [:jups.backend.subs/pages-file-url :images])]
+    (if (and url (= 2 (count (clojure.string/split url "/"))))
+      [rc/label
+       :label (str "<img src=\"" "http://api.festival-jups.ch/images/" url "\">")])))
+
+(defn file-link []
+  (let [url @(rf/subscribe [:jups.backend.subs/pages-file-url :files])]
+    (if (and url (= 2 (count (clojure.string/split url "/"))))
+      [rc/label
+       :label (str "<a href=\"" "http://api.festival-jups.ch/files/" url "\" target=\"_blank\"></a>")])))
+
+(defn pages-codemirror []
+  [v/label-and-input
+   "Inhalt"
+   [v/textarea-field
+    (rf/subscribe [:jups.backend.subs/active-page-field :content])
+    #(rf/dispatch [:jups.backend.events/change-page :content])
+    15]])
+
+;; ------------------------------------
+;; layout
 
 (defn pages-sidebar []
-  (let [pages @(rf/subscribe [:jups.backend.subs/pages])]
+  (let [pages @(rf/subscribe [:jups.backend.subs/pages])
+        changed-pages @(rf/subscribe [:jups.backend.subs/changed-pages])]
     [rc/v-box
      :children (for [page pages]
                  ^{:key (key page)}
@@ -15,7 +85,7 @@
                               [rc/gap :size (:vertical-gap style/sizes)]
                               [[rc/hyperlink
                                 :style (let [changed-page @(rf/subscribe [:jups.backend.subs/changed-page (key page)])]
-                                         {:color (if (= page changed-page)
+                                         {:color (if (= (val page) changed-page)
                                                    "black"
                                                    "darkred")})
                                 :label (name (key page))
@@ -28,43 +98,18 @@
                  [rc/gap :size (:vertical-gap style/sizes)]
                  (into
                    (case active-page-name
-                    :home []
-                    :orte []
-                    :kontakt []
-                    :archiv []
-                    :downloads []
-                    :tickets [:showText "Text anzeigen"
-                              :showForm "Formular anzeigen"
-                              :contentFormSent "Text wenn Formular gesendet"
-                              ]
-                    :programm [:showText "Text anzeigen"
-                               :showProgramm "Programm anzeigen"]
-                    [
-                     ;[field rc/input-text :titel "Titel"]
-                     ;[field rc/input-text :untertitel "Untertitel"]
-                     #_[dropdown
-                        :type
-                        "Typ"
-                        [{:id "workshop" :label "Workshop"}
-                         {:id "veranstaltung" :label "Veranstaltung"}
-                         {:id "offenesangebot" :label "Offenes Angebot"}]]
-                     ;[field rc/input-text :ort "Ort"]
-                     ;[date :zeitVon "Beginn"]
-                     ;[date :zeitBis "Ende"]
-                     ;[number-field :priority "Priorität"]
-                     ;[double-dropdown :bild "Bild" :images]
-                     ;[double-dropdown :logo "Logo" :images]
-                     ;[prosemirror :text @event]
-                     ;[checkbox :ausverkauft "Ausverkauft"]
-                     ;[field rc/input-text :ausverkauftText "Ausverkauft"]
-                     ;[field rc/input-text :abAlter "Mindestalter"]
-                     ;[field rc/input-text :tuerOeffnung "Türöffnung"]
-                     ;[field rc/input-text :preis "Preis"]
-                     ;[field rc/input-textarea :text "Beschreibung"]
-                     ])
-                   [[double-dropdown :images]
-                    [double-dropdown :files]
-                    [codemirror]]))]))
+                     :tickets [[pages-checkbox :showText "Text anzeigen"]
+                               [pages-checkbox :showForm "Formular anzeigen"]
+                               [pages-textarea-field :contentFormSent "Text wenn Formular gesendet"]]
+                     :programm [:showText "Text anzeigen"
+                                :showProgramm "Programm anzeigen"]
+                     [])
+                   [[pages-double-dropdown :images "Bild-Link"]
+                    [v/label-and-input "" [image-link]]
+                    [v/label-and-input "" [pages-image-from-dropdown]]
+                    [pages-double-dropdown :files "Datei-Link"]
+                    [v/label-and-input "" [file-link]]
+                    [pages-codemirror]]))]))
 
 (defn pages-buttons []
   (let [active-page-name @(rf/subscribe [:jups.backend.subs/active-page-name])]
@@ -89,6 +134,7 @@
                                        (repeat [rc/gap :size (:vertical-gap style/sizes)])
                                        [[rc/box :size "256px" :child [pages-sidebar]]
                                         [rc/box :size "1" :child [pages-form]]])]]]]])
+
 
 #_(defn pages-form [global]
   (let [session (r/cursor global [:session])
