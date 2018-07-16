@@ -1,6 +1,9 @@
 (ns backend.pages.codemirror
   (:require
     [cljsjs.codemirror]
+    [cljsjs.codemirror.mode.xml]
+    [cljsjs.codemirror.mode.javascript]
+    [cljsjs.codemirror.mode.css]
     [cljsjs.codemirror.mode.htmlmixed]))
 
 (defonce mirror (atom nil))
