@@ -30,8 +30,7 @@
     {:display-name        "codemirror"
      :reagent-render      #(render-codemirror initial-content)
      :component-did-mount #(mount-codemirror)
-     :component-will-update
-                          (fn [_ new-args]
+     :component-will-update (fn [_ new-args]
                             (.replaceWith
                               (js/document.getElementById "cmContainer")
                               (doto
