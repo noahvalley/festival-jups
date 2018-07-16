@@ -3,7 +3,8 @@
     [re-frame.core :as rf]
     [re-com.core :as rc]
     [backend.style :as style]
-    [backend.components :as v]))
+    [backend.components :as v]
+    [backend.pages.codemirror :as cm]))
 
 ;; --------------------------------------
 ;; fields
@@ -68,7 +69,8 @@
    [v/textarea-field
     (rf/subscribe [:jups.backend.subs/active-page-field :content])
     #(rf/dispatch [:jups.backend.events/change-page :content])
-    15]])
+    15]]
+  [cm/codemirror @(rf/subscribe [:jups.backend.subs/active-page-field :content])])
 
 ;; ------------------------------------
 ;; layout

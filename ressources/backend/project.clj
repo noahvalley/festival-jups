@@ -9,7 +9,8 @@
                  [re-com "2.1.0"]
                  [secretary "1.2.3"]
                  [ns-tracker "0.3.1"]
-                 [breaking-point "0.1.2"]]
+                 [breaking-point "0.1.2"]
+                 [cljsjs/codemirror "5.31.0-0"]]
 
   :plugins [[lein-cljsbuild "1.1.7"]]
 
