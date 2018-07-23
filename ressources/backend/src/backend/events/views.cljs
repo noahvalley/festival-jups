@@ -95,7 +95,8 @@
 
 (defn events-sidebar []
   (let [events @(rf/subscribe [:jups.backend.subs/events])
-        changed-events @(rf/subscribe [:jups.backend.subs/changed-events])]
+        changed-events @(rf/subscribe [:jups.backend.subs/changed-events])
+        active-event-id @(rf/subscribe [:jups.backend.subs/active-event-id])]
     [rc/v-box
      :children (for [event (sort compare-events events)]
                  ^{:key (:id event)}
@@ -117,11 +118,14 @@
                                          "offenesangebot" "A"
                                          " ")]
                                [rc/hyperlink
-                                :style (let [changed-event @(rf/subscribe [:jups.backend.subs/changed-event (:id event)])]
-                                         {:color (if (or (= event changed-event)
-                                                         (nil? changed-event))
-                                                   "black"
-                                                   "darkred")})
+                                :style (merge
+                                         (let [changed-event @(rf/subscribe [:jups.backend.subs/changed-event (:id event)])]
+                                          {:color (if (or (= event changed-event)
+                                                          (nil? changed-event))
+                                                    "black"
+                                                    "darkred")})
+                                         (if (= (:id event) active-event-id)
+                                           {:text-decoration "underline"}))
                                 :label (if (or (nil? (:titel event))
                                                (= "" (:titel event)))
                                          "OHNE TITEL"

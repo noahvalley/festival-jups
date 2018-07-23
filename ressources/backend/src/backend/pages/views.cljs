@@ -69,7 +69,8 @@
 
 (defn pages-sidebar []
   (let [pages @(rf/subscribe [:jups.backend.subs/pages])
-        changed-pages @(rf/subscribe [:jups.backend.subs/changed-pages])]
+        changed-pages @(rf/subscribe [:jups.backend.subs/changed-pages])
+        active-page-name @(rf/subscribe [:jups.backend.subs/active-page-name])]
     [rc/v-box
      :children (for [page pages]
                  ^{:key (key page)}
@@ -78,10 +79,13 @@
                   :children (interpose
                               [rc/gap :size (:vertical-gap style/sizes)]
                               [[rc/hyperlink
-                                :style (let [changed-page @(rf/subscribe [:jups.backend.subs/changed-page (key page)])]
-                                         {:color (if (= (val page) changed-page)
-                                                   "black"
-                                                   "darkred")})
+                                :style (merge
+                                         (let [changed-page @(rf/subscribe [:jups.backend.subs/changed-page (key page)])]
+                                          {:color (if (= (val page) changed-page)
+                                                    "black"
+                                                    "darkred")})
+                                         (if (= (key page) active-page-name)
+                                           {:text-decoration "underline"}))
                                 :label (name (key page))
                                 :on-click #(rf/dispatch [:jups.backend.events/active-page (key page)])]])])]))
 
