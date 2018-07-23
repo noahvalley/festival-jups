@@ -1,27 +1,18 @@
 # backend
 
-A [re-frame](https://github.com/Day8/re-frame) application designed to ... well, that part is up to you.
+A [re-frame](https://github.com/Day8/re-frame) application designed to facilitate content entry for festival-jups.ch
+
+## Build Tool
+This project currently uses shadow-cljs.
+Install:
+npm install -g shadow-cljs
 
 ## Development Mode
-```
+### Build application
+shadow-cljs compile app
 
-### Run application:
-
-```
-lein clean
-lein figwheel dev
-```
-
-Figwheel will automatically push cljs changes to the browser.
-
-Wait a bit, then browse to [http://localhost:3449](http://localhost:3449).
+### Build and run application:
+shadow-cljs watch app
 
 ## Production Build
-
-
-To compile clojurescript to javascript:
-
-```
-lein clean
-lein cljsbuild once min
-```
+shadow-cljs release app
