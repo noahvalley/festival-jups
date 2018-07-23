@@ -4,7 +4,8 @@
     [re-com.core :as rc]
     [goog.date.UtcDateTime :as time]
     [backend.components :as v]
-    [backend.style :as style]))
+    [backend.style :as style]
+    [backend.events.prosemirror :as pm]))
 
 ;; ----------------------------------------------
 ;; helper functions
@@ -150,13 +151,15 @@
                 [event-number-field :priority "Priorität"]
                 [event-double-dropdown :bild "Bild" :images]
                 [event-double-dropdown :logo "Logo" :images]
-                ;[prosemirror :text @event]
+                [v/label-and-input
+                 "Beschreibung"
+                 [pm/prosemirror @(rf/subscribe [:jups.backend.subs/active-event-field :text])]]
                 [event-checkbox :ausverkauft "Ausverkauft"]
                 [event-text-field :ausverkauftText "Ausverkauft"]
                 [event-text-field :abAlter "Mindestalter"]
                 [event-text-field :tuerOeffnung "Türöffnung"]
                 [event-text-field :preis "Preis"]
-                [v/label-and-input "Beschreibung" [v/textarea-field
+                #_[v/label-and-input "Beschreibung" [v/textarea-field
                                                    (rf/subscribe [:jups.backend.subs/active-event-field :text])
                                                    #(rf/dispatch [:jups.backend.events/change-event :text %])
                                                    7]]])])
@@ -169,9 +172,11 @@
                  [rc/gap :size (:vertical-gap style/sizes)]
                  [[rc/button
                    :label "Event speichern"
-                   :on-click #(if (nil? active-event-id)
+                   :on-click (fn []
+                               (rf/dispatch [:jups.backend.events/change-event :text (pm/get-html-string)])
+                               (if (nil? active-event-id)
                                 (rf/dispatch [:jups.backend.events/->create-event active-event-id])
-                                (rf/dispatch [:jups.backend.events/->update-event active-event-id]))]
+                                (rf/dispatch [:jups.backend.events/->update-event active-event-id])))]
                   [rc/button
                    :label "Änderungen an Event verwerfen"
                    :on-click #(rf/dispatch [:jups.backend.events/event-discard-changes active-event-id])]

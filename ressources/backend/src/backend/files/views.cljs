@@ -12,7 +12,6 @@
      [rc/h-box
       :children [[:input {:class     "form-control"
                           :multiple  true
-                          :name      type
                           :type      "file"
                           :on-change (fn [e]
                                        (.persist e)

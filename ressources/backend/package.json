@@ -1,0 +1,24 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "A [re-frame](https://github.com/Day8/re-frame) application designed to facilitate editing content on festival-jups.ch.",
+  "main": "nope",
+  "dependencies": {
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
+    "create-react-class": "^15.6.3",
+    "codemirror": "^5.39.2",
+    "prosemirror-example-setup": "^1.0.1",
+    "prosemirror-model": "^1.4.3",
+    "prosemirror-schema-basic": "^1.0.0",
+    "prosemirror-schema-list": "^1.0.1",
+    "prosemirror-state": "^1.2.0",
+    "prosemirror-view": "^1.3.0",
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": ""
+}
