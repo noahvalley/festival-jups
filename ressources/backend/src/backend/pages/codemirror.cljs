@@ -1,13 +1,13 @@
 (ns backend.pages.codemirror
   (:require
     [reagent.core :as r]
-    [cljsjs.codemirror]
-    [cljsjs.codemirror.addon.mode.simple]
-    [cljsjs.codemirror.addon.mode.overlay]
-    [cljsjs.codemirror.mode.xml]
-    [cljsjs.codemirror.mode.javascript]
-    [cljsjs.codemirror.mode.css]
-    [cljsjs.codemirror.mode.htmlmixed]))
+    ["codemirror"]
+    ["codemirror/addon/mode/simple"]
+    ["codemirror/addon/mode/overlay"]
+    ["codemirror/mode/xml/xml"]
+    ["codemirror/mode/javascript/javascript"]
+    ["codemirror/mode/css/css"]
+    ["codemirror/mode/htmlmixed/htmlmixed"]))
 
 (def cm-defaults {:lineWrapping    true
                   :mode            "htmlmixed"})

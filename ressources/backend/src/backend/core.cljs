@@ -4,6 +4,7 @@
     [re-frame.core :as rf]
     [day8.re-frame.http-fx]
     [breaking-point.core :as bp]
+    ["codemirror" :as cm]
 
     ;; -------------------------------------
     ;; load subscriptions
@@ -27,6 +28,7 @@
     [backend.views :refer [main-panel]]
     [backend.config :as config]))
 
+(js/goog.exportSymbol "CodeMirror" cm)
 
 (defn dev-setup []
   (when config/debug?
