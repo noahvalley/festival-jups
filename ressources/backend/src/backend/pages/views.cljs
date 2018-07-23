@@ -1,10 +1,11 @@
 (ns backend.pages.views
   (:require
-    [re-frame.core :as rf]
     [re-com.core :as rc]
+    [re-frame.core :as rf]
     [backend.style :as style]
     [backend.components :as v]
-    [backend.pages.codemirror :as cm]))
+    [backend.pages.codemirror :as cm]
+    [reagent.core :as r]))
 
 ;; --------------------------------------
 ;; fields
@@ -63,15 +64,6 @@
       [rc/label
        :label (str "<a href=\"" "http://api.festival-jups.ch/files/" url "\" target=\"_blank\"></a>")])))
 
-(defn pages-codemirror []
-  [v/label-and-input
-   "Inhalt"
-   [v/textarea-field
-    (rf/subscribe [:jups.backend.subs/active-page-field :content])
-    #(rf/dispatch [:jups.backend.events/change-page :content])
-    15]]
-  [cm/codemirror @(rf/subscribe [:jups.backend.subs/active-page-field :content])])
-
 ;; ------------------------------------
 ;; layout
 
@@ -94,11 +86,14 @@
                                 :on-click #(rf/dispatch [:jups.backend.events/active-page (key page)])]])])]))
 
 (defn pages-form []
-  (let [active-page-name @(rf/subscribe [:jups.backend.subs/active-page-name])]
+  (let [active-page-name @(rf/subscribe [:jups.backend.subs/active-page-name])
+        cm-content (rf/subscribe [:jups.backend.subs/active-page-field :content])
+        cm-content-deref @cm-content                        ;force codemirror to update
+        cm-update #(rf/dispatch [:jups.backend.events/change-page :content %])]
     [rc/v-box
      :children (interpose
                  [rc/gap :size (:vertical-gap style/sizes)]
-                 (into
+                 (concat
                    (case active-page-name
                      :tickets [[pages-checkbox :showText "Text anzeigen"]
                                [pages-checkbox :showForm "Formular anzeigen"]
@@ -111,7 +106,12 @@
                     [v/label-and-input "" [pages-image-from-dropdown]]
                     [pages-double-dropdown :files "Datei-Link"]
                     [v/label-and-input "" [file-link]]
-                    [pages-codemirror]]))]))
+                    [:div]                                  ;solves the problem of multiple codemirrors in :tickets-form
+                    [v/label-and-input
+                     "Inhalt"
+                     [cm/cm-editor
+                      cm-content
+                      cm-update]]]))]))
 
 (defn pages-buttons []
   (let [active-page-name @(rf/subscribe [:jups.backend.subs/active-page-name])]
@@ -127,12 +127,6 @@
                    :on-click #(rf/dispatch [:jups.backend.events/page-discard-changes active-page-name])]])]))
 
 (defn pages-panel []
-  [rc/v-box
-   :children [[rc/v-box
-               :children [[pages-buttons]
-                          [rc/gap :size (:vertical-gap style/sizes)]
-                          [rc/h-box
-                           :children (interleave
-                                       (repeat [rc/gap :size (:vertical-gap style/sizes)])
-                                       [[rc/box :size "256px" :child [pages-sidebar]]
-                                        [rc/box :size "1" :child [pages-form]]])]]]]])
+  [v/panel {:buttons pages-buttons
+            :sidebar pages-sidebar
+            :form pages-form}])

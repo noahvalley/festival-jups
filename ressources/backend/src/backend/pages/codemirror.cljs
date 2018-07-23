@@ -1,48 +1,42 @@
 (ns backend.pages.codemirror
   (:require
+    [reagent.core :as r]
     [cljsjs.codemirror]
+    [cljsjs.codemirror.addon.mode.simple]
+    [cljsjs.codemirror.addon.mode.overlay]
     [cljsjs.codemirror.mode.xml]
     [cljsjs.codemirror.mode.javascript]
     [cljsjs.codemirror.mode.css]
     [cljsjs.codemirror.mode.htmlmixed]))
 
-(defonce mirror (atom nil))
+(def cm-defaults {:lineWrapping    true
+                  :mode            "htmlmixed"})
 
-(defn get-codemirror-content []
-  (.getValue @mirror))
+(defn coerce [s]
+  (if (string? s) s (str s)))
 
-(defn codemirror-from-textarea [dom-id]
-  (js/CodeMirror.fromTextArea
-    (js/document.getElementById
-      dom-id
-      #js {:mode "htmlmixed"
-           :smartIndent true
-           :lineNumbers true})))
-
-(defn render-codemirror [initial-content]
-  [:div#cmContainer
-   [:input#CodeMirror
-    {:type          "textarea"
-     :default-value initial-content}]])
-
-(defn mount-codemirror []
-  (reset! mirror (codemirror-from-textarea "CodeMirror"))
-  (.autoFormatRange @mirror
-                    #js {:line 0 :ch 0}
-                    #js {:line (.lineCount @mirror)}))
-
-(defn codemirror [initial-content]
-  (reagent.core/create-class
-    {:display-name        "codemirror"
-     :reagent-render      #(render-codemirror initial-content)
-     :component-did-mount #(mount-codemirror)
-     :component-will-update (fn [_ new-args]
-                            (.replaceWith
-                              (js/document.getElementById "cmContainer")
-                              (doto
-                                (js/document.createElement "div")
-                                (.setAttribute "id" "cmContainer")))
-                            (reagent.core/render
-                              (render-codemirror (second new-args))
-                              (js/document.getElementById "cmContainer")
-                              #(mount-codemirror)))}))
+(defn cm-editor
+  ([content on-change]
+   (r/create-class
+     {:component-did-mount #(let [node (r/dom-node %)
+                                  editor (.fromTextArea js/CodeMirror node (clj->js cm-defaults))
+                                  val (coerce @content)]
+                              (add-watch content nil (fn [_ _ _ source]
+                                                       (let [source (coerce source)]
+                                                         (if (not= source (.getValue editor))
+                                                           (.setValue editor source)))))
+                              (.setValue editor val)
+                              (.autoFormatRange editor
+                                                #js {:line 0 :ch 0}
+                                                #js {:line (.lineCount editor)})
+                              (.setCursor editor (.coordsChar editor (clj->js {:left 0 :top 0})))
+                              (.scrollTo editor 0 0)
+                              (.setSize editor "1024px" "512px")
+                              (.on editor "blur" (fn [_]
+                                                   (let [value (.getValue editor)]
+                                                     (on-change value)))))
+      :reagent-render      (fn []
+                             [:textarea {:style {:width   "100%"
+                                                 :height  "100%"
+                                                 :display "flex"
+                                                 :flex    1}}])})))
