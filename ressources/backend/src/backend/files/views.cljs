@@ -62,43 +62,6 @@
 (defn files-delete []
   [delete-field :files "Datei löschen"])
 
-#_(defn upload-field [global description type files file-list]
-    [:div {:style {:border-style "solid"
-                   :border-color "black"
-                   :display         "flex"
-                   :flex-direction  "row"}}
-     [:label {:for   type
-              :style {:width "30%"}}
-      (str description ": ")]
-     [:input {
-              :multiple  true
-              :name      type
-              :type      "file"
-              :on-change (fn [e]
-                           (.persist e)
-                           (let [selected-files (for [i (range (-> e
-                                                                   .-target
-                                                                   .-files
-                                                                   .-length))]
-                                                  (.item
-                                                    (-> e
-                                                        .-target
-                                                        .-files)
-                                                    i))]
-                             (reset! files selected-files)))}]
-     [:button
-      {:on-click #(upload-files global type files file-list)}
-      "upload"]])
-
-#_(defn delete-field [global type property-key list-key description event-property?]
-    [:div {:style {:border-style "solid"
-                   :border-color "black"
-                   :display "flex"
-                   :flex-direction "row"}}
-     [double-dropdown global property-key list-key description event-property?]
-     [:button {:style {:max-width "100px"}
-               :on-click #(delete-file global type (property-key @global) list-key)}
-      "löschen"]])
 
 (defn files-sidebar []
   (let [pages @(rf/subscribe [:jups.backend.subs/pages])]
@@ -118,10 +81,6 @@
                 [files-delete]])])
 
 (defn files-panel []
-  #_[rc/v-box
-   :children [[rc/h-box
-               :children [[rc/gap :size (:sidebar-width style/sizes)]
-                          [rc/box :size "1" :child [files-form]]]]]]
   [v/panel
    {:buttons (fn [] [rc/gap :size (:vertical-gap style/sizes)])
     :sidebar (fn [] [rc/gap :size (:sidebar-width style/sizes)])
