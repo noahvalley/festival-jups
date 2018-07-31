@@ -1,19 +1,18 @@
+# backend
 
-### Development mode
+A [re-frame](https://github.com/Day8/re-frame) application designed to facilitate content entry for festival-jups.ch
 
-To start the Figwheel compiler, navigate to the project folder and run the following command in the terminal:
+## Build Tool
+This project currently uses shadow-cljs.
+Install:
+npm install -g shadow-cljs
 
-```
-lein figwheel
-```
+## Development Mode
+### Build application
+shadow-cljs compile app
 
-Figwheel will automatically push cljs changes to the browser.
-Once Figwheel starts up, you should be able to open the `public/index.html` page in the browser.
+### Build and run application:
+shadow-cljs watch app
 
-
-### Building for production
-
-```
-lein clean
-lein package
-```
+## Production Build
+shadow-cljs release app

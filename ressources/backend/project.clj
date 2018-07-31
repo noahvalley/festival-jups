@@ -1,73 +1,63 @@
-(defproject webbackend "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
-
+(defproject backend "0.1.0-SNAPSHOT"
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [org.clojure/clojurescript "1.10.238"]
                  [org.clojure/core.async "0.4.474"]
+                 [figwheel-sidecar "0.5.15"]
                  [reagent "0.7.0"]
-                 [cljs-http "0.1.44"]]
+                 [re-frame "0.10.5"]
+                 [day8.re-frame/http-fx "0.1.6"]
+                 [re-com "2.1.0"]
+                 [secretary "1.2.3"]
+                 [ns-tracker "0.3.1"]
+                 [breaking-point "0.1.2"]
+                 [cljsjs/codemirror "5.31.0-0"]]
 
-  :plugins [[lein-cljsbuild "1.1.7"]
-            [lein-figwheel "0.5.15"]]
+  :plugins [[lein-cljsbuild "1.1.7"]]
 
-  :min-lein-version "2.5.0"
-
-  :clean-targets ^{:protect false}
-[:target-path
- [:cljsbuild :builds :app :compiler :output-dir]
- [:cljsbuild :builds :app :compiler :output-to]]
+  :min-lein-version "2.5.3"
 
   :source-paths ["src" "script"]
 
-  :resource-paths ["public"]
+  :clean-targets ^{:protect false} ["public/js/compiled" "target"
+                                    "public/css"]
 
-  :figwheel {:http-server-root "."
-             :nrepl-port 7002
-             :nrepl-middleware ["cemerick.piggieback/wrap-cljs-repl"]
-             :css-dirs ["public/css"]}
+  :figwheel {:css-dirs ["public/css"]}
 
-  :cljsbuild {:builds {:app
-                       {:source-paths ["src" "env/dev/cljs" "node_modules"]
-                        :compiler
-                                      {:main "webbackend.dev"
-                                       :output-to "public/js/app.js"
-                                       :output-dir "public/js/out"
-                                       :asset-path   "js/out"
-                                       :source-map true
-                                       :optimizations :none
-                                       :pretty-print  true
-                                       :install-deps true
-                                       :npm-deps {:prosemirror-view "1.3.0"
-                                                  :prosemirror-state "1.2.0"
-                                                  :prosemirror-model "1.4.3"
-                                                  :prosemirror-schema-basic "1.0.0"
-                                                  :prosemirror-schema-list "1.0.1"
-                                                  :prosemirror-example-setup "1.0.1"}}
-                        :figwheel
-                                      {:on-jsload "webbackend.core/mount-root"
-                                       :open-urls ["http://localhost:3449/index.html"]}}
-                       :release
-                       {:source-paths ["src" "env/prod/cljs" "node_modules"]
-                        :compiler
-                                      {:output-to "public/js/app.js"
-                                       :output-dir "public/js/release"
-                                       :asset-path   "js/out"
-                                       :optimizations :advanced
-                                       :pretty-print false
-                                       :install-deps true
-                                       :npm-deps {:prosemirror-view "1.3.0"
-                                                  :prosemirror-state "1.2.0"
-                                                  :prosemirror-model "1.4.3"
-                                                  :prosemirror-schema-basic "1.0.0"
-                                                  :prosemirror-schema-list "1.0.1"
-                                                  :prosemirror-example-setup "1.0.1"}}}}}
+  :profiles
+  {:dev
+   {:dependencies [[binaryage/devtools "0.9.10"]
+                   [day8.re-frame/re-frame-10x "0.3.3"]
+                   [day8.re-frame/tracing "0.5.1"]]
 
-  :aliases {"package" ["do" "clean" ["cljsbuild" "once" "release"]]}
+    :plugins      [[lein-figwheel "0.5.16"]]}
+   :prod { :dependencies [[day8.re-frame/tracing-stubs "0.5.1"]]}}
 
-  :profiles {:dev {:dependencies [[binaryage/devtools "0.9.9"]
-                                  [figwheel-sidecar "0.5.15"]
-                                  [org.clojure/tools.nrepl "0.2.13"]
-                                  [com.cemerick/piggieback "0.2.2"]]}})
+  :cljsbuild
+  {:builds
+   [{:id           "dev"
+     :source-paths ["src"]
+     :figwheel     {:on-jsload "backend.core/mount-root"}
+     :compiler     {:main                 backend.core
+                    :output-to            "public/js/compiled/app.js"
+                    :output-dir           "public/js/compiled/out"
+                    :asset-path           "js/compiled/out"
+                    :source-map-timestamp true
+                    :preloads             [devtools.preload
+                                           day8.re-frame-10x.preload]
+                    :closure-defines      {"re_frame.trace.trace_enabled_QMARK_" true
+                                           "day8.re_frame.tracing.trace_enabled_QMARK_" true}
+                    :external-config      {:devtools/config {:features-to-install :all}}
+                    }}
+
+    {:id           "min"
+     :source-paths ["src"]
+     :compiler     {:main            backend.core
+                    :output-to       "public/js/compiled/app.js"
+                    :optimizations   :advanced
+                    :closure-defines {goog.DEBUG false}
+                    :pretty-print    false}}
+
+
+    ]}
+
+  )
