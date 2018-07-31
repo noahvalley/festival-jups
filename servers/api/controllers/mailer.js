@@ -18,7 +18,7 @@ var mailer = {
     req.mailReplyTo = req.body.data.email;
     req.mailcontent = 
       "vorname: " + req.body.data.vorname +
-      "\nnachname: " + req.body.data.vorname +
+      "\nnachname: " + req.body.data.nachname +
       "\nalter: " + req.body.data.alter +
       "\ntelefon: " + req.body.data.telefon +
       "\nemail: " + req.body.data.email +
