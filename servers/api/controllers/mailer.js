@@ -7,7 +7,7 @@ var logger = require('../libraries/logger.js');
 
 var mailer = {
   checkapikey : (req, res, next) => {
-    if (req.body.apikey === 'apikey'){
+    if (req.body.apikey === process.env.mailerApiKey){
       next();
     }else{
       next(error.noMailerApiKey());

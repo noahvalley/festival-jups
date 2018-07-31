@@ -7,7 +7,7 @@ var connectRoute = require('connect-route');
 var bodyParser = require('body-parser');
 var cors = require('cors')
 var path = require('path');
-var res = require('dotenv').config({path: __dirname+'/data.env'});  
+var dotenvZeug = require('dotenv').config({path: __dirname+'/data.env'});  
 
 var init = require('./controllers/init.js');
 var events = require('./controllers/events.js');
