@@ -1,21 +1,26 @@
+# lein
+/*.log
 /target
-/classes
-/checkouts
-profiles.clj
-pom.xml
-pom.xml.asc
-*.jar
-*.class
-/.idea
+/*-init.clj
+/resources/public/js/compiled
+out
 /.lein-*
 /.nrepl-port
-/resources/public/js
-/public/js/**/*
-!/public/js/codemirror-5.37.0/**/*
 /out
 /.repl
 *.log
 /.env
 
+# intellij
+/.idea
 *.iml
+
+# js / npm
 /node_modules
+package-lock.json
+
+# shadow-cljs
+/.shadow-cljs
+
+# project
+/public/js/**/*
