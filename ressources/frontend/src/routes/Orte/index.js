@@ -38,14 +38,20 @@ const Orte = () => {
                   <br/>Klosterstrasse 16
                   <br/><a href="http://www.allerheiligen.ch">www.allerheiligen.ch</a>
                 </li>
-
+                {/*
                 <li>
                   <div className="buchstabe">D</div>
                   <strong>Probebühne Cardinal</strong>
                   <br/>Bachstrasse 75
                   <div style={{ clear: 'both' }} />
                 </li>
-
+                */}
+                <li>
+                  <div className="buchstabe">D</div>
+                  <strong>Kammgarn West</strong>
+                  <br/>Baumgartenstrasse 23
+                  <div style={{ clear: 'both' }} />
+                </li>
                 <li>
                   <div className="buchstabe">E</div>
                   <strong>Herrenacker</strong>

@@ -18,19 +18,19 @@ const MyMapComponent = compose(
   withScriptjs,
   withGoogleMap
 )(props => (
-  <GoogleMap defaultZoom={16} defaultCenter={{ lat: 47.6976, lng: 8.6348 }}>
+  <GoogleMap defaultZoom={16} defaultCenter={{ lat: 47.6965, lng: 8.6345 }}>
       <Marker label="A" title="Kammgarn" position={{ lat: 47.6944688, lng: 8.6363160 }} />
       <Marker label="B" title="MKS Musikschule" position={{ lat: 47.6950209, lng: 8.6341066 }} />
       <Marker label="C" title="Museum zu Allerheiligen" position={{ lat: 47.695042, lng: 8.635481 }} />
-      <Marker label="D" title="Probebühne Cardinal" position={{ lat: 47.700694, lng: 8.63605}} />
+      <Marker label="D" title="Kammgarn West" position={{ lat: 47.6942979, lng: 8.6355435 }} />
       <Marker label="E" title="Herrenacker" position={{ lat: 47.6957277, lng: 8.633034 }} />
   </GoogleMap>
 ));
 
 export default MyMapComponent;
 
-// ohne cardinal:
-// <GoogleMap defaultZoom={16} defaultCenter={{ lat: 47.6965, lng: 8.6345 }}>
+// mit cardinal:
+// <GoogleMap defaultZoom={16} defaultCenter={{ lat: 47.6976, lng: 8.6348 }}>
 
 // <Marker label="G" title="Fassbühne" position={{ lat: 47.698224, lng: 8.636252}} />
 // <Marker label="H" title="Probebühne Cardinal" position={{ lat: 47.700694, lng: 8.63605}} />
