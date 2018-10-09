@@ -70,8 +70,10 @@ var file = {
           global.jupsstate.sessions[sessionID] = new Date();
           req.jupsUploadedFiles = [];
           for (var file in form.jupsTmpFiles){
-            fs.rename(form.jupsTmpFiles[file].path, path.join(form.uploadDirDef, form.jupsTmpFiles[file].name.replace('ö', "oe").replace('ä','ae').replace('ü','ue').replace('è','e').replace('é','e')), err => {
-              if (err){
+			fs.rename(form.jupsTmpFiles[file].path, path.join(form.uploadDirDef, form.jupsTmpFiles[file].name
+	          .replace('ö', 'oe').replace('ä','ae').replace('ü','ue').replace('è','e').replace('é','e').replace('ê','e')
+	          .replace('Ö', 'oe').replace('Ä','ae').replace('Ü','ue').replace('È','e').replace('É','e').replace('Ê','e')
+            ), err => {
                 next(error.renameingFail(err));
               }
             });
