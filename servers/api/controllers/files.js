@@ -70,13 +70,21 @@ var file = {
           global.jupsstate.sessions[sessionID] = new Date();
           req.jupsUploadedFiles = [];
           for (var file in form.jupsTmpFiles){
+	  		form.jupsTmpFiles[file].name = form.jupsTmpFiles[file].name.replace(/ö/g,'oe');
+	  		form.jupsTmpFiles[file].name = form.jupsTmpFiles[file].name.replace(/ü/g,'ue');
+	  		form.jupsTmpFiles[file].name = form.jupsTmpFiles[file].name.replace(/ä/g,'ae');
+	  		form.jupsTmpFiles[file].name = form.jupsTmpFiles[file].name.replace(/Ö/g,'Oe');
+	  		form.jupsTmpFiles[file].name = form.jupsTmpFiles[file].name.replace(/Ü/g,'Ue');
+	  		form.jupsTmpFiles[file].name = form.jupsTmpFiles[file].name.replace(/Ä/g,'Ae');
+	  		form.jupsTmpFiles[file].name = form.jupsTmpFiles[file].name.replace(/È/g,'E');
+	  		form.jupsTmpFiles[file].name = form.jupsTmpFiles[file].name.replace(/É/g,'E');
+	  		form.jupsTmpFiles[file].name = form.jupsTmpFiles[file].name.replace(/Ê/g,'E');
+	  		form.jupsTmpFiles[file].name = form.jupsTmpFiles[file].name.replace(/é/g,'e');
+	  		form.jupsTmpFiles[file].name = form.jupsTmpFiles[file].name.replace(/è/g,'e');
+	  		form.jupsTmpFiles[file].name = form.jupsTmpFiles[file].name.replace(/ê/g,'e');
+
 			fs.rename(form.jupsTmpFiles[file].path,
-			  path.join(form.uploadDirDef, form.jupsTmpFiles[file].name
-			    .replace('ö','oe').replace('ä','ae').replace('ü','ue')
-				.replace('è','e').replace('é','e').replace('ê','e')
-				.replace('Ö','oe').replace('Ä','ae').replace('Ü','ue')
-				.replace('È','e').replace('É','e').replace('Ê','e')
-			  ),
+			  path.join(form.uploadDirDef, form.jupsTmpFiles[file].name),
 			err => {
                 next(error.renameingFail(err));
               }
@@ -107,15 +115,15 @@ var file = {
   },
   delete : (req, res, next) => {
     logger('delete');
-    fs.unlink(path.join(path.join(req.jupsfilepath, req.params.fileyear), req.params.filename), (err) => {
+    fs.unlink(path.join(path.join(req.jupsfilepath, req.params.fileyear), req.params.form.jupsTmpFiles[file].name), (err) => {
       if (err) next(error.deletingFileFail(err));
-      var W600Path = path.join(path.join(path.join(req.jupsfilepath, 'W600/'), req.params.fileyear), req.params.filename);
+      var W600Path = path.join(path.join(path.join(req.jupsfilepath, 'W600/'), req.params.fileyear), req.params.form.jupsTmpFiles[file].name);
       if (fs.existsSync(W600Path)){
         fs.unlink(W600Path), (err) => {
           if (err) next(error.deletingFileFail(err));
         }
       }
-      var H60 = path.join(path.join(path.join(req.jupsfilepath, 'H60/'), req.params.fileyear), req.params.filename);
+      var H60 = path.join(path.join(path.join(req.jupsfilepath, 'H60/'), req.params.fileyear), req.params.form.jupsTmpFiles[file].name);
       if (fs.existsSync(H60)){
         fs.unlink(H60), (err) => {
           if (err) next(error.deletingFileFail(err));
