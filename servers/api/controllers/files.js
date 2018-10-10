@@ -70,22 +70,7 @@ var file = {
           global.jupsstate.sessions[sessionID] = new Date();
           req.jupsUploadedFiles = [];
           for (var file in form.jupsTmpFiles){
-	  		form.jupsTmpFiles[file].name = form.jupsTmpFiles[file].name.replace(/ö/g,'oe');
-	  		form.jupsTmpFiles[file].name = form.jupsTmpFiles[file].name.replace(/ü/g,'ue');
-	  		form.jupsTmpFiles[file].name = form.jupsTmpFiles[file].name.replace(/ä/g,'ae');
-	  		form.jupsTmpFiles[file].name = form.jupsTmpFiles[file].name.replace(/Ö/g,'Oe');
-	  		form.jupsTmpFiles[file].name = form.jupsTmpFiles[file].name.replace(/Ü/g,'Ue');
-	  		form.jupsTmpFiles[file].name = form.jupsTmpFiles[file].name.replace(/Ä/g,'Ae');
-	  		form.jupsTmpFiles[file].name = form.jupsTmpFiles[file].name.replace(/È/g,'E');
-	  		form.jupsTmpFiles[file].name = form.jupsTmpFiles[file].name.replace(/É/g,'E');
-	  		form.jupsTmpFiles[file].name = form.jupsTmpFiles[file].name.replace(/Ê/g,'E');
-	  		form.jupsTmpFiles[file].name = form.jupsTmpFiles[file].name.replace(/é/g,'e');
-	  		form.jupsTmpFiles[file].name = form.jupsTmpFiles[file].name.replace(/è/g,'e');
-	  		form.jupsTmpFiles[file].name = form.jupsTmpFiles[file].name.replace(/ê/g,'e');
-
-			fs.rename(form.jupsTmpFiles[file].path,
-			  path.join(form.uploadDirDef, form.jupsTmpFiles[file].name),
-			err => {
+			fs.rename(form.jupsTmpFiles[file].path, path.join(form.uploadDirDef, form.jupsTmpFiles[file].name), err => {
                 next(error.renameingFail(err));
               }
             );
