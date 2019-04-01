@@ -38,6 +38,27 @@ const Orte = () => {
                   <br/>Klosterstrasse 16
                   <br/><a href="http://www.allerheiligen.ch">www.allerheiligen.ch</a>
                 </li>
+                <li>
+                  <div className="buchstabe">D</div>
+                  <strong>Haberhaus Bühne</strong>
+                  <br/>Neustadt 51
+                  <br/><a href="http://www.haberhaus.ch/buehne">www.haberhaus.ch/buehne</a>
+                </li>
+                <li>
+                  <div className="buchstabe">E</div>
+                  <strong>Stadtbibliothek</strong>
+                  <br/>Münsterplatz 1
+                  <br/><a href="http://www.bibliotheken-schaffhausen.ch/">www.bibliotheken-schaffhausen.ch</a>
+                </li>
+                <li>
+                  <div className="buchstabe">F</div>
+                  <strong>Rockn Roll-Club Angeli</strong>
+                  <br/>Kronengässchen 3
+                </li>
+                <li>
+                  <div className="buchstabe">G</div>
+                  <strong>Herrenacker</strong>
+                </li>
                 {/*
                 <li>
                   <div className="buchstabe">D</div>
@@ -52,10 +73,6 @@ const Orte = () => {
                   <div style={{ clear: 'both' }} />
                 </li>
                 */}
-                <li>
-                  <div className="buchstabe">D</div>
-                  <strong>Herrenacker</strong>
-                </li>
               </ul>
 
             </div>
