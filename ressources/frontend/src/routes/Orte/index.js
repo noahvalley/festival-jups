@@ -45,15 +45,15 @@ const Orte = () => {
                   <br/>Bachstrasse 75
                   <div style={{ clear: 'both' }} />
                 </li>
-                */}
                 <li>
                   <div className="buchstabe">D</div>
                   <strong>Kammgarn West</strong>
                   <br/>Baumgartenstrasse 23
                   <div style={{ clear: 'both' }} />
                 </li>
+                */}
                 <li>
-                  <div className="buchstabe">E</div>
+                  <div className="buchstabe">D</div>
                   <strong>Herrenacker</strong>
                 </li>
               </ul>

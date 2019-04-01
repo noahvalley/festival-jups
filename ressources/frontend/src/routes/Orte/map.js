@@ -22,8 +22,8 @@ const MyMapComponent = compose(
       <Marker label="A" title="Kammgarn" position={{ lat: 47.6944688, lng: 8.6363160 }} />
       <Marker label="B" title="MKS Musikschule" position={{ lat: 47.6950209, lng: 8.6341066 }} />
       <Marker label="C" title="Museum zu Allerheiligen" position={{ lat: 47.695042, lng: 8.635481 }} />
-      <Marker label="D" title="Kammgarn West" position={{ lat: 47.6942979, lng: 8.6355435 }} />
-      <Marker label="E" title="Herrenacker" position={{ lat: 47.6957277, lng: 8.633034 }} />
+      <Marker label="D" title="Herrenacker" position={{ lat: 47.6957277, lng: 8.633034 }} />
+//    <Marker label="D" title="Kammgarn West" position={{ lat: 47.6942979, lng: 8.6355435 }} />
   </GoogleMap>
 ));
 
