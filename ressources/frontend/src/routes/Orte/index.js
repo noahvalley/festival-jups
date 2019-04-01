@@ -54,10 +54,12 @@ const Orte = () => {
                   <div className="buchstabe">F</div>
                   <strong>Rockn Roll-Club Angeli</strong>
                   <br/>Kronengässchen 3
+                  <div style={{ clear: 'both' }} />
                 </li>
                 <li>
                   <div className="buchstabe">G</div>
                   <strong>Herrenacker</strong>
+                  <div style={{ clear: 'both' }} />
                 </li>
                 {/*
                 <li>
