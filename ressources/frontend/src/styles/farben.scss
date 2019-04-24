@@ -3,8 +3,8 @@ $farbe2: #bf6598; // überschriften
 
 // programm
 $veranstaltung: darken(#8acfec, 10%);
-$offenesAngebot: darken(#fced4f, 10%);
-$workshop: darken(#fffca5, 10%);
+$offenesAngebot: darken(#ffea00, 0%);
+$workshop: lighten(#9e305e, 20%);
 
 
 // varianten werden automatisch berechnet - prozentzahlen bei bedarf anpassen
@@ -15,8 +15,9 @@ $farbe1-schwach: lighten($farbe1, 30%); // tickets formular
 
 // varianten programm
 $veranstaltung-dunkler: darken($veranstaltung, 20%);
-$offenesAngebot-dunkler: darken($offenesAngebot, 10%);
-$workshop-dunkler: #fca05d;
+$offenesAngebot-dunkler: darken($offenesAngebot, 1%);
+$workshop-dunkler: darken($workshop, 10%);
+
 
 $veranstaltung-heller: lighten($veranstaltung, 10%);
 $offenesAngebot-heller: lighten($offenesAngebot, 20%);
