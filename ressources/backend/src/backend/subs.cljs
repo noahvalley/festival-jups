@@ -16,10 +16,12 @@
 (rf/reg-sub
   :jups.backend.subs/years-dropdown
   (fn [db [_ images-or-files]]
-    (conj (mapv (fn [k] {:id k :label (name k)}) (keys (images-or-files db))) {:id :none :label "ohne"})))
+    (sort #(> (:label %1) (:label %2))
+          (conj (mapv (fn [k] {:id k :label (name k)}) (keys (images-or-files db))) {:id :none :label "ohne"}))))
 
 (rf/reg-sub
   :jups.backend.subs/files-dropdown
   (fn [db [_ images-or-files year]]
-    (mapv (fn [file-name] {:id file-name :label file-name})
-          (get-in db [images-or-files year]))))
+    (sort #(< (:label %1) (:label %2))
+          (mapv (fn [file-name] {:id file-name :label file-name})
+           (get-in db [images-or-files year])))))
