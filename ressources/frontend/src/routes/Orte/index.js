@@ -56,12 +56,12 @@ const Orte = () => {
                   <br/>Kronengässchen 3
                   <div style={{ clear: 'both' }} />
                 </li>
+                {/*
                 <li>
                   <div className="buchstabe">G</div>
                   <strong>Herrenacker</strong>
                   <div style={{ clear: 'both' }} />
                 </li>
-                {/*
                 <li>
                   <div className="buchstabe">D</div>
                   <strong>Probebühne Cardinal</strong>
