@@ -135,10 +135,7 @@ class Tickets extends Component {
                     <p><strong>Reservationen sind verbindlich.</strong></p>
                     { this.state.istVersendet /* nach dem versenden wird formular nicht mehr angezeigt */
                       ? <div className="status">
-                          { this.props.content_form_sent
-                            ? this.props.content_form_sent
-                            : 'Die Anfrage wurde versendet.'
-                          }
+                          { this.props.contentFormSent || 'Die Anfrage wurde versendet.' }
                         </div>
                       : <form onSubmit={ this.handleSend }>
                           <div className="erklaerung" style={{ width: 60 + 'px', display: 'inline-box', float: 'left', paddingLeft: 30 + 'px' }}>
@@ -259,7 +256,7 @@ class Tickets extends Component {
 const mapStateToProps = (state) => {
   if ( !state.fetchState.events || !state.fetchState.pages ) return { error: 'loading' }
 
-  const { content, showText, showForm, content_form_sent } = state.pages.tickets;
+  const { content, showText, showForm, contentFormSent } = state.pages.tickets;
   let text = '';
   if ( showText ) text = content;
 
@@ -286,7 +283,7 @@ const mapStateToProps = (state) => {
     return event.zeitVon > new Date();
   }).sort( (a, b) => a.position - b.position )
 
-  if ( events.length > 0 ) return { events, text, showForm, content_form_sent };
+  if ( events.length > 0 ) return { events, text, showForm, contentFormSent };
 
   return { error: 'keine Veranstaltungen mit offener Reservation', text, showForm };
 }
