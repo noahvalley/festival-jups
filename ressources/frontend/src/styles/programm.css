@@ -1,0 +1,223 @@
+.programm.content h1 {
+  color: #333; }
+
+.programm button {
+  cursor: pointer; }
+
+.programm .legende {
+  font-size: 90%;
+  line-height: 2.5em; }
+  .programm .legende button {
+    float: none;
+    position: inherit;
+    top: 0;
+    padding: 4px;
+    white-space: nowrap;
+    font-family: inherit;
+    font-size: 90%; }
+    .programm .legende button.veranstaltung {
+      border: 1px solid #5ebde5;
+      background-color: white; }
+    .programm .legende button.veranstaltung.active {
+      background-color: #5ebde5; }
+    .programm .legende button.workshop {
+      border: 1px solid #d06491;
+      background-color: white; }
+    .programm .legende button.workshop.active {
+      background-color: #d06491; }
+    .programm .legende button.offenesangebot {
+      border: 1px solid #ffea00;
+      background-color: white; }
+    .programm .legende button.offenesangebot.active {
+      background-color: #ffea00; }
+
+.programm .veranstaltung {
+  background-color: #5ebde5; }
+
+.programm .workshop {
+  background-color: #d06491; }
+
+.programm .offenesangebot {
+  background-color: #ffea00; }
+
+.programm .textfilter {
+  font-size: 90%;
+  margin: 10px 0; }
+  .programm .textfilter input {
+    font-family: inherit;
+    height: 20px;
+    width: 200px;
+    color: #333;
+    border-radius: 0;
+    -webkit-appearance: none;
+    padding: 3px;
+    border: 1px solid #999; }
+    .programm .textfilter input:focus {
+      outline-color: #5ebde5; }
+
+.programm ul li {
+  list-style: none;
+  margin-bottom: 2px; }
+
+.programm .zeit {
+  font-size: 120%;
+  width: 120px;
+  padding-left: 6px;
+  height: 100%;
+  float: left; }
+  .programm .zeit .minuten {
+    vertical-align: super;
+    font-size: 70%; }
+
+.programm button {
+  padding-right: 5px;
+  float: left;
+  position: relative;
+  top: 4px; }
+
+.programm .ausfahr-button {
+  height: 20px;
+  display: inline; }
+
+.programm .infos {
+  margin-left: 120px;
+  padding-left: 10px;
+  background-color: white; }
+
+.programm .details {
+  overflow: hidden;
+  font-size: 90%; }
+
+.programm .titel {
+  font-size: 100%;
+  font-weight: bold;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  line-height: 1.3em;
+  margin-left: 28px;
+  color: #333;
+  cursor: pointer; }
+
+.programm .untertitel {
+  font-weight: normal;
+  font-size: 90%;
+  margin-left: 5px;
+  color: #000; }
+  .programm .untertitel::before {
+    content: ' '; }
+
+.programm .ort {
+  float: right;
+  padding-left: 20px;
+  font-size: 90%;
+  min-height: 25px;
+  font-weight: bold;
+  padding-top: 6px;
+  line-height: 1.3em; }
+
+.programm .veranstaltung .ort {
+  color: #1f8fbe; }
+
+.programm .workshop .ort {
+  color: #c43d75; }
+
+.programm .offenesangebot .ort {
+  color: #fae500; }
+
+.programm .bild {
+  float: right;
+  padding-left: 20px;
+  margin-top: 24px;
+  max-width: 300px;
+  width: 50%; }
+
+.programm .sponsoring {
+  margin-top: 20px;
+  font-size: 90%; }
+  .programm .sponsoring img {
+    max-height: 30px;
+    margin-left: 10px; }
+
+.programm .beschreibung {
+  font-size: 90%;
+  line-height: 1.5em;
+  margin: 20px 0; }
+  .programm .beschreibung p {
+    margin-top: 12px; }
+
+.programm .alter,
+.programm .beginn,
+.programm .preis,
+.programm .ausverkauft {
+  font-size: 90%; }
+
+.programm .ausverkauft a {
+  font-weight: 700; }
+
+.programm .veranstaltung strong.farbig {
+  color: #1f8fbe; }
+
+.programm .workshop strong.farbig {
+  color: #c43d75; }
+
+.programm .offenesangebot strong.farbig {
+  color: #fae500; }
+
+.programm .veranstaltung a {
+  border-color: #1f8fbe; }
+  .programm .veranstaltung a:active, .programm .veranstaltung a:focus, .programm .veranstaltung a:hover {
+    color: #1f8fbe; }
+
+.programm .workshop a {
+  border-color: #c43d75; }
+  .programm .workshop a:active, .programm .workshop a:focus, .programm .workshop a:hover {
+    color: #c43d75; }
+
+.programm .offenesangebot a {
+  border-color: #fae500; }
+  .programm .offenesangebot a:active, .programm .offenesangebot a:focus, .programm .offenesangebot a:hover {
+    color: #fae500; }
+
+@media only screen and (max-width: 600px) {
+  .programm ul li {
+    border: 0;
+    margin-bottom: 20px; }
+  .programm ul li.veranstaltung {
+    border: 1px solid #5ebde5;
+    background-color: white; }
+    .programm ul li.veranstaltung .zeit {
+      background-color: #8acfec; }
+  .programm ul li.workshop {
+    border: 1px solid #d06491;
+    background-color: white; }
+    .programm ul li.workshop .zeit {
+      background-color: #dc8bad; }
+  .programm ul li.offenesangebot {
+    border: 1px solid #ffea00;
+    background-color: white; }
+    .programm ul li.offenesangebot .zeit {
+      background-color: #fff266; }
+  .programm .zeit {
+    width: 100px;
+    padding-bottom: 2px; }
+  .programm .titel {
+    padding-bottom: 2px; }
+  .programm .bild {
+    max-width: none;
+    width: 100%;
+    padding-bottom: 20px; }
+  .programm .infos {
+    margin-left: 0px;
+    background-color: white;
+    padding: 2px 6px 6px; }
+  .programm .ort {
+    float: none;
+    margin-left: 106px;
+    padding-right: 10px;
+    padding-top: 8px;
+    padding-bottom: 4px;
+    background-color: white;
+    line-height: 1.3em; }
+  .programm button {
+    position: relative;
+    top: 3px; } }

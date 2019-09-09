@@ -1,0 +1,188 @@
+/* HOME */
+.home .video-container {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56%;
+  margin-bottom: 20px; }
+
+.home .video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; }
+
+.home .traegerschaft,
+.home .hauptsponsoren {
+  font-size: 90%;
+  line-height: 1.6em; }
+
+.home .sponsoren-logos a {
+  border-bottom: none; }
+
+.home .sponsoren-logos ul, .home .sponsoren-logos li {
+  display: inline; }
+
+.home .sponsoren-logos img {
+  height: auto; }
+
+@media only screen and (min-width: 601px) {
+  .home .sponsoren-logos ul {
+    display: table-row; }
+  .home .sponsoren-logos li {
+    display: table-cell; } }
+
+@media only screen and (max-width: 600px) {
+  .home .sponsoren-logos img {
+    max-width: 33%; } }
+
+@media only screen and (max-width: 350px) {
+  .home .sponsoren-logos img {
+    max-width: 50%; } }
+
+/* ORTE */
+#map {
+  height: 550px;
+  width: 100%; }
+
+.content.orte .zweispaltig {
+  width: 100%; }
+
+.content.orte ul {
+  margin-top: 0; }
+
+.content.orte ul li {
+  list-style: none;
+  font-size: 90%; }
+
+.content.orte li {
+  margin-bottom: 20px; }
+
+.content.orte .buchstabe {
+  float: left;
+  width: 30px;
+  height: 70px;
+  font-size: 150%;
+  padding-top: 3px; }
+
+.content.orte .karte a {
+  border-bottom: none; }
+
+@media only screen and (min-width: 650px) {
+  .orte .spielorte {
+    width: 290px;
+    margin-right: 20px;
+    display: inline-block;
+    vertical-align: top; }
+  .orte .karte {
+    width: calc(100% - 310px);
+    display: inline-block;
+    vertical-align: top; } }
+
+/* KONTAKT */
+.kontakt h2 {
+  margin: 30px 0 8px; }
+
+/* DOWNLOADS + ARCHIV */
+.content.downloads,
+.content.archiv {
+  overflow: auto;
+  margin-right: 10px;
+  line-height: 1.3em; }
+  .content.downloads a,
+  .content.archiv a {
+    border-bottom: none;
+    float: left;
+    margin: 0 20px 20px 0; }
+  .content.downloads h1,
+  .content.archiv h1 {
+    margin-bottom: 30px; }
+  .content.downloads h1:first-child,
+  .content.archiv h1:first-child {
+    margin-top: 1px; }
+
+@media only screen and (max-width: 850px) {
+  .content.downloads,
+  .content.archiv {
+    margin-right: 0px; } }
+
+/* TICKETS */
+.tickets .reservation .selectgroup {
+  max-width: 100%; }
+
+.tickets .reservation select {
+  padding: 1px;
+  font-size: 90%; }
+  .tickets .reservation select.anzahl {
+    width: 50px;
+    margin: 0 10px; }
+  .tickets .reservation select.events {
+    width: 600px;
+    max-width: calc(100% - 100px); }
+
+.tickets .reservation button.weitere-res {
+  font-size: 90%;
+  padding: 6px 0 12px; }
+  .tickets .reservation button.weitere-res img {
+    margin-right: 6px;
+    height: 24px;
+    position: relative;
+    top: 8px; }
+
+.tickets .reservation label {
+  display: block;
+  margin-bottom: 4px; }
+
+.tickets .reservation input, .tickets .reservation textarea {
+  font-size: 100%;
+  color: #333;
+  width: 250px;
+  max-width: calc(100% - 10px);
+  border-radius: 0;
+  -webkit-appearance: none;
+  padding: 3px; }
+
+.tickets .reservation textarea {
+  height: 120px;
+  width: 528px; }
+
+.tickets .reservation .formularfeld {
+  float: left;
+  margin-right: 20px;
+  margin-bottom: 15px;
+  max-width: 100%; }
+
+.tickets .reservation .erklaerung {
+  display: block;
+  font-size: 80%;
+  color: #777; }
+
+.tickets .reservation input, .tickets .reservation textarea, .tickets .reservation select {
+  border: 1px solid #999; }
+  .tickets .reservation input:focus, .tickets .reservation textarea:focus, .tickets .reservation select:focus {
+    outline-color: #5ebde5; }
+
+.tickets .reservation select, .tickets .reservation input, .tickets .reservation textarea, .tickets .reservation button {
+  font-family: 'Montserrat', sans-serif; }
+
+.tickets .reservation button.send {
+  font-size: 100%;
+  background-color: #8acfec;
+  padding: 5px 8px;
+  border: 1px solid #186e92;
+  border-radius: 5px;
+  margin: 20px 15px 10px 0;
+  cursor: pointer; }
+
+.tickets .reservation div.status {
+  display: inline;
+  color: #b70018; }
+
+@media only screen and (max-width: 620px) {
+  .tickets div.status {
+    display: block; } }
+
+@media only screen and (max-width: 400px) {
+  .tickets .reservation input {
+    width: 350px; } }
