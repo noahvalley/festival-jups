@@ -309,6 +309,7 @@ body.noScrolling {
   max-width: 100%; }
 
 .tickets .reservation .erklaerung {
+  display: block;
   font-size: 80%;
   color: #777; }
 
