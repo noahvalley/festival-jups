@@ -187,14 +187,14 @@ class Tickets extends Component {
                           <div style={{ clear: 'both', marginTop: 20 + 'px' }} />
 
                           <div className="formularfeld">
-                            <label htmlFor="vorname">VORNAME *<span className="erklaerung">(bei Workshop Vorname des Kindes)</span></label>
+                            <label htmlFor="vorname">VORNAME *<span className="erklaerung">(bei Workshop Name des Kindes)</span></label>
                             <input id="vorname" type="text"
                             onChange={ this.handleVornameChange }
                             value={ this.state.vorname } />
                           </div>
 
                           <div className="formularfeld">
-                            <label htmlFor="nachname">Nachname*</label>
+                            <label htmlFor="nachname">Nachname*<span className="erklaerung">(bei Workshop Name des Kindes)</span></label>
                             <input id="nachname" type="text"
                             onChange={ this.handleNachnameChange }
                             value={ this.state.nachname } />
