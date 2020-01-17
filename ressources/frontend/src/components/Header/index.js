@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import headerKlein from '../../images/header-klein.gif';
-import headerGross from '../../images/header-gross.gif';
+import headerKlein from '../../images/header-klein.jpg';
+import headerGross from '../../images/header-gross.jpg';
 import { connect } from 'react-redux';
 import { fetchEvents } from '../../store/actions';
 import { fetchPages } from '../../store/actions';
