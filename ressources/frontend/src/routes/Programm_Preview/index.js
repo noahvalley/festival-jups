@@ -6,7 +6,7 @@ import figur from '../../images/figur.png';
 import { connect } from 'react-redux';
 
 
-class Programm_Preview extends Component {
+class Programm extends Component {
 
   constructor(props) {
     super(props);
@@ -142,9 +142,14 @@ const mapStateToProps = (state) => {
   if ( !state.fetchState.pages) return { error: 'loading' }
 
   const { content, showText, showProgramm } = state.pages.programm;
-  let text = '';
-  if ( showText ) text = content;
+	let text = '';
 
+  if ( showProgramm ){
+	  text = '<div><h1>Provisorische Programmvorschau</h1><p>Das Prgramm ist jetzt definitiv oeffentlich - klicke auf den Menupunkt Programm.</p></div>'
+	  return { error: 'Programm noch nicht zugänglich', text }
+	}else{
+	  text = '<h1>Provisorische Programmvorschau</h1>';
+	}
 
   const reservationOffen = state.pages.tickets.showForm;
 
@@ -184,4 +189,4 @@ const mapStateToProps = (state) => {
   return { error: 'No events' };
 }
 
-export default connect(mapStateToProps)(Programm_Preview);
+export default connect(mapStateToProps)(Programm);
