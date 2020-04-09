@@ -21,7 +21,7 @@ ReactDOM.render(
         <Route exact path="/" component={ DynamicPage } />
         <Route exact path="/home" component={ DynamicPage } />
         <Route exact path="/programm" component={ Programm } />
-        <Route exact path="/programmprev" component={ Programm_Preview } />
+        <Route exact path="/preview/prog" component={ Programm_Preview } />
         <Route exact path="/tickets" component={ Tickets } />
         <Route exact path="/kontakt" component={ DynamicPage } />
         <Route exact path="/downloads" component={ DynamicPage } />
