@@ -9,6 +9,7 @@ import './styles/index.css';
 
 import DynamicPage from './routes/PagesDynamic';
 import Programm from './routes/Programm';
+import Programm_Preview from './routes/Programm_Preview';
 import Tickets from './routes/Tickets';
 import Orte from './routes/Orte';
 
@@ -20,6 +21,7 @@ ReactDOM.render(
         <Route exact path="/" component={ DynamicPage } />
         <Route exact path="/home" component={ DynamicPage } />
         <Route exact path="/programm" component={ Programm } />
+        <Route exact path="/programmprev" component={ Programm_Preview } />
         <Route exact path="/tickets" component={ Tickets } />
         <Route exact path="/kontakt" component={ DynamicPage } />
         <Route exact path="/downloads" component={ DynamicPage } />
