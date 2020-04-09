@@ -22,6 +22,7 @@ app.use('/static', serveStatic(path.join(__dirname, '../../ressources/frontend/b
 app.use('/', serveStatic(path.join(__dirname, '../../ressources/frontend/build')));
 app.use('/home', serveIndex);
 app.use('/programm', serveIndex);
+app.use('/preview/prog', serveIndex);
 app.use('/tickets', serveIndex);
 app.use('/kontakt', serveIndex);
 app.use('/archiv', serveIndex);
