@@ -93,7 +93,7 @@ class Event extends Component {
               }
               {
                 sponsorImg &&
-                <div className="sponsoring">Patronat: <img src={ sponsorImgURL } alt="Patronat" /></div>
+                <div className="sponsoring"><b>Patronat</b><br/><img src={ sponsorImgURL } alt="Patronat" /></div>
               }
               <div style={{ clear: 'both', paddingBottom: 30 + 'px' }} />
             </div>

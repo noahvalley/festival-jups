@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../../components/Header';
 import Menu from '../../components/Menu';
-import Event from './event.js';
+import Event from '../Programm/event.js';
 import figur from '../../images/figur.png';
 import { connect } from 'react-redux';
 
