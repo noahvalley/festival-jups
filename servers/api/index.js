@@ -17,6 +17,7 @@ var file = require('./controllers/files.js');
 var auth = require('./controllers/auth.js');
 var mailer = require('./controllers/mailer.js');
 var database = require('./libraries/database.js');
+var logger = require('../libraries/logger.js');
 
 init.init();
 database.init((err)=>{
@@ -196,8 +197,8 @@ nodemailer.createTestAccount((err, account) => {
       text: 'Server Starting...'
   };
   transporter.sendMail(mailOptions, (error, info) => {
-      if (err) {
-    next(error.genMailingFail());
+      if (error) {
+	    	logger(error.genMailingFail());
       }
   next();
   });
