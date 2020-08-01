@@ -52,10 +52,12 @@ var mailer = {
           text: req.mailcontent
       };
       transporter.sendMail(mailOptions, (error, info) => {
-          if (error) {
-        next(error.genMailingFail());
-          }
-      next();
+	      if (error) {
+		    	logger('error: ' + error);
+		    	logger('info: ' + info);
+		    	next(error)
+	      }
+				next();
       });
     });
   }
