@@ -33,15 +33,10 @@ var mailer = {
   },
   sendmail : (req, res, next) => {
     logger('mailer.sendmail');
-    logger(JSON.stringify({
-        host: process.env.mailerServer,
-        port: process.env.mailerPort,
-        secure: process.env.mailerSecure,
-        auth: {
-            user: process.env.mailerUser,
-            pass: process.env.mailerPass
-        }
-    }));
+    logger(process.env.mailerServer)
+    logger(process.env.mailerPort)
+    logger(process.env.mailerUser)
+    logger(process.env.mailerPass)
     nodemailer.createTestAccount((err, account) => {
       let transporter = nodemailer.createTransport({
           host: process.env.mailerServer,
