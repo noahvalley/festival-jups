@@ -198,7 +198,8 @@ nodemailer.createTestAccount((err, account) => {
   };
   transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-	    	logger(error.genMailingFail());
+	    	logger('error: ' + error);
+	    	logger('info: ' + info);
       }
   next();
   });
