@@ -37,7 +37,7 @@ var mailer = {
       let transporter = nodemailer.createTransport({
           host: process.env.mailerServer,
           port: 25,
-          secure: true,
+          secure: false,
           auth: {
               user: process.env.mailerUser,
               pass: process.env.mailerPass
