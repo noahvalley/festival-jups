@@ -33,15 +33,11 @@ var mailer = {
   },
   sendmail : (req, res, next) => {
     logger('mailer.sendmail');
-    logger(process.env.mailerServer)
-    logger(process.env.mailerPort)
-    logger(process.env.mailerUser)
-    logger(process.env.mailerPass)
     nodemailer.createTestAccount((err, account) => {
       let transporter = nodemailer.createTransport({
           host: process.env.mailerServer,
-          port: 25,
-          secure: false,
+          port: 465,
+          secure: true,
           auth: {
               user: process.env.mailerUser,
               pass: process.env.mailerPass
@@ -49,7 +45,7 @@ var mailer = {
       });
   
       var mailOptions = {
-          from: '"Website" <info@festival-jups.ch>',
+          from: '"Website" <website-mailer@festival-jups.ch>',
           to: process.env.mailerRecipient,
           replyTo: req.mailReplyTo,
           subject: 'Reservation von der Website',
