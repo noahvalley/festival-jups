@@ -17,7 +17,7 @@ var file = require('./controllers/files.js');
 var auth = require('./controllers/auth.js');
 var mailer = require('./controllers/mailer.js');
 var database = require('./libraries/database.js');
-var logger = require('../libraries/logger.js');
+var logger = require('./libraries/logger.js');
 
 init.init();
 database.init((err)=>{
