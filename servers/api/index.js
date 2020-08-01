@@ -1,4 +1,5 @@
 'use strict';
+var nodemailer = require('nodemailer');
 
 
 var connect = require('connect');
@@ -177,5 +178,29 @@ app.use('/images', serveStatic(path.join(__dirname,'../../ressources/upload/imag
 app.use('/files', serveStatic(path.join(__dirname,'../../ressources/upload/files')));
 app.use(init.noResponse);
 
+nodemailer.createTestAccount((err, account) => {
+  let transporter = nodemailer.createTransport({
+      host: process.env.mailerServer,
+      port: 465,
+      secure: true,
+      auth: {
+          user: process.env.mailerUser,
+          pass: process.env.mailerPass
+      }
+  });
+
+  var mailOptions = {
+      from: '"Website" <website-mailer@festival-jups.ch>',
+      to: 'noah@boeggsli.ch',
+      subject: 'Raspberry',
+      text: 'Server Starting...'
+  };
+  transporter.sendMail(mailOptions, (error, info) => {
+      if (err) {
+    next(error.genMailingFail());
+      }
+  next();
+  });
+});
 
 module.exports = app;
