@@ -36,7 +36,7 @@ var mailer = {
     nodemailer.createTestAccount((err, account) => {
       let transporter = nodemailer.createTransport({
           host: process.env.mailerServer,
-          port: 465,
+          port: 25,
           secure: true,
           auth: {
               user: process.env.mailerUser,
