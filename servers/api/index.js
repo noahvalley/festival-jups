@@ -197,11 +197,10 @@ nodemailer.createTestAccount((err, account) => {
       text: 'Server Starting...'
   };
   transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-	    	logger('error: ' + error);
-	    	logger('info: ' + info);
-      }
-  next();
+    if (error) {
+    	logger('error: ' + error);
+    	logger('info: ' + info);
+    }
   });
 });
 
