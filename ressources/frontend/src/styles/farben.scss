@@ -1,10 +1,10 @@
-$farbe1: darken(#8acfec, 30%); // links, seitentitel @smallscreen
-$farbe2: #95B43B; // überschriften
+$farbe1: darken(#E42D10, 10%); // links, seitentitel @smallscreen
+$farbe2: darken(#E42D10, 30%);; // überschriften
 
 // programm
-$veranstaltung: darken(#8acfec, 10%);
+$veranstaltung: darken(#EA6511, 0%);
 $offenesAngebot: darken(#ffea00, 0%);
-$workshop: lighten(#95B43B, 20%);
+$workshop: lighten(#00A5ED, 10%);
 
 
 // varianten werden automatisch berechnet - prozentzahlen bei bedarf anpassen
