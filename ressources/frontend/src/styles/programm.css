@@ -16,15 +16,15 @@
     font-family: inherit;
     font-size: 90%; }
     .programm .legende button.veranstaltung {
-      border: 1px solid #5ebde5;
+      border: 1px solid #ea6511;
       background-color: white; }
     .programm .legende button.veranstaltung.active {
-      background-color: #5ebde5; }
+      background-color: #ea6511; }
     .programm .legende button.workshop {
-      border: 1px solid #bfd580;
+      border: 1px solid #21bcff;
       background-color: white; }
     .programm .legende button.workshop.active {
-      background-color: #bfd580; }
+      background-color: #21bcff; }
     .programm .legende button.offenesangebot {
       border: 1px solid #ffea00;
       background-color: white; }
@@ -32,10 +32,10 @@
       background-color: #ffea00; }
 
 .programm .veranstaltung {
-  background-color: #5ebde5; }
+  background-color: #ea6511; }
 
 .programm .workshop {
-  background-color: #bfd580; }
+  background-color: #21bcff; }
 
 .programm .offenesangebot {
   background-color: #ffea00; }
@@ -53,7 +53,7 @@
     padding: 3px;
     border: 1px solid #999; }
     .programm .textfilter input:focus {
-      outline-color: #5ebde5; }
+      outline-color: #f15036; }
 
 .programm ul li {
   list-style: none;
@@ -116,10 +116,10 @@
   line-height: 1.3em; }
 
 .programm .veranstaltung .ort {
-  color: #1f8fbe; }
+  color: #8b3c0a; }
 
 .programm .workshop .ort {
-  color: #acc959; }
+  color: #00a5ed; }
 
 .programm .offenesangebot .ort {
   color: #fae500; }
@@ -155,23 +155,23 @@
   font-weight: 700; }
 
 .programm .veranstaltung strong.farbig {
-  color: #1f8fbe; }
+  color: #8b3c0a; }
 
 .programm .workshop strong.farbig {
-  color: #acc959; }
+  color: #00a5ed; }
 
 .programm .offenesangebot strong.farbig {
   color: #fae500; }
 
 .programm .veranstaltung a {
-  border-color: #1f8fbe; }
+  border-color: #8b3c0a; }
   .programm .veranstaltung a:active, .programm .veranstaltung a:focus, .programm .veranstaltung a:hover {
-    color: #1f8fbe; }
+    color: #8b3c0a; }
 
 .programm .workshop a {
-  border-color: #acc959; }
+  border-color: #00a5ed; }
   .programm .workshop a:active, .programm .workshop a:focus, .programm .workshop a:hover {
-    color: #acc959; }
+    color: #00a5ed; }
 
 .programm .offenesangebot a {
   border-color: #fae500; }
@@ -183,15 +183,15 @@
     border: 0;
     margin-bottom: 20px; }
   .programm ul li.veranstaltung {
-    border: 1px solid #5ebde5;
+    border: 1px solid #ea6511;
     background-color: white; }
     .programm ul li.veranstaltung .zeit {
-      background-color: #8acfec; }
+      background-color: #f1833d; }
   .programm ul li.workshop {
-    border: 1px solid #bfd580;
+    border: 1px solid #21bcff;
     background-color: white; }
     .programm ul li.workshop .zeit {
-      background-color: #d3e2a6; }
+      background-color: #54cbff; }
   .programm ul li.offenesangebot {
     border: 1px solid #ffea00;
     background-color: white; }

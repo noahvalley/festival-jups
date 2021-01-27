@@ -65,7 +65,7 @@ button {
     max-width: 110px; } }
 
 .menu a {
-  color: #1f8fbe; }
+  color: #b4240d; }
   .menu a:active, .menu a:focus, .menu a:hover {
     color: #333; }
 
@@ -84,7 +84,7 @@ button {
     .menu .title {
       display: block; }
       .menu .title h1 {
-        color: #1f8fbe; }
+        color: #b4240d; }
     .menu li {
       display: none;
       border: none; }
@@ -148,7 +148,7 @@ button {
     .menu a {
       color: #eee; }
       .menu a:active, .menu a:focus, .menu a:hover {
-        color: #32abde; } }
+        color: #e42d10; } }
 
 body.noScrolling {
   overflow: hidden; }
@@ -316,16 +316,16 @@ body.noScrolling {
 .tickets .reservation input, .tickets .reservation textarea, .tickets .reservation select {
   border: 1px solid #999; }
   .tickets .reservation input:focus, .tickets .reservation textarea:focus, .tickets .reservation select:focus {
-    outline-color: #5ebde5; }
+    outline-color: #f15036; }
 
 .tickets .reservation select, .tickets .reservation input, .tickets .reservation textarea, .tickets .reservation button {
   font-family: 'Montserrat', sans-serif; }
 
 .tickets .reservation button.send {
   font-size: 100%;
-  background-color: #8acfec;
+  background-color: #f47966;
   padding: 5px 8px;
-  border: 1px solid #186e92;
+  border: 1px solid #851a09;
   border-radius: 5px;
   margin: 20px 15px 10px 0;
   cursor: pointer; }
@@ -360,15 +360,15 @@ body.noScrolling {
     font-family: inherit;
     font-size: 90%; }
     .programm .legende button.veranstaltung {
-      border: 1px solid #5ebde5;
+      border: 1px solid #ea6511;
       background-color: white; }
     .programm .legende button.veranstaltung.active {
-      background-color: #5ebde5; }
+      background-color: #ea6511; }
     .programm .legende button.workshop {
-      border: 1px solid #bfd580;
+      border: 1px solid #21bcff;
       background-color: white; }
     .programm .legende button.workshop.active {
-      background-color: #bfd580; }
+      background-color: #21bcff; }
     .programm .legende button.offenesangebot {
       border: 1px solid #ffea00;
       background-color: white; }
@@ -376,10 +376,10 @@ body.noScrolling {
       background-color: #ffea00; }
 
 .programm .veranstaltung {
-  background-color: #5ebde5; }
+  background-color: #ea6511; }
 
 .programm .workshop {
-  background-color: #bfd580; }
+  background-color: #21bcff; }
 
 .programm .offenesangebot {
   background-color: #ffea00; }
@@ -397,7 +397,7 @@ body.noScrolling {
     padding: 3px;
     border: 1px solid #999; }
     .programm .textfilter input:focus {
-      outline-color: #5ebde5; }
+      outline-color: #f15036; }
 
 .programm ul li {
   list-style: none;
@@ -460,10 +460,10 @@ body.noScrolling {
   line-height: 1.3em; }
 
 .programm .veranstaltung .ort {
-  color: #1f8fbe; }
+  color: #8b3c0a; }
 
 .programm .workshop .ort {
-  color: #acc959; }
+  color: #00a5ed; }
 
 .programm .offenesangebot .ort {
   color: #fae500; }
@@ -499,23 +499,23 @@ body.noScrolling {
   font-weight: 700; }
 
 .programm .veranstaltung strong.farbig {
-  color: #1f8fbe; }
+  color: #8b3c0a; }
 
 .programm .workshop strong.farbig {
-  color: #acc959; }
+  color: #00a5ed; }
 
 .programm .offenesangebot strong.farbig {
   color: #fae500; }
 
 .programm .veranstaltung a {
-  border-color: #1f8fbe; }
+  border-color: #8b3c0a; }
   .programm .veranstaltung a:active, .programm .veranstaltung a:focus, .programm .veranstaltung a:hover {
-    color: #1f8fbe; }
+    color: #8b3c0a; }
 
 .programm .workshop a {
-  border-color: #acc959; }
+  border-color: #00a5ed; }
   .programm .workshop a:active, .programm .workshop a:focus, .programm .workshop a:hover {
-    color: #acc959; }
+    color: #00a5ed; }
 
 .programm .offenesangebot a {
   border-color: #fae500; }
@@ -527,15 +527,15 @@ body.noScrolling {
     border: 0;
     margin-bottom: 20px; }
   .programm ul li.veranstaltung {
-    border: 1px solid #5ebde5;
+    border: 1px solid #ea6511;
     background-color: white; }
     .programm ul li.veranstaltung .zeit {
-      background-color: #8acfec; }
+      background-color: #f1833d; }
   .programm ul li.workshop {
-    border: 1px solid #bfd580;
+    border: 1px solid #21bcff;
     background-color: white; }
     .programm ul li.workshop .zeit {
-      background-color: #d3e2a6; }
+      background-color: #54cbff; }
   .programm ul li.offenesangebot {
     border: 1px solid #ffea00;
     background-color: white; }
@@ -591,7 +591,7 @@ hr {
   .content p {
     margin-bottom: 16px; }
   .content h1, .content h2, .content h3 {
-    color: #95B43B;
+    color: #551106;
     margin-bottom: 10px; }
   .content strong, .content b {
     font-weight: 700; }
@@ -609,9 +609,9 @@ hr {
     font-size: 24px; }
   .content a {
     color: #333;
-    border-bottom: 2px solid #1f8fbe; }
+    border-bottom: 2px solid #b4240d; }
     .content a:active, .content a:focus, .content a:hover {
-      color: #1f8fbe; }
+      color: #b4240d; }
   .content img {
     max-width: 100%; }
   .content .kleiner {

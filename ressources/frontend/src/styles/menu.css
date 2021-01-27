@@ -16,7 +16,7 @@
     max-width: 110px; } }
 
 .menu a {
-  color: #1f8fbe; }
+  color: #b4240d; }
   .menu a:active, .menu a:focus, .menu a:hover {
     color: #333; }
 
@@ -35,7 +35,7 @@
     .menu .title {
       display: block; }
       .menu .title h1 {
-        color: #1f8fbe; }
+        color: #b4240d; }
     .menu li {
       display: none;
       border: none; }
@@ -99,7 +99,7 @@
     .menu a {
       color: #eee; }
       .menu a:active, .menu a:focus, .menu a:hover {
-        color: #32abde; } }
+        color: #e42d10; } }
 
 body.noScrolling {
   overflow: hidden; }
