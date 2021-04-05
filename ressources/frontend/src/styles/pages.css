@@ -161,16 +161,16 @@
 .tickets .reservation input, .tickets .reservation textarea, .tickets .reservation select {
   border: 1px solid #999; }
   .tickets .reservation input:focus, .tickets .reservation textarea:focus, .tickets .reservation select:focus {
-    outline-color: #f15036; }
+    outline-color: #b4240d; }
 
 .tickets .reservation select, .tickets .reservation input, .tickets .reservation textarea, .tickets .reservation button {
   font-family: 'Montserrat', sans-serif; }
 
 .tickets .reservation button.send {
   font-size: 100%;
-  background-color: #f47966;
+  background-color: #b4240d;
   padding: 5px 8px;
-  border: 1px solid #851a09;
+  border: 1px solid #b4240d;
   border-radius: 5px;
   margin: 20px 15px 10px 0;
   cursor: pointer; }

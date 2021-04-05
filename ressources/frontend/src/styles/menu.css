@@ -99,7 +99,7 @@
     .menu a {
       color: #eee; }
       .menu a:active, .menu a:focus, .menu a:hover {
-        color: #e42d10; } }
+        color: #b4240d; } }
 
 body.noScrolling {
   overflow: hidden; }
