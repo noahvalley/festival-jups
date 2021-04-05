@@ -2,21 +2,21 @@ $farbe1: darken(#E42D10, 10%); // links, seitentitel @smallscreen
 $farbe2: darken(#E42D10, 30%);; // überschriften
 
 // programm
-$veranstaltung: darken(#EA6511, 0%);
-$offenesAngebot: darken(#ffea00, 0%);
-$workshop: lighten(#00A5ED, 10%);
+$veranstaltung: darken(#FCEA19, 0%);
+$offenesAngebot: darken(#FC5307, 0%);
+$workshop: lighten(#1BBBFB, 0%);
 
 
 // varianten werden automatisch berechnet - prozentzahlen bei bedarf anpassen
-$farbe1-dunkler: darken($farbe1, 10%); // links hover
-$farbe1-heller: lighten($farbe1, 10%); // links menu smartphone hover
-$farbe1-nochheller: lighten($farbe1, 20%); // tickets formular
-$farbe1-schwach: lighten($farbe1, 30%); // tickets formular
+$farbe1-dunkler: darken($farbe1, 0%); // links hover
+$farbe1-heller: lighten($farbe1, 0%); // links menu smartphone hover
+$farbe1-nochheller: lighten($farbe1, 0%); // tickets formular
+$farbe1-schwach: lighten($farbe1, 0%); // tickets formular
 
 // varianten programm
-$veranstaltung-dunkler: darken($veranstaltung, 20%);
-$offenesAngebot-dunkler: darken($offenesAngebot, 1%);
-$workshop-dunkler: darken($workshop, 10%);
+$veranstaltung-dunkler: darken($veranstaltung, 5%);
+$offenesAngebot-dunkler: darken($offenesAngebot, 0%);
+$workshop-dunkler: darken($workshop, 0%);
 
 
 $veranstaltung-heller: lighten($veranstaltung, 10%);

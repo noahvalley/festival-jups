@@ -152,8 +152,10 @@ footer {
 /* max width of content + stuff behind */
 
 body {
+	width: 100%;
+	height: 100%;
   background-color: #eee;
-  background-image: url("../images/bg.jpg");
+  background-image: url("../images/bg.png");
   background-repeat: repeat-x repeat-y;
 }
 
