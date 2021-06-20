@@ -24,9 +24,8 @@ const MyMapComponent = compose(
       <Marker label="C" title="Museum zu Allerheiligen" position={{ lat: 47.695042, lng: 8.635481 }} />
       <Marker label="D" title="Haberhaus Bühne" position={{ lat: 47.6953402, lng: 8.6320005 }} />
       <Marker label="E" title="Stadtbibliothek" position={{ lat: 47.6953822, lng: 8.6370836}} />
-      <Marker label="F" title="Stadttheater Schaffhausen" position={{ lat: 47.6957502, lng: 8.6332005 }} />
-      <Marker label="G" title="Rock'n Roll-Club Angeli" position={{ lat: 47.696485, lng: 8.635605 }} />
-			<Marker label="H" title="Herrenacker" position={{ lat: 47.6954277, lng: 8.633034 }} />
+      <Marker label="F" title="Rock'n Roll-Club Angeli" position={{ lat: 47.696485, lng: 8.635605 }} />
+			<Marker label="G" title="Herrenacker" position={{ lat: 47.6955277, lng: 8.633034 }} />
   </GoogleMap>
 ));
 
@@ -34,6 +33,7 @@ const MyMapComponent = compose(
 export default MyMapComponent;
 
 // mit cardinal:
+// <Marker label="F" title="Stadttheater Schaffhausen" position={{ lat: 47.6957502, lng: 8.6332005 }} />
 // <GoogleMap defaultZoom={16} defaultCenter={{ lat: 47.6976, lng: 8.6348 }}>
 // <Marker label="E" title="Kammgarn West" position={{ lat: 47.6942979, lng: 8.6355435 }} />
 // <Marker label="G" title="Fassbühne" position={{ lat: 47.698224, lng: 8.636252}} />
