@@ -50,22 +50,21 @@ const Orte = () => {
                   <br/>Münsterplatz 1
                   <br/><a href="http://www.bibliotheken-schaffhausen.ch/">www.bibliotheken-schaffhausen.ch</a>
                 </li>
-                <li>
+               <li style={{ clear: 'both' }}>
                   <div className="buchstabe">F</div>
                   <strong>Rockn Roll-Club Angeli</strong>
                   <br/>Kronengässchen 3
                </li>
+               <li style={{ clear: 'both' }}>
+                  <div className="buchstabe">G</div>
+                  <strong>Herrenacker</strong>
+                </li>
                 {/*
-                 <li style={{ clear: 'both' }}>
+               <li style={{ clear: 'both' }}>
                   <div className="buchstabe">F</div>
                   <strong>Stadttheater Schaffhausen</strong>
                   <br/>Herrenacker 23
                   <br/><a href="http://www.stadttheater-sh.ch/">www.stadttheater-sh.ch</a>
-                </li>
-                <li>
-                  <div className="buchstabe">G</div>
-                  <strong>Herrenacker</strong>
-                  <div style={{ clear: 'both' }} />
                 </li>
                 <li>
                   <div className="buchstabe">D</div>
