@@ -56,17 +56,16 @@ const Orte = () => {
                   <br/>Herrenacker 23
                   <br/><a href="http://www.stadttheater-sh.ch/">www.stadttheater-sh.ch</a>
                 </li>
-                <li>
+               <li style={{ clear: 'both' }}>
                   <div className="buchstabe">G</div>
                   <strong>Rockn Roll-Club Angeli</strong>
                   <br/>Kronengässchen 3
                </li>
-                {/*
-                <li>
-                  <div className="buchstabe">G</div>
+               <li style={{ clear: 'both' }}>
+                  <div className="buchstabe">H</div>
                   <strong>Herrenacker</strong>
-                  <div style={{ clear: 'both' }} />
                 </li>
+                {/*
                 <li>
                   <div className="buchstabe">D</div>
                   <strong>Probebühne Cardinal</strong>

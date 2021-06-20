@@ -26,6 +26,7 @@ const MyMapComponent = compose(
       <Marker label="E" title="Stadtbibliothek" position={{ lat: 47.6953822, lng: 8.6370836}} />
       <Marker label="F" title="Stadttheater Schaffhausen" position={{ lat: 47.6957502, lng: 8.6332005 }} />
       <Marker label="G" title="Rock'n Roll-Club Angeli" position={{ lat: 47.696485, lng: 8.635605 }} />
+			<Marker label="H" title="Herrenacker" position={{ lat: 47.6954277, lng: 8.633034 }} />
   </GoogleMap>
 ));
 
@@ -39,4 +40,3 @@ export default MyMapComponent;
 // <Marker label="H" title="Probebühne Cardinal" position={{ lat: 47.700694, lng: 8.63605}} />
 // <Marker label="E" title="Haberhaus Bühne" position={{ lat: 47.6953402, lng: 8.6320005 }} />
 // <Marker label="F" title="Radio Munot" position={{ lat: 47.6969773, lng: 8.6350129 }} />
-// <Marker label="G" title="Herrenacker" position={{ lat: 47.6957277, lng: 8.633034 }} />
