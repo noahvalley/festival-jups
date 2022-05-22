@@ -40,26 +40,39 @@ const Orte = () => {
                 </li>
                 <li>
                   <div className="buchstabe">D</div>
-                  <strong>Haberhaus Bühne</strong>
-                  <br/>Neustadt 51
-                  <br/><a href="http://www.haberhaus.ch/buehne">www.haberhaus.ch/buehne</a>
+                  <strong>Bachturnhalle</strong>
+                  <br/>Bachstrasse 39
+                  <br/><a href="http://www.bachturnhalle.ch/">www.bachturnhalle.ch</a>
+                </li>
+               <li style={{ clear: 'both' }}>
+                  <div className="buchstabe">E</div>
+                  <strong>Stadttheater Schaffhausen</strong>
+                  <br/>Herrenacker 23
+                  <br/><a href="http://www.stadttheater-sh.ch/">www.stadttheater-sh.ch</a>
                 </li>
                 <li>
-                  <div className="buchstabe">E</div>
+                  <div className="buchstabe">F</div>
                   <strong>Stadtbibliothek</strong>
                   <br/>Münsterplatz 1
                   <br/><a href="http://www.bibliotheken-schaffhausen.ch/">www.bibliotheken-schaffhausen.ch</a>
                 </li>
-               <li style={{ clear: 'both' }}>
-                  <div className="buchstabe">F</div>
+                
+                <li style={{ clear: 'both' }}>
+                  <div className="buchstabe">G</div>
                   <strong>Rockn Roll-Club Angeli</strong>
                   <br/>Kronengässchen 3
-               </li>
-               <li style={{ clear: 'both' }}>
+                </li>
+                {/*
+                <li style={{ clear: 'both' }}>
                   <div className="buchstabe">G</div>
                   <strong>Herrenacker</strong>
                 </li>
-                {/*
+                <li>
+                  <div className="buchstabe">D</div>
+                  <strong>Haberhaus Bühne</strong>
+                  <br/>Neustadt 51
+                  <br/><a href="http://www.haberhaus.ch/buehne">www.haberhaus.ch/buehne</a>
+                </li>
                <li style={{ clear: 'both' }}>
                   <div className="buchstabe">F</div>
                   <strong>Stadttheater Schaffhausen</strong>
