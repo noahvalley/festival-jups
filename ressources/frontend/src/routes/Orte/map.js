@@ -22,7 +22,7 @@ const MyMapComponent = compose(
       <Marker label="A" title="Kammgarn" position={{ lat: 47.6944688, lng: 8.6363160 }} />
       <Marker label="B" title="MKS Musikschule" position={{ lat: 47.6950209, lng: 8.6341066 }} />
       <Marker label="C" title="Museum zu Allerheiligen" position={{ lat: 47.695042, lng: 8.635481 }} />
-      <Marker label="D" title="Bachturnhalle" position={{ lat: 47.698224, lng: 8.636252}} />
+      <Marker label="D" title="Bachturnhalle" position={{ lat: 47.69810271081984, lng:  8.637188109299311}} />
 	  <Marker label="E" title="Stadttheater Schaffhausen" position={{ lat: 47.6957502, lng: 8.6332005 }} />
       <Marker label="F" title="Stadtbibliothek" position={{ lat: 47.6953822, lng: 8.6370836}} />
       <Marker label="G" title="Rock'n Roll-Club Angeli" position={{ lat: 47.696485, lng: 8.635605 }} />
