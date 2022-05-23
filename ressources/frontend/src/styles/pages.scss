@@ -119,8 +119,8 @@
 
 /* DOWNLOADS + ARCHIV */
 
-.content.downloads,
-.content.archiv {
+.content .downloads,
+.content .archiv{
   overflow: auto; // spannt sich um float
   margin-right: 10px;
   line-height: 1.3em;
