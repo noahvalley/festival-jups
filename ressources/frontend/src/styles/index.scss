@@ -59,7 +59,8 @@ hr {
   li {
     line-height: 1.6em;
     list-style-type: disc;
-    list-style-position: inside;
+    list-style-position: outside;
+    margin-left: 15px;
   }
 
   h1 {
