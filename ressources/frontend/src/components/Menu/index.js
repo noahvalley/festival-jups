@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import figur from '../../images/figur.png';
-import ausschreibung from '../../images/ausschreibung.png';
+import ausschreibung from '../../images/ausschreibung.jpg';
 import openMenu from './arrow-bottom-circle.svg';
 import closeMenu from './arrow-top-circle.svg';
 
