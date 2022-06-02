@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import figur from '../../images/figur.png';
+import ausschreibung from '../../images/ausschreibung.png';
 import openMenu from './arrow-bottom-circle.svg';
 import closeMenu from './arrow-top-circle.svg';
 
@@ -78,7 +79,10 @@ class Menu extends Component {
             </div>
 
             {/* nur angezeigt im desktop */}
-            <img src={figur} width={180} style={{ marginTop: 40 }}  alt="" />
+            <a href="http://api.festival-jups.ch/files/2022/2022_hauptleitung_ausschreibung.pdf">
+	            <img src={ausschreibung} width={180} style={{ marginTop: 40 }}  alt="" />
+            </a>
+            {/* <img src={figur} width={180} style={{ marginTop: 40 }}  alt="" /> */}
           </div>
         </div>
       </div>
