@@ -80,7 +80,7 @@ class Menu extends Component {
 
             {/* nur angezeigt im desktop */}
             <a style={{ margin: 0, padding: 0, }} href="http://api.festival-jups.ch/files/2022/2022_hauptleitung_ausschreibung.pdf">
-	            <img src={ausschreibung} width={180} style={{ margin: 0, paddingTop: 40 }} alt="" />
+	            <img src={ausschreibung} width={150} style={{ width: 150, margin: 0, paddingTop: 20 }} alt="" />
             </a>
             {/* <img src={figur} width={180} style={{ marginTop: 40 }}  alt="" /> */}
           </div>
