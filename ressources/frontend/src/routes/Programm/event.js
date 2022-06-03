@@ -74,6 +74,11 @@ class Event extends Component {
 
               <div className="beschreibung" dangerouslySetInnerHTML={{__html: beschreibung}} />
 
+              { ausverkauft
+                  ? <div className="ausverkauft"><strong className="farbig-warn" style={{ color: '#fc5307'}}>{ausverkauftText}</strong></div>
+                  : <div></div>
+              }
+
               { alter &&
                 <div className="alter"><strong className="farbig">Zielpublikum:</strong> {alter}</div>
               }
@@ -82,10 +87,6 @@ class Event extends Component {
               }
               { preis &&
                 <div className="preis"><strong className="farbig">Kosten:</strong> {preis}</div>
-              }
-              { ausverkauft
-                  ? <div className="ausverkauft"><strong className="farbig">{ausverkauftText}</strong></div>
-                  : <div></div>
               }
 
               { /* reservierbar &&
