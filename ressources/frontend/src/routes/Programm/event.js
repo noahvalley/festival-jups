@@ -38,6 +38,7 @@ class Event extends Component {
       preis,
       reservierbar,
       ausverkauft,
+      eventfroglink,
       ausverkauftText,
       sponsorImg,
     } = this.props;
@@ -78,6 +79,12 @@ class Event extends Component {
                   ? <div className="ausverkauft"><strong className="farbig-warn" style={{ color: '#fc5307'}}>{ausverkauftText}</strong></div>
                   : <div></div>
               }
+              
+              { eventfroglink
+                  ? <p><a className="eventfroglink" href="{{'https://eventfrog.ch/' + eventfroglink}}"></a></p>
+                  : <div></div>
+              }
+
 
               { alter &&
                 <div className="alter"><strong className="farbig">Zielpublikum:</strong> {alter}</div>
