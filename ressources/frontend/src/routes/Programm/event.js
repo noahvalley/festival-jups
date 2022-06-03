@@ -83,14 +83,20 @@ class Event extends Component {
               { preis &&
                 <div className="preis"><strong className="farbig">Kosten:</strong> {preis}</div>
               }
-              { reservierbar &&
-                ( ausverkauft /* false = reservation offen (ergo link darauf), true = geschlossen */
+              { ausverkauft
+                  ? <div className="ausverkauft"><strong className="farbig">{ausverkauftText}</strong></div>
+                  : <div></div>
+                )
+              }
+
+              { /* reservierbar &&
+                ( ausverkauft 
                   ? <div className="ausverkauft"><strong className="farbig">{ausverkauftText}</strong></div>
                   : <div className="ausverkauft">
                       <Link to={{ pathname: '/tickets', preselectedId: id }}>Reservation</Link>
                     </div>
                 )
-              }
+              */ }
               {
                 sponsorImg &&
                 <div className="sponsoring"><b>Patronat</b><br/><img src={ sponsorImgURL } alt="Patronat" /></div>
