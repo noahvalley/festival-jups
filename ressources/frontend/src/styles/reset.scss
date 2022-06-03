@@ -50,3 +50,9 @@ button {
   outline: none;
   padding: 0;
 }
+a.eventfroglink {
+  border-bottom: solid 2px #64BD35;
+  background: url(eventfrog-mobile.svg) 0 center no-repeat;
+  background-size: 30px auto;
+  padding: 5px 0 5px 40px;
+}
