@@ -38,8 +38,8 @@ class Event extends Component {
       preis,
       reservierbar,
       ausverkauft,
-      eventfroglink,
       ausverkauftText,
+      eventfroglink,
       sponsorImg,
     } = this.props;
     const bildURL = API_BASE_URL + '/images/W600/' + bild;

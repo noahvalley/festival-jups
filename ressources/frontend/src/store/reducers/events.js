@@ -26,6 +26,7 @@ const events = (state = [], action) => {
           abAlter: alter,
           ausverkauft,
           ausverkauftText,
+          eventfroglink,
           tuerOeffnung: beginn,
           preis,
         } = event;
@@ -48,6 +49,7 @@ const events = (state = [], action) => {
           alter,
           ausverkauft,
           ausverkauftText,
+          eventfroglink,
           beginn,
           preis,
         });

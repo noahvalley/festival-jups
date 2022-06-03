@@ -113,6 +113,7 @@ class Programm extends Component {
                               reservierbar={event.reservierbar}
                               ausverkauft={event.ausverkauft}
                               ausverkauftText={event.ausverkauftText}
+                              eventfroglink={event.eventfroglink}
                               sponsorImg={event.sponsorImg}
                               typ={event.typ}
                             />
