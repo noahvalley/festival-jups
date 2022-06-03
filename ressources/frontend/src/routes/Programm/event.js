@@ -86,7 +86,6 @@ class Event extends Component {
               { ausverkauft
                   ? <div className="ausverkauft"><strong className="farbig">{ausverkauftText}</strong></div>
                   : <div></div>
-                )
               }
 
               { /* reservierbar &&
