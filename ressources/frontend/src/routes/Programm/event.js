@@ -81,7 +81,7 @@ class Event extends Component {
               }
               
               { eventfroglink
-                  ? <p><a className="eventfroglink" href="{{'https://eventfrog.ch/' + eventfroglink}}">{ ausverkauft ? 'Zu Eventfrog' : 'Reservieren' }</a></p>
+                  ? <p><a className="eventfroglink" href="{'https://eventfrog.ch/' + eventfroglink}">{ ausverkauft ? 'Zu Eventfrog' : 'Reservieren' }</a></p>
                   : <div></div>
                }
 
