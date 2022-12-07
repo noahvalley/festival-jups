@@ -9,7 +9,7 @@
   "author": "Noah Valley",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.18.3",
+    "body-parser": "^1.20.1",
     "connect": "^3.6.6",
     "connect-route": "^0.1.5",
     "cors": "^2.8.5",
