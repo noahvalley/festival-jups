@@ -80,7 +80,7 @@ class Event extends Component {
                   : <div></div>
               }
               
-              { eventfroglink
+              { eventfroglink !== ''
                   ? <p><a className="eventfroglink" href={'https://eventfrog.ch/' + eventfroglink}>{ ausverkauft ? 'Zu Eventfrog' : 'Tickets' }</a></p>
                   : <div></div>
                }

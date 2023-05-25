@@ -160,6 +160,7 @@
                  [pm/prosemirror @(rf/subscribe [:jups.backend.subs/active-event-field :text])]]
                 [event-checkbox :ausverkauft "Ausverkauft"]
                 [event-text-field :ausverkauftText "Ausverkauft"]
+                [event-text-field :eventfroglink "eventfrog.ch/"]
                 [event-text-field :abAlter "Mindestalter"]
                 [event-text-field :tuerOeffnung "Türöffnung"]
                 [event-text-field :preis "Preis"]

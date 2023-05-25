@@ -90,6 +90,7 @@
      [prosemirror :text @event]
      [checkbox :ausverkauft "Ausverkauft" event]
      [field "text" :ausverkauftText "Ausverkauft" event]
+     [field "text" :eventfroglink "eventfrog.ch/" event]
      [field "text" :abAlter "Mindestalter" event]
      [field "text" :tuerOeffnung "Türöffnung" event]
      [field "text" :preis "Preis" event]]))
